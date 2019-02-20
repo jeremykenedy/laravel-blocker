@@ -4,6 +4,7 @@ namespace jeremykenedy\LaravelBlocker;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
+use jeremykenedy\LaravelBlocker\Database\Seeds\DefaultBlockedTypeTableSeeder;
 
 class LaravelBlockerServiceProvider extends ServiceProvider
 {
@@ -38,6 +39,8 @@ class LaravelBlockerServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
         $this->loadViewsFrom(__DIR__ . '/resources/views/', $this->_packageTag);
         $this->mergeConfigFrom(__DIR__ . '/config/' . $this->_packageTag . '.php', $this->_packageTag);
+        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        $this->loadSeedsFrom();
         $this->publishFiles();
     }
 
@@ -46,7 +49,8 @@ class LaravelBlockerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    private function packageRegistration() {
+    private function packageRegistration()
+    {
         $this->app->make('jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerController');
         $this->app->singleton(jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerController::class, function () {
             return new App\Http\Controllers\LaravelBlockerController();
@@ -55,7 +59,19 @@ class LaravelBlockerServiceProvider extends ServiceProvider
     }
 
     /**
-     * Publish files for Laravel Logger.
+     * Loads a seeds.
+     *
+     * @return void
+     */
+    private function loadSeedsFrom()
+    {
+        $this->app['seed.handler']->register(
+            DefaultBlockedTypeTableSeeder::class
+        );
+    }
+
+    /**
+     * Publish files for Laravel Blocker.
      *
      * @return void
      */
@@ -78,6 +94,10 @@ class LaravelBlockerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/database/migrations' => database_path('migrations'),
         ], $publishTag . '-migrations');
+
+        $this->publishes([
+            __DIR__ . '/database/seeds/publish' => database_path('seeds'),
+        ], $publishTag . '-seeds');
 
     }
 }

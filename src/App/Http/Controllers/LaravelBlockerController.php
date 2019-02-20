@@ -5,6 +5,8 @@ namespace jeremykenedy\LaravelBlocker\App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use jeremykenedy\LaravelBlocker\App\Models\Blocked;
+use jeremykenedy\LaravelBlocker\App\Models\BlockedType;
 
 class LaravelBlockerController extends Controller
 {
@@ -39,7 +41,12 @@ class LaravelBlockerController extends Controller
      */
     public function index()
     {
-        return View('laravelblocker::laravelblocker.index');
+        $data = [
+            'blocked'       => Blocked::all(),
+            'blockedTypes'  => BlockedType::all(),
+        ];
+
+        return View('laravelblocker::laravelblocker.index', $data);
     }
 }
 

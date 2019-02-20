@@ -20,9 +20,10 @@
             "type": "composer",
             "url": "https://packagist.org/packages/jeremykenedy/laravelBlocker"
         }
-    ]
+    ],
     "require": {
-        "php": ">=7.0.0"
+        "php": ">=7.0.0",
+        "eklundkristoffer/seedster": "^3.0"
     },
     "autoload": {
         "psr-4": {

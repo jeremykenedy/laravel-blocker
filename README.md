@@ -27,7 +27,7 @@
 |Uses localized language files|
 
 ### Requirements
-* [Laravel 5.1, 5.2, 5.3, 5.4, or 5.5+](https://laravel.com/docs/installation)
+* [Laravel 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, or 5.7+](https://laravel.com/docs/installation)
 
 ### Installation Instructions
 1. From your projects root folder in terminal run:
@@ -63,6 +63,7 @@ Register the package with laravel in `config/app.php` under `providers` with the
     php artisan vendor:publish --tag=laravelblocker-views
     php artisan vendor:publish --tag=laravelblocker-lang
     php artisan vendor:publish --tag=laravelblocker-migrations
+    php artisan vendor:publish --tag=laravelblocker-seeds
 ```
 
 ### Configuration
