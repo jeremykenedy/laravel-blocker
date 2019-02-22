@@ -39,9 +39,9 @@ class CreateLaravelBlockerTable extends Migration
      */
     public function down()
     {
-        $blocked = new Blocked();
+        $blocked    = new Blocked();
         $connection = $blocked->getConnectionName();
-        $table = $blocked->getTableName();
+        $table      = $blocked->getTableName();
 
         Schema::connection($connection)->dropIfExists($table);
     }

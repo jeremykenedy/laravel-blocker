@@ -16,21 +16,39 @@ class DefaultBlockedTypeTableSeeder extends Seeder
     public function run()
     {
         /*
+         * Blocked Types
+         *
+         */
+        $BlockedTypes = [
+            [
+                'slug' => 'email',
+                'name' => 'E-mail',
+            ],
+            [
+                'slug' => 'ipAddress',
+                'name' => 'IP Address',
+            ],
+            [
+                'slug' => 'domain',
+                'name' => 'Domain Name',
+            ],
+        ];
+
+        /*
          * Add Blocked Types
          *
          */
-        if (BlockedType::where('type', '=', 'email')->first() === null) {
-            $adminBlockedType = BlockedType::create([
-                'type'        => 'email',
-            ]);
+        if (config('laravelblocker.seedDefaultBlockedTypes')) {
+            foreach ($BlockedTypes as $BlockedType) {
+                $newBlockedType = BlockedType::where('slug', '=', $BlockedType['slug'])->first();
+                if ($newBlockedType === null) {
+                    $newBlockedType = BlockedType::create([
+                        'slug' => $BlockedType['slug'],
+                        'name' => $BlockedType['name'],
+                    ]);
+                }
+            }
+            echo "\e[32mSeeding:\e[0m DefaultBlockedTypeTableSeeder\r\n";
         }
-
-        if (BlockedType::where('type', '=', 'ipAddress')->first() === null) {
-            $adminBlockedType = BlockedType::create([
-                'type'        => 'ipAddress',
-            ]);
-        }
-
-        echo "\e[32mSeeding:\e[0m DefaultBlockedTypeTableSeeder\r\n";
     }
 }

@@ -56,11 +56,13 @@ class BlockedType extends Model
      * @var array
      */
     protected $fillable = [
-        'type',
+        'slug',
+        'name',
     ];
 
     protected $casts = [
-        'type' => 'string',
+        'slug' => 'string',
+        'name' => 'string',
     ];
 
     /**

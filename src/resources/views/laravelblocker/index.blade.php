@@ -1,5 +1,9 @@
 @extends(config('laravelblocker.laravelBlockerBladeExtended'))
 
+@section(config('laravelblocker.laravelBlockerTitleExtended'))
+    {!! trans('laravelblocker::laravelblocker.titles.show-blocked') !!}
+@endsection
+
 @php
     switch (config('laravelblocker.blockerBootstapVersion')) {
         case '4':
@@ -45,37 +49,26 @@
                                         {!! trans('laravelblocker::laravelblocker.users-menu-alt') !!}
                                     </span>
                                 </button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ route('users.create') }}">
-                                            @if(config('laravelblocker.blockerEnableFontAwesomeCDN'))
-                                                <i class="fa fa-fw fa-plus" aria-hidden="true"></i>
-                                            @endif
-                                            {!! trans('laravelblocker::laravelblocker.buttons.create-new-blocked') !!}
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="/blocked/deleted">
-                                            @if(config('laravelblocker.blockerEnableFontAwesomeCDN'))
-                                                <i class="fa fa-fw fa-minus" aria-hidden="true"></i>
-                                            @endif
-                                            {!! trans('laravelblocker::laravelblocker.buttons.show-deleted-blocked') !!}
-                                        </a>
-                                    </li>
-                                </ul>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="{{ route('laravelblocker::blocker.create') }}">
+                                        <i class="fa fa-fw fa-plus" aria-hidden="true"></i>
+                                        {!! trans('laravelblocker::laravelblocker.buttons.create-new-blocked') !!}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ url('/blocker/deleted') }}">
+                                        <i class="fa fa-fw fa-trash-o" aria-hidden="true"></i>
+                                        {!! trans('laravelblocker::laravelblocker.buttons.show-deleted-blocked') !!}
+                                    </a>
+                                </div>
                             </div>
-
                         </div>
                     </div>
                     <div class="{{ $containerBodyClass }}">
-
                         @if(config('laravelblocker.enableSearchBlocked'))
                             @include('laravelblocker::partials.search-blocked-form')
                         @endif
-
                         <div class="table-responsive blocked-table">
                             <table class="table table-sm table-striped data-table">
-                                <caption id="user_count">
+                                <caption id="blocked_count">
                                     {!! trans_choice('laravelblocker::laravelblocker.blocked-table.caption', 1, ['blockedcount' => $blocked->count()]) !!}
                                 </caption>
                                 <thead class="thead">
@@ -150,6 +143,11 @@
                                     <tbody id="search_results"></tbody>
                                 @endif
                             </table>
+
+                            @if(config('laravelblocker.blockerPaginationEnabled'))
+                                {{ $blocked->links() }}
+                            @endif
+
                         </div>
                     </div>
                 </div>
@@ -164,17 +162,16 @@
         @include('laravelblocker::scripts.datatables')
     @endif
 
-{{--
+    {{--
     @include('laravelblocker::scripts.delete-modal-script')
-    @include('laravelblocker::scripts.save-modal-script')
+    --}}
+
     @if(config('laravelblocker.tooltipsEnabled'))
         @include('laravelblocker::scripts.tooltips')
     @endif
---}}
 
     @if(config('laravelblocker.enableSearchBlocked'))
         @include('laravelblocker::scripts.search-blocked')
     @endif
 
 @endsection
-

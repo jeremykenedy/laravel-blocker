@@ -23,7 +23,8 @@
     ],
     "require": {
         "php": ">=7.0.0",
-        "eklundkristoffer/seedster": "^3.0"
+        "eklundkristoffer/seedster": "^3.0",
+        "laravelcollective/html": "^5.5"
     },
     "autoload": {
         "psr-4": {

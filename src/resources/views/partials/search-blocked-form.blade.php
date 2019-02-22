@@ -7,7 +7,7 @@
                 <div class="input-group-append">
                     <a href="#" class="btn btn-warning clear-search" data-toggle="tooltip" title="{!! trans('laravelblocker::laravelblocker.tooltips.clear-search') !!}">
                         @if(config('laravelblocker.blockerEnableFontAwesomeCDN'))
-                            <i class="fas fa-times" aria-hidden="true"></i>
+                            <i class="fa fas fa-times" aria-hidden="true"></i>
                             <span class="sr-only">
                                 {!! trans('laravelblocker::laravelblocker.tooltips.clear-search') !!}
                             </span>
@@ -25,4 +25,3 @@
         {!! Form::close() !!}
     </div>
 </div>
-

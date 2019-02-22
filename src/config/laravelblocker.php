@@ -10,6 +10,8 @@ return [
     'blockerDatabaseConnection'     => env('LARAVEL_BLOCKER_DATABASE_CONNECTION', 'mysql'),
     'blockerDatabaseTable'          => env('LARAVEL_BLOCKER_DATABASE_TABLE', 'laravel_blocker'),
     'blockerTypeDatabaseTable'      => env('LARAVEL_BLOCKER_TYPE_DATABASE_TABLE', 'laravel_blocker_types'),
+    'seedDefaultBlockedTypes'       => env('LARAVEL_BLOCKER_SEED_DEFAULT', true),
+    'seedPublishedBlockedTypes'     => env('LARAVEL_BLOCKER_SEED_PUBLISHED', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -18,6 +20,9 @@ return [
     */
     // The parent blade file
     'laravelBlockerBladeExtended'   => env('LARAVEL_BLOCKER_BLADE_EXTENDED', 'layouts.app'),
+
+    // Titles placement extend
+    'laravelBlockerTitleExtended'   => env('LARAVEL_BLOCKER_TITLE_EXTENDED', 'template_title'),
 
     // Switch Between bootstrap 3 `panel` and bootstrap 4 `card` classes
     'blockerBootstapVersion'        => env('LARAVEL_BLOCKER_BOOTSTRAP_VERSION', '4'),
@@ -39,6 +44,9 @@ return [
     // Font Awesome
     'blockerEnableFontAwesomeCDN'   => env('LARAVEL_BLOCKER_FONT_AWESOME_CDN_ENABLED', true),
     'blockerFontAwesomeCDN'         => env('LARAVEL_BLOCKER_FONT_AWESOME_CDN_URL', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'),
+
+    // Bootstrap Tooltips
+    'tooltipsEnabled'               => env('LARAVEL_BLOCKER_TOOLTIPS_ENABLED', true),
 
     /*
     |--------------------------------------------------------------------------
@@ -73,7 +81,7 @@ return [
     'blockerDatatables'             => env('LARAVEL_BLOCKER_DATATABLES_ENABLED', false),
     'enabledDatatablesJs'           => env('LARAVEL_BLOCKER_DATATABLES_JS_ENABLED', false),
     'datatablesJsStartCount'        => 25,
-    'datatablesCssCDN'              => 'https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css',
-    'datatablesJsCDN'               => 'https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js',
-    'datatablesJsPresetCDN'         => 'https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js',
+    'datatablesCssCDN'              => 'https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
+    'datatablesJsCDN'               => 'https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
+    'datatablesJsPresetCDN'         => 'https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
 ];

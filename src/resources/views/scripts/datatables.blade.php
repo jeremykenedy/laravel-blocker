@@ -4,7 +4,12 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('.data-table').dataTable({
-            "paging": true,
+            "order": [[0]],
+            "pageLength": 100,
+            "lengthMenu": [
+                [10, 25, 50, 100, 500, 1000, -1],
+                [10, 25, 50, 100, 500, 1000, "All"]
+            ],            "paging": true,
             "lengthChange": true,
             "searching": true,
             "ordering": true,

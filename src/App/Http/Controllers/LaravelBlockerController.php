@@ -41,13 +41,26 @@ class LaravelBlockerController extends Controller
      */
     public function index()
     {
-        $data = [
-            'blocked'       => Blocked::all(),
-            'blockedTypes'  => BlockedType::all(),
-        ];
+        if (config('laravelblocker.blockerPaginationEnabled')) {
+            $blocked = Blocked::paginate(config('laravelblocker.blockerPaginationPerPage'));
+        } else {
+            $blocked = Blocked::all();
+        }
+        $blockedTypes = BlockedType::all();
 
-        return View('laravelblocker::laravelblocker.index', $data);
+        return View('laravelblocker::laravelblocker.index', compact('blocked', 'blockedTypes'));
     }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $blockedTypes = BlockedType::all();
+
+        return view('laravelblocker::laravelblocker.create')->with(compact('blockedTypes'));
+    }
+
 }
-
-

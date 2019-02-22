@@ -30,7 +30,6 @@
         color:#fff;
         background-color: #428bca;
     }
-
     .blocked-table {
         border: 0;
     }
@@ -87,11 +86,9 @@
         border-left: 0;
         border-right: 0;
     }
-
     .blocked-table .data-table {
         width: 100%;
     }
-
     .btn-save,
     .pw-change-container {
       display: none;
@@ -105,18 +102,13 @@
     .clear-search {
         display: none;
     }
-
     div.dataTables_wrapper div.dataTables_length label {
         margin-top: 5px;
         margin-bottom: 5px;
         margin-right:20px;
     }
     div.dataTables_wrapper div.dataTables_length label select {
-    margin-left: 5px;
-    margin-right: 5px
+        margin-left: 5px;
+        margin-right: 5px
     }
-
-
-
-
 </style>
