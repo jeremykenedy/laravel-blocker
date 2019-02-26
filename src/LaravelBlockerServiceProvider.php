@@ -65,9 +65,11 @@ class LaravelBlockerServiceProvider extends ServiceProvider
      */
     private function loadSeedsFrom()
     {
-        $this->app['seed.handler']->register(
-            DefaultBlockedTypeTableSeeder::class
-        );
+        if (config('laravelblocker.seedDefaultBlockedTypes')) {
+            $this->app['seed.handler']->register(
+                DefaultBlockedTypeTableSeeder::class
+            );
+        }
     }
 
     /**

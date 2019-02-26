@@ -5,8 +5,11 @@ namespace jeremykenedy\LaravelBlocker\App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use jeremykenedy\LaravelBlocker\App\Models\Blocked;
+use Illuminate\Http\Response;
+use jeremykenedy\LaravelBlocker\App\Models\BlockedItem;
 use jeremykenedy\LaravelBlocker\App\Models\BlockedType;
+use jeremykenedy\LaravelBlocker\App\Http\Requests\StoreBlockerRequest;
+use jeremykenedy\LaravelBlocker\App\Http\Requests\SearchBlockerRequest;
 
 class LaravelBlockerController extends Controller
 {
@@ -42,13 +45,12 @@ class LaravelBlockerController extends Controller
     public function index()
     {
         if (config('laravelblocker.blockerPaginationEnabled')) {
-            $blocked = Blocked::paginate(config('laravelblocker.blockerPaginationPerPage'));
+            $blocked = BlockedItem::paginate(config('laravelblocker.blockerPaginationPerPage'));
         } else {
-            $blocked = Blocked::all();
+            $blocked = BlockedItem::all();
         }
-        $blockedTypes = BlockedType::all();
 
-        return View('laravelblocker::laravelblocker.index', compact('blocked', 'blockedTypes'));
+        return View('laravelblocker::laravelblocker.index', compact('blocked'));
     }
 
     /**
@@ -60,7 +62,88 @@ class LaravelBlockerController extends Controller
     {
         $blockedTypes = BlockedType::all();
 
-        return view('laravelblocker::laravelblocker.create')->with(compact('blockedTypes'));
+        return view('laravelblocker::laravelblocker.create')
+                   ->with(compact('blockedTypes'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param StoreBlockerRequest $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function store(StoreBlockerRequest $request)
+    {
+        $validatedData = $request->validated();
+
+        $blockedItem = BlockedItem::create([
+            'typeId'    => $validatedData('typeId'),
+            'value'     => $validatedData('value'),
+            'note'      => $validatedData('note'),
+            'userId'    => $validatedData('userId'),
+        ]);
+
+        return redirect('blocker')
+                    ->with('success', trans('laravelblocker::laravelblocker.messages.blocked-creation-success'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $item = BlockedItem::find($id);
+
+        return view('laravelblocker::laravelblocker.show')
+                   ->with(compact('item'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $blockedItem = BlockedItem::findOrFail($id);
+        $blockedItem->delete();
+
+        return redirect('blocker')
+            ->with('success', trans('laravelblocker::laravelblocker.messages.delete-success'));
+    }
+
+    /**
+     * Method to search the blocked items.
+     *
+     * @param SearchBlockerRequest $request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(SearchBlockerRequest $request)
+    {
+        $searchTerm = $request->validated()['blocked_search_box'];
+        $results    = BlockedItem::where('id', 'like', $searchTerm .'%')
+                            ->orWhere('typeId', 'like', $searchTerm .'%')
+                            ->orWhere('value', 'like', $searchTerm .'%')
+                            ->orWhere('note', 'like', $searchTerm .'%')
+                            ->orWhere('userId', 'like', $searchTerm.'%')
+                            ->get();
+
+        $results->map(function ($item) {
+            $item['type'] = $item->blockedType->slug ;
+            return $item;
+        });
+
+        return response()->json([
+            json_encode($results),
+        ], Response::HTTP_OK);
     }
 
 }

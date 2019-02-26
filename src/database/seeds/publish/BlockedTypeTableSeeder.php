@@ -17,10 +17,6 @@ class BlockedTypeTableSeeder extends Seeder
          * Blocked Types
          *
          */
-        /*
-         * Blocked Types
-         *
-         */
         $BlockedTypes = [
             [
                 'slug' => 'email',

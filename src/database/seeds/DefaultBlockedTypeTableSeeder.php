@@ -38,17 +38,15 @@ class DefaultBlockedTypeTableSeeder extends Seeder
          * Add Blocked Types
          *
          */
-        if (config('laravelblocker.seedDefaultBlockedTypes')) {
-            foreach ($BlockedTypes as $BlockedType) {
-                $newBlockedType = BlockedType::where('slug', '=', $BlockedType['slug'])->first();
-                if ($newBlockedType === null) {
-                    $newBlockedType = BlockedType::create([
-                        'slug' => $BlockedType['slug'],
-                        'name' => $BlockedType['name'],
-                    ]);
-                }
+        foreach ($BlockedTypes as $BlockedType) {
+            $newBlockedType = BlockedType::where('slug', '=', $BlockedType['slug'])->first();
+            if ($newBlockedType === null) {
+                $newBlockedType = BlockedType::create([
+                    'slug' => $BlockedType['slug'],
+                    'name' => $BlockedType['name'],
+                ]);
             }
-            echo "\e[32mSeeding:\e[0m DefaultBlockedTypeTableSeeder\r\n";
         }
+        echo "\e[32mSeeding:\e[0m DefaultBlockedTypeTableSeeder\r\n";
     }
 }

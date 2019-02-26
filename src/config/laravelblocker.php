@@ -11,7 +11,8 @@ return [
     'blockerDatabaseTable'          => env('LARAVEL_BLOCKER_DATABASE_TABLE', 'laravel_blocker'),
     'blockerTypeDatabaseTable'      => env('LARAVEL_BLOCKER_TYPE_DATABASE_TABLE', 'laravel_blocker_types'),
     'seedDefaultBlockedTypes'       => env('LARAVEL_BLOCKER_SEED_DEFAULT', true),
-    'seedPublishedBlockedTypes'     => env('LARAVEL_BLOCKER_SEED_PUBLISHED', true),
+    'seedPublishedBlockedTypes'     => env('LARAVEL_BLOCKER_TYPES_SEED_PUBLISHED', true),
+    'seedPublishedBlockedItems'     => env('LARAVEL_BLOCKER_ITEMS_SEED_PUBLISHED', true),
 
     /*
     |--------------------------------------------------------------------------

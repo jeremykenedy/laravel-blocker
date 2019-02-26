@@ -13,7 +13,7 @@
             break;
         case '3':
         default:
-            $containerClass = 'panel panel-default';
+            $containerClass = 'panel panel-danger';
             $containerHeaderClass = 'panel-heading';
             $containerBodyClass = 'panel-body';
     }
@@ -94,47 +94,59 @@
                                         <th scope="col" class="hidden-xs hidden-sm hidden-md">
                                             {!! trans('laravelblocker::laravelblocker.blocked-table.updatedAt') !!}
                                         </th>
-                                        <th class="no-search no-sort">
+                                        <th class="no-search no-sort" colspan="3">
                                             {!! trans('laravelblocker::laravelblocker.blocked-table.actions') !!}
                                         </th>
-                                        <th class="no-search no-sort"></th>
-                                        <th class="no-search no-sort"></th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="blocked-table-body">
                                     @foreach($blocked as $blockedItem)
                                         <tr>
-                                            <th>
-                                                {!! $blockedItem->id !!}
-                                            </th>
                                             <td>
-                                                {!! $blockedItem->type !!}
+                                                {!! $blockedItem->id !!}
+                                            </td>
+                                            <td>
+                                                {!! $blockedItem->blockedType->slug !!}
                                             </td>
                                             <td>
                                                 {!! $blockedItem->value !!}
                                             </td>
-                                            <td>
+                                            <td class="hidden-xs">
+                                                {!! $blockedItem->note !!}
+                                            </td>
+                                            <td class="hidden-xs hidden-sm">
                                                 @if ($blockedItem->userId)
                                                     {!! $blockedItem->userId !!}
                                                 @else
                                                     <span class="disabled">
-                                                        {!! trans('laravelblocker::laravelblocker.na') !!}
+                                                        {!! trans('laravelblocker::laravelblocker.none') !!}
                                                     </span>
                                                 @endif
                                             </td>
-                                            <td>
-                                                {!! $blockedItem->note !!}
+                                            <td class="hidden-xs hidden-sm hidden-md">
+                                                {!! $blockedItem->created_at->format('m/d/Y H:ia') !!}
+                                            </td>
+                                            <td class="hidden-xs hidden-sm hidden-md">
+                                                {!! $blockedItem->updated_at->format('m/d/Y H:ia') !!}
                                             </td>
                                             <td>
-                                                <span class="disabled">
-                                                    n/a
-                                                </span>
+                                                <a class="btn btn-sm btn-success btn-block" href="/blocker/{{ $blockedItem->id }}" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.show") }}">
+                                                    {!! trans("laravelblocker::laravelblocker.buttons.show") !!}
+                                                </a>
                                             </td>
                                             <td>
-                                                {!! $blockedItem->created_at !!}
+                                                <a class="btn btn-sm btn-info btn-block" href="/blocker/{{ $blockedItem->id }}/edit" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.edit") }}">
+                                                    {!! trans("laravelblocker::laravelblocker.buttons.edit") !!}
+                                                </a>
                                             </td>
                                             <td>
-                                                {!! $blockedItem->updated_at !!}
+                                                <form method="POST" action="/blocker/{{ $blockedItem->id }}" accept-charset="UTF-8" data-toggle="tooltip" title="Delete Blocked Item">
+                                                    {!! Form::hidden("_method", "DELETE") !!}
+                                                    {!! csrf_field() !!}
+                                                    <button class="btn btn-danger btn-sm" type="button" style="width: 100%;" data-toggle="modal" data-target="#confirmDelete" data-title="Delete Blocked Item" data-message="{!! trans("laravelblocker::laravelblocker.modals.delete_blocked_message", ["blocked" => $blockedItem->slug]) !!}">
+                                                        {!! trans("laravelblocker::laravelblocker.buttons.delete") !!}
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -145,7 +157,9 @@
                             </table>
 
                             @if(config('laravelblocker.blockerPaginationEnabled'))
-                                {{ $blocked->links() }}
+                                <div id="blocked_pagination">
+                                    {{ $blocked->links() }}
+                                </div>
                             @endif
 
                         </div>
@@ -154,24 +168,20 @@
             </div>
         </div>
     </div>
+
+    @include('laravelblocker::modals.modal-delete')
+
 @endsection
 
 @section(config('laravelblocker.blockerBladePlacementJs'))
-
     @if (config('laravelblocker.enabledDatatablesJs'))
         @include('laravelblocker::scripts.datatables')
     @endif
-
-    {{--
     @include('laravelblocker::scripts.delete-modal-script')
-    --}}
-
     @if(config('laravelblocker.tooltipsEnabled'))
         @include('laravelblocker::scripts.tooltips')
     @endif
-
     @if(config('laravelblocker.enableSearchBlocked'))
         @include('laravelblocker::scripts.search-blocked')
     @endif
-
 @endsection

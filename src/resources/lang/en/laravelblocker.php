@@ -10,6 +10,7 @@ return [
 
     'blocked-items-title'   => 'Blocked Items',
     'na'                    => 'N/A',
+    'none'                  => 'None',
 
     'titles' => [
         'show-blocked' => 'Blocked Items',
@@ -20,6 +21,9 @@ return [
         'create-new-blocked'    => 'Create New',
         'show-deleted-blocked'  => 'Show Deleted',
         'back-to-blocked'       => 'Back to Blocked',
+        'show' => '<span class="hidden-xs hidden-sm">Show </span><i class="fa fa-eye fa-fw" aria-hidden="true"></i>',
+        'edit' => '<span class="hidden-xs hidden-sm">Edit </span><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>',
+        'delete' => '<span class="hidden-xs hidden-sm">Delete </span><i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>',
     ],
 
     'tooltips' => [
@@ -53,11 +57,21 @@ return [
         'found-footer'      => ' Record(s) found',
         'no-results'        => 'No Results',
         'search-users-ph'   => 'Search Blocked',
+        'required'          => 'Search term is required',
+        'string'            => 'Search term has invalid characters',
+        'max'               => 'Search term has too many characters - 255 allowed',
     ],
 
     'modals' => [
-        'delete_blocked_message' => 'Are you sure you want to delete :blocked?',
+        'delete_blocked_title'          => 'Delete blocked item',
+        'delete_blocked_message'        => 'Are you sure you want to delete :blocked?',
+        'delete_blocked_btn_cancel'     => 'Cancel',
+        'delete_blocked_btn_confirm'    => 'Confirm Delete',
     ],
 
+    'messages' => [
+        'blocked-creation-success'  => "Successfully created blocked item",
+        'delete-success'            => "Successfully deleted blocked item",
+    ],
 
 ];

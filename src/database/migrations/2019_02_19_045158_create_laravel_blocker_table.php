@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use jeremykenedy\LaravelBlocker\App\Models\Blocked;
+use jeremykenedy\LaravelBlocker\App\Models\BlockedItem;
+use jeremykenedy\LaravelBlocker\App\Models\BlockedType;
 
 class CreateLaravelBlockerTable extends Migration
 {
@@ -14,18 +15,23 @@ class CreateLaravelBlockerTable extends Migration
      */
     public function up()
     {
-        $blocked = new Blocked();
-        $connection = $blocked->getConnectionName();
-        $table = $blocked->getTableName();
-        $tableCheck = Schema::connection($connection)->hasTable($table);
+        $blocked        = new BlockedItem();
+        $connection     = $blocked->getConnectionName();
+        $table          = $blocked->getTableName();
+        $tableCheck     = Schema::connection($connection)->hasTable($table);
 
         if (!$tableCheck) {
             Schema::connection($connection)->create($table, function (Blueprint $table) {
+                $blockedType    = new BlockedType();
+                $connectionType = $blockedType->getConnectionName();
+                $tableTypeName  = $blockedType->getTableName();
                 $table->increments('id');
-                $table->string('typeId')->references('id')->on('laravel_blocker_types')->onDelete('cascade');
-                $table->string('value');
+                $table->integer('typeId')->unsigned()->index();
+                $table->foreign('typeId')->references('id')->on($tableTypeName)->onDelete('cascade');
+                $table->string('value')->unique();
                 $table->longText('note')->nullable();
-                $table->integer('userId')->references('id')->on('users')->onDelete('cascade')->nullable();
+                $table->integer('userId')->unsigned()->index()->nullable();
+                $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');
                 $table->timestamps();
                 $table->softDeletes();
             });
@@ -39,7 +45,7 @@ class CreateLaravelBlockerTable extends Migration
      */
     public function down()
     {
-        $blocked    = new Blocked();
+        $blocked    = new BlockedItem();
         $connection = $blocked->getConnectionName();
         $table      = $blocked->getTableName();
 

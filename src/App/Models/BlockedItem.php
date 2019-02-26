@@ -4,8 +4,9 @@ namespace jeremykenedy\LaravelBlocker\App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use jeremykenedy\LaravelBlocker\App\Models\BlockedType;
 
-class Blocked extends Model
+class BlockedItem extends Model
 {
     use SoftDeletes;
 
@@ -56,14 +57,14 @@ class Blocked extends Model
      * @var array
      */
     protected $fillable = [
-        'type',
+        'typeId',
         'value',
         'note',
         'userId',
     ];
 
     protected $casts = [
-        'type'      => 'string',
+        'typeId'    => 'integer',
         'value'     => 'string',
         'note'      => 'string',
         'userId'    => 'integer',
@@ -98,25 +99,13 @@ class Blocked extends Model
     }
 
     /**
-     * Get a validator for an incoming Request.
+     * The one-to-one relationship between pages and tags.
      *
-     * @param array $merge (rules to optionally merge)
-     *
-     * @return array
+     * @return hasOne
      */
-    // public static function rules($merge = [])
-    // {
-    //     return array_merge([
-    //         'description'   => 'required|string',
-    //         'userType'      => 'required|string',
-    //         'userId'        => 'nullable|integer',
-    //         'route'         => 'nullable|url',
-    //         'ipAddress'     => 'nullable|ip',
-    //         'userAgent'     => 'nullable|string',
-    //         'locale'        => 'nullable|string',
-    //         'referer'       => 'nullable|string',
-    //         'methodType'    => 'nullable|string',
-    //     ],
-    //     $merge);
-    // }
+    public function blockedType()
+    {
+        return $this->belongsTo(BlockedType::class, 'typeId');
+    }
+
 }

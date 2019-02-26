@@ -23,7 +23,7 @@ class CreateLaravelBlockerTypesTable extends Migration
         if (!$tableCheck) {
             Schema::connection($connection)->create($table, function (Blueprint $table) {
                 $table->increments('id');
-                $table->string('slug');
+                $table->string('slug')->unique();
                 $table->string('name');
                 $table->timestamps();
                 $table->softDeletes();

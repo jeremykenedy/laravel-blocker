@@ -4,6 +4,7 @@ namespace jeremykenedy\LaravelBlocker\App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use jeremykenedy\LaravelBlocker\App\Models\BlockedItem;
 
 class BlockedType extends Model
 {
@@ -92,4 +93,14 @@ class BlockedType extends Model
     {
         return $this->table;
     }
+
+    /**
+     * Get the blockedItems for the BlockedType.
+     *
+     */
+    public function blockedItems()
+    {
+        return $this->hasMany(BlockedItem::class);
+    }
+
 }

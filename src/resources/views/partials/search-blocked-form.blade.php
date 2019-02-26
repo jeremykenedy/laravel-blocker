@@ -1,9 +1,9 @@
 <div class="row">
     <div class="col-sm-8 offset-sm-4 col-md-6 offset-md-6 col-lg-5 offset-lg-7 col-xl-4 offset-xl-8">
-        {!! Form::open(['route' => 'search-users', 'method' => 'POST', 'role' => 'form', 'class' => 'needs-validation', 'id' => 'search_users']) !!}
+        {!! Form::open(['route' => 'search-users', 'method' => 'POST', 'role' => 'form', 'class' => 'needs-validation', 'id' => 'search_blocked']) !!}
             {!! csrf_field() !!}
             <div class="input-group mb-3">
-                {!! Form::text('user_search_box', NULL, ['id' => 'user_search_box', 'class' => 'form-control', 'placeholder' => trans('laravelblocker::laravelblocker.forms.search-blocked-ph'), 'aria-label' => trans('laravelblocker::forms.search-users-ph'), 'required' => false]) !!}
+                {!! Form::text('blocked_search_box', NULL, ['id' => 'blocked_search_box', 'class' => 'form-control', 'placeholder' => trans('laravelblocker::laravelblocker.forms.search-blocked-ph'), 'aria-label' => trans('laravelblocker::forms.search-users-ph'), 'required' => false]) !!}
                 <div class="input-group-append">
                     <a href="#" class="btn btn-warning clear-search" data-toggle="tooltip" title="{!! trans('laravelblocker::laravelblocker.tooltips.clear-search') !!}">
                         @if(config('laravelblocker.blockerEnableFontAwesomeCDN'))
