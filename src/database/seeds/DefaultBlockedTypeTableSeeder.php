@@ -32,6 +32,34 @@ class DefaultBlockedTypeTableSeeder extends Seeder
                 'slug' => 'domain',
                 'name' => 'Domain Name',
             ],
+            [
+                'slug' => 'User Name',
+                'name' => 'Username',
+            ],
+            [
+                'slug' => 'city',
+                'name' => 'City',
+            ],
+            [
+                'slug' => 'state',
+                'name' => 'State',
+            ],
+            [
+                'slug' => 'country',
+                'name' => 'Country',
+            ],
+            [
+                'slug' => 'countryCode',
+                'name' => 'Country Code',
+            ],
+            [
+                'slug' => 'continent',
+                'name' => 'Continent',
+            ],
+            [
+                'slug' => 'region',
+                'name' => 'Region',
+            ],
         ];
 
         /*

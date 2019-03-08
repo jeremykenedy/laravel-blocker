@@ -4,6 +4,7 @@ namespace jeremykenedy\LaravelBlocker;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
+use jeremykenedy\LaravelBlocker\App\Http\Middleware\LaravelBlocker;
 use jeremykenedy\LaravelBlocker\Database\Seeds\DefaultBlockedTypeTableSeeder;
 
 class LaravelBlockerServiceProvider extends ServiceProvider
@@ -24,6 +25,7 @@ class LaravelBlockerServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
+        $router->middlewareGroup('checkblocked',[LaravelBlocker::class]);
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
         $this->loadTranslationsFrom(__DIR__.'/resources/lang/', $this->_packageTag);
     }

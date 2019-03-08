@@ -7,7 +7,7 @@
 |
 */
 Route::group([
-        'middleware'    => ['web'],
+        'middleware'    => ['web', 'checkblocked'],
         'as'            => 'laravelblocker::',
         'namespace'     => 'jeremykenedy\LaravelBlocker\App\Http\Controllers'
     ], function () {
