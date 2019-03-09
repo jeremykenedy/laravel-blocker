@@ -64,6 +64,10 @@ return [
     // Bootstrap Tooltips
     'tooltipsEnabled'               => env('LARAVEL_BLOCKER_TOOLTIPS_ENABLED', true),
 
+    // jQuery IP Mask
+    'jQueryIpMaskEnabled'           => env('LARAVEL_BLOCKER_JQUERY_IP_MASK_ENABLED', true),
+    'jQueryIpMaskCDN'               => env('LARAVEL_BLOCKER_JQUERY_IP_MASK_CDN', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js'),
+
     /*
     |--------------------------------------------------------------------------
     | Laravel Blocker Auth & Roles Settings
