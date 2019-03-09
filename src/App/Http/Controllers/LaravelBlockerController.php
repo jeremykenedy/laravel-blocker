@@ -50,7 +50,7 @@ class LaravelBlockerController extends Controller
             $blocked = BlockedItem::all();
         }
 
-        return View('laravelblocker::laravelblocker.index', compact('blocked'));
+        return view('laravelblocker::laravelblocker.index', compact('blocked'));
     }
 
     /**
@@ -61,9 +61,10 @@ class LaravelBlockerController extends Controller
     public function create()
     {
         $blockedTypes = BlockedType::all();
+        $users = config('laravelblocker.defaultUserModel')::all();
 
         return view('laravelblocker::laravelblocker.create')
-                   ->with(compact('blockedTypes'));
+                   ->with(compact('blockedTypes', 'users'));
     }
 
     /**
@@ -77,11 +78,16 @@ class LaravelBlockerController extends Controller
     {
         $validatedData = $request->validated();
 
+        $userId = null;
+        if (array_key_exists('userId', $validatedData)) {
+            $userId = $validatedData['userId'];
+        }
+
         $blockedItem = BlockedItem::create([
-            'typeId'    => $validatedData('typeId'),
-            'value'     => $validatedData('value'),
-            'note'      => $validatedData('note'),
-            'userId'    => $validatedData('userId'),
+            'typeId'    => $validatedData['typeId'],
+            'value'     => $validatedData['value'],
+            'note'      => $validatedData['note'],
+            'userId'    => $userId,
         ]);
 
         return redirect('blocker')
@@ -97,9 +103,24 @@ class LaravelBlockerController extends Controller
      */
     public function show($id)
     {
-        $item = BlockedItem::find($id);
+        $item = BlockedItem::findOrFail($id);
 
         return view('laravelblocker::laravelblocker.show')
+                   ->with(compact('item'));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $item = BlockedItem::findOrFail($id);
+
+        return view('laravelblocker::laravelblocker.edit')
                    ->with(compact('item'));
     }
 
@@ -113,6 +134,7 @@ class LaravelBlockerController extends Controller
     public function destroy($id)
     {
         $blockedItem = BlockedItem::findOrFail($id);
+
         $blockedItem->delete();
 
         return redirect('blocker')

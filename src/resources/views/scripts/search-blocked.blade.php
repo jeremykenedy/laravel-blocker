@@ -1,5 +1,6 @@
 <script>
     $(function() {
+        var searchBlockFormContainer = $('#search_blocked_form');
         var cardTitle = $('#card_title');
         var blockedTableBody = $('.blocked-table-body');
         var resultsContainer = $('#search_results');
@@ -14,6 +15,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        searchBlockFormContainer.show();
         searchform.submit(function(e) {
             e.preventDefault();
             resultsContainer.html('');

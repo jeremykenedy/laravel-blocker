@@ -1,5 +1,7 @@
 <?php
 
+namespace jeremykenedy\LaravelBlocker\Database\Seeds;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 use jeremykenedy\LaravelBlocker\App\Models\BlockedItem;
@@ -50,21 +52,20 @@ class BlockedItemsTableSeeder extends Seeder
          * Add Blocked Items
          *
          */
-        if (config('laravelblocker.seedPublishedBlockedItems')) {
-            foreach ($BlockedItems as $BlockedItem) {
-                $blockType = BlockedType::where('slug', $BlockedItem['type'])->first();
-                $newBlockedItem = BlockedItem::where('typeId', '=', $blockType->id)
-                    ->where('value', '=', $BlockedItem['value'])
-                    ->withTrashed()
-                    ->first();
-                if ($newBlockedItem === null) {
-                    $newBlockedItem = BlockedItem::create([
-                        'typeId'    => $blockType->id,
-                        'value'     => $BlockedItem['value'],
-                        'note'      => $BlockedItem['note'],
-                    ]);
-                }
+        foreach ($BlockedItems as $BlockedItem) {
+            $blockType = BlockedType::where('slug', $BlockedItem['type'])->first();
+            $newBlockedItem = BlockedItem::where('typeId', '=', $blockType->id)
+                ->where('value', '=', $BlockedItem['value'])
+                ->withTrashed()
+                ->first();
+            if ($newBlockedItem === null) {
+                $newBlockedItem = BlockedItem::create([
+                    'typeId'    => $blockType->id,
+                    'value'     => $BlockedItem['value'],
+                    'note'      => $BlockedItem['note'],
+                ]);
             }
         }
+        echo "\e[32mSeeding:\e[0m DefaultBlockedItemsTableSeeder\r\n";
     }
 }

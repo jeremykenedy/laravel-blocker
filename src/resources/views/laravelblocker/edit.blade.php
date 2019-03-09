@@ -37,7 +37,7 @@
                     <div class="{{ $containerHeaderClass }}">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="card_title">
-                                {!! trans('laravelblocker::laravelblocker.blocked-item-title', ['name' => $item->value]) !!}
+                                {!! trans('laravelblocker::laravelblocker.edit-blocked-item-title', ['name' => $item->value]) !!}
                             </span>
                             <div class="pull-right">
                                 <a href="{{ url('blocker') }}" class="btn btn-light btn-sm float-right" data-toggle="tooltip" data-placement="left" title="{{ trans('laravelblocker::laravelblocker.tooltips.back-blocked') }}">
@@ -49,6 +49,11 @@
                         </div>
                     </div>
                     <div class="{{ $containerBodyClass }}">
+
+
+
+
+
                         <ul class="list-group">
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 ID
@@ -113,10 +118,14 @@
                                 </li>
                             @endif
                         </ul>
+
+
+
+
                         <div class="row">
                             <div class="col-sm-6 mt-3">
-                                <a class="btn btn-sm btn-info btn-block" href="/blocker/{{ $item->id }}/edit" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.edit") }}">
-                                    {!! trans("laravelblocker::laravelblocker.buttons.edit") !!}
+                                <a class="btn btn-sm btn-success btn-block" href="/blocker/{{ $item->id }}/edit" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.edit") }}">
+                                    Save Changes
                                 </a>
                             </div>
                             <div class="col-sm-6 mt-3">
@@ -134,6 +143,9 @@
             </div>
         </div>
     </div>
+
+
+
 
     @include('laravelblocker::modals.modal-delete')
 

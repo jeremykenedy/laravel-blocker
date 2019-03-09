@@ -6,6 +6,7 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use jeremykenedy\LaravelBlocker\App\Http\Middleware\LaravelBlocker;
 use jeremykenedy\LaravelBlocker\Database\Seeds\DefaultBlockedTypeTableSeeder;
+use jeremykenedy\LaravelBlocker\Database\Seeds\DefaultBlockedItemsTableSeeder;
 
 class LaravelBlockerServiceProvider extends ServiceProvider
 {
@@ -68,6 +69,11 @@ class LaravelBlockerServiceProvider extends ServiceProvider
     private function loadSeedsFrom()
     {
         if (config('laravelblocker.seedDefaultBlockedTypes')) {
+            $this->app['seed.handler']->register(
+                DefaultBlockedTypeTableSeeder::class
+            );
+        }
+        if (config('laravelblocker.seedDefaultBlockedItems')) {
             $this->app['seed.handler']->register(
                 DefaultBlockedTypeTableSeeder::class
             );

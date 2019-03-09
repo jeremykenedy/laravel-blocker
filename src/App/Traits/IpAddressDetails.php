@@ -1,6 +1,6 @@
 <?php
 
-namespace jeremykenedy\LaravelBlocker\App\Http\Traits;
+namespace jeremykenedy\LaravelBlocker\App\Traits;
 
 trait IpAddressDetails
 {

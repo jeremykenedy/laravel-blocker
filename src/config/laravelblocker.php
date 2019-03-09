@@ -17,9 +17,17 @@ return [
     'blockerDatabaseConnection'     => env('LARAVEL_BLOCKER_DATABASE_CONNECTION', 'mysql'),
     'blockerDatabaseTable'          => env('LARAVEL_BLOCKER_DATABASE_TABLE', 'laravel_blocker'),
     'blockerTypeDatabaseTable'      => env('LARAVEL_BLOCKER_TYPE_DATABASE_TABLE', 'laravel_blocker_types'),
-    'seedDefaultBlockedTypes'       => env('LARAVEL_BLOCKER_SEED_DEFAULT', true),
+    'seedDefaultBlockedTypes'       => env('LARAVEL_BLOCKER_SEED_DEFAULT_TYPES', true),
+    'seedDefaultBlockedItems'       => env('LARAVEL_BLOCKER_SEED_DEFAULT_ITEMS', true),
     'seedPublishedBlockedTypes'     => env('LARAVEL_BLOCKER_TYPES_SEED_PUBLISHED', true),
     'seedPublishedBlockedItems'     => env('LARAVEL_BLOCKER_ITEMS_SEED_PUBLISHED', true),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Laravel Default User Model
+    |--------------------------------------------------------------------------
+    */
+    'defaultUserModel'              => env('LARAVEL_BLOCKER_USER_MODEL', 'App\User'),
 
     /*
     |--------------------------------------------------------------------------
@@ -75,7 +83,7 @@ return [
     | Laravel Blocker Pagination Settings
     |--------------------------------------------------------------------------
     */
-    'blockerPaginationEnabled'       => env('LARAVEL_BLOCKER_PAGINATION_ENABLED', true),
+    'blockerPaginationEnabled'       => env('LARAVEL_BLOCKER_PAGINATION_ENABLED', false),
     'blockerPaginationPerPage'       => env('LARAVEL_BLOCKER_PAGINATION_PER_PAGE', 25),
 
     // Enable Search Blocked - Uses jQuery Ajax
@@ -88,8 +96,18 @@ return [
     */
     'blockerDatatables'             => env('LARAVEL_BLOCKER_DATATABLES_ENABLED', false),
     'enabledDatatablesJs'           => env('LARAVEL_BLOCKER_DATATABLES_JS_ENABLED', false),
-    'datatablesJsStartCount'        => 25,
-    'datatablesCssCDN'              => 'https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
-    'datatablesJsCDN'               => 'https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
-    'datatablesJsPresetCDN'         => 'https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
+    'datatablesJsStartCount'        => env('LARAVEL_BLOCKER_DATATABLES_JS_START_COUNT', 25),
+    'datatablesCssCDN'              => env('LARAVEL_BLOCKER_DATATABLES_CSS_CDN', 'https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css'),
+    'datatablesJsCDN'               => env('LARAVEL_BLOCKER_DATATABLES_JS_CDN', 'https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js'),
+    'datatablesJsPresetCDN'         => env('LARAVEL_BLOCKER_DATATABLES_JS_PRESET_CDN', 'https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Laravel Blocker Actions Options
+    |--------------------------------------------------------------------------
+    */
+    'blockerDefaultAction'          => env('LARAVEL_BLOCKER_DEFAULT_ACTION', 'abort'), //'abort', 'view' ,'redirect'
+    'blockerDefaultActionAbortType' => env('LARAVEL_BLOCKER_DEFAULT_ACTION_ABORT_TYPE', '403'),
+    'blockerDefaultActionView'      => env('LARAVEL_BLOCKER_DEFAULT_ACTION_VIEW', 'welcome'),
+    'blockerDefaultActionRedirect'  => env('LARAVEL_BLOCKER_DEFAULT_ACTION_REDIRECT', '/'), // Internal or external
 ];

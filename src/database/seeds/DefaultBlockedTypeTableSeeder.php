@@ -33,8 +33,8 @@ class DefaultBlockedTypeTableSeeder extends Seeder
                 'name' => 'Domain Name',
             ],
             [
-                'slug' => 'User Name',
-                'name' => 'Username',
+                'slug' => 'username',
+                'name' => 'User Name',
             ],
             [
                 'slug' => 'city',
@@ -67,7 +67,9 @@ class DefaultBlockedTypeTableSeeder extends Seeder
          *
          */
         foreach ($BlockedTypes as $BlockedType) {
-            $newBlockedType = BlockedType::where('slug', '=', $BlockedType['slug'])->first();
+            $newBlockedType = BlockedType::where('slug', '=', $BlockedType['slug'])
+                ->withTrashed()
+                ->first();
             if ($newBlockedType === null) {
                 $newBlockedType = BlockedType::create([
                     'slug' => $BlockedType['slug'],

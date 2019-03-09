@@ -111,4 +111,7 @@
         margin-left: 5px;
         margin-right: 5px
     }
+    #search_blocked_form {
+        display: none;
+    }
 </style>

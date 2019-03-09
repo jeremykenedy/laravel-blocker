@@ -30,6 +30,34 @@ class BlockedTypeTableSeeder extends Seeder
                 'slug' => 'domain',
                 'name' => 'Domain Name',
             ],
+            [
+                'slug' => 'username',
+                'name' => 'User Name',
+            ],
+            [
+                'slug' => 'city',
+                'name' => 'City',
+            ],
+            [
+                'slug' => 'state',
+                'name' => 'State',
+            ],
+            [
+                'slug' => 'country',
+                'name' => 'Country',
+            ],
+            [
+                'slug' => 'countryCode',
+                'name' => 'Country Code',
+            ],
+            [
+                'slug' => 'continent',
+                'name' => 'Continent',
+            ],
+            [
+                'slug' => 'region',
+                'name' => 'Region',
+            ],
         ];
 
         /*
@@ -38,7 +66,9 @@ class BlockedTypeTableSeeder extends Seeder
          */
         if (config('laravelblocker.seedPublishedBlockedTypes')) {
             foreach ($BlockedTypes as $BlockedType) {
-                $newBlockedType = BlockedType::where('slug', '=', $BlockedType['slug'])->first();
+                $newBlockedType = BlockedType::where('slug', '=', $BlockedType['slug'])
+                    ->withTrashed()
+                    ->first();
                 if ($newBlockedType === null) {
                     $newBlockedType = BlockedType::create([
                         'slug' => $BlockedType['slug'],

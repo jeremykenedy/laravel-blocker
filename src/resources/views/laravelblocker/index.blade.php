@@ -64,7 +64,7 @@
                     </div>
                     <div class="{{ $containerBodyClass }}">
                         @if(config('laravelblocker.enableSearchBlocked'))
-                            @include('laravelblocker::partials.search-blocked-form')
+                            @include('laravelblocker::forms.search-blocked')
                         @endif
                         <div class="table-responsive blocked-table">
                             <table class="table table-sm table-striped data-table">

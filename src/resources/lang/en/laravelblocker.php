@@ -9,21 +9,22 @@ return [
     */
 
     'blocked-items-title'   => 'Blocked Items',
+    'blocked-item-title'    => 'Blocked Item: <strong>:name</strong>',
     'na'                    => 'N/A',
     'none'                  => 'None',
 
     'titles' => [
-        'show-blocked' => 'Blocked Items',
-        'create-blocked' => 'Create Blocked Item',
+        'show-blocked'      => 'Blocked Items',
+        'create-blocked'    => 'Create Blocked Item',
     ],
 
     'buttons' => [
         'create-new-blocked'    => 'Create New',
         'show-deleted-blocked'  => 'Show Deleted',
         'back-to-blocked'       => 'Back to Blocked',
-        'show' => '<span class="hidden-xs hidden-sm">Show </span><i class="fa fa-eye fa-fw" aria-hidden="true"></i>',
-        'edit' => '<span class="hidden-xs hidden-sm">Edit </span><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>',
-        'delete' => '<span class="hidden-xs hidden-sm">Delete </span><i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>',
+        'show'                  => '<span class="hidden-xs hidden-sm">Show </span><i class="fa fa-eye fa-fw" aria-hidden="true"></i>',
+        'edit'                  => '<span class="hidden-xs hidden-sm">Edit </span><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>',
+        'delete'                => '<span class="hidden-xs hidden-sm">Delete </span><i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>',
     ],
 
     'tooltips' => [
@@ -50,6 +51,15 @@ return [
 
     'forms' => [
         'search-blocked-ph' => 'Search Blocked',
+        'blockedTypeLabel'  => 'Blocked Type',
+        'blockedTypeSelect' => 'Select Blocked Type',
+        'blockedValueLabel' => 'Blocked Value',
+        'blockedValuePH'    => 'Blocked Value',
+        'blockedNoteLabel'  => 'Blocked Note',
+        'blockedNotePH'     => 'Type Blocked Note',
+        'blockedUserLabel'  => 'Blocked User',
+        'blockedUserSelect' => 'Select Blocked User',
+
     ],
 
     'search'  => [
@@ -70,8 +80,15 @@ return [
     ],
 
     'messages' => [
-        'blocked-creation-success'  => "Successfully created blocked item",
-        'delete-success'            => "Successfully deleted blocked item",
+        'blocked-creation-success'  => 'Successfully created blocked item',
+        'delete-success'            => 'Successfully deleted blocked item',
+    ],
+
+    'validation' => [
+        'blockedTypeRequired'   => 'Blocked Type is required.',
+        'blockedValueRequired'  => 'Blocked Value is required.',
+        'blockedExists'         => 'The :attribute already exists.',
+        'email'                 => 'Must be a valid formed email address.',
     ],
 
 ];

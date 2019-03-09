@@ -5,8 +5,8 @@ namespace jeremykenedy\LaravelBlocker\App\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
-use jeremykenedy\LaravelBlocker\App\Http\Traits\IpAddressDetails;
-use jeremykenedy\LaravelBlocker\App\Http\Traits\LaravelCheckBlockedTrait;
+use jeremykenedy\LaravelBlocker\App\Traits\IpAddressDetails;
+use jeremykenedy\LaravelBlocker\App\Traits\LaravelCheckBlockedTrait;
 
 class LaravelBlocker
 {
@@ -16,14 +16,14 @@ class LaravelBlocker
      * Handle an incoming request.
      *
      * @param Request  $request
-     * @param \Closure $next
+     * @param Closure $next
      *
      * @return mixed
      */
-    public function handle($request, Closure $next, $check = null)
+    public function handle($request, Closure $next)
     {
         if (config('laravelblocker.laravelBlockerEnabled')) {
-            LaravelCheckBlockedTrait::checkBlocked($check);
+            LaravelCheckBlockedTrait::checkBlocked();
         }
 
         return $next($request);
