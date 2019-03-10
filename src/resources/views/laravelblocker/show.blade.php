@@ -131,7 +131,10 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3">
                                 @isset($typeDeleted)
-                                    Restore Button / Modal-form
+
+
+
+
                                 @else
                                     <a class="btn btn-sm btn-info btn-block" href="/blocker/{{ $item->id }}/edit" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.edit") }}">
                                         {!! trans("laravelblocker::laravelblocker.buttons.edit-larger") !!}

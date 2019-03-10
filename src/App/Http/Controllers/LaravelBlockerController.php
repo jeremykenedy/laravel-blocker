@@ -63,8 +63,7 @@ class LaravelBlockerController extends Controller
         $blockedTypes = BlockedType::all();
         $users = config('laravelblocker.defaultUserModel')::all();
 
-        return view('laravelblocker::laravelblocker.create')
-                   ->with(compact('blockedTypes', 'users'));
+        return view('laravelblocker::laravelblocker.create', compact('blockedTypes', 'users'));
     }
 
     /**
@@ -93,8 +92,7 @@ class LaravelBlockerController extends Controller
     {
         $item = BlockedItem::findOrFail($id);
 
-        return view('laravelblocker::laravelblocker.show')
-                   ->with(compact('item'));
+        return view('laravelblocker::laravelblocker.show', compact('item'));
     }
 
     /**
@@ -110,8 +108,7 @@ class LaravelBlockerController extends Controller
         $users          = config('laravelblocker.defaultUserModel')::all();
         $item           = BlockedItem::findOrFail($id);
 
-        return view('laravelblocker::laravelblocker.edit')
-                   ->with(compact('blockedTypes' ,'users', 'item'));
+        return view('laravelblocker::laravelblocker.edit', compact('blockedTypes' ,'users', 'item'));
     }
 
     /**
@@ -129,8 +126,8 @@ class LaravelBlockerController extends Controller
         $item->save();
 
         return redirect()
-            ->back()
-            ->with('success', trans('laravelblocker::laravelblocker.messages.update-success'));
+                    ->back()
+                    ->with('success', trans('laravelblocker::laravelblocker.messages.update-success'));
     }
 
     /**
@@ -146,7 +143,7 @@ class LaravelBlockerController extends Controller
         $blockedItem->delete();
 
         return redirect('blocker')
-            ->with('success', trans('laravelblocker::laravelblocker.messages.delete-success'));
+                    ->with('success', trans('laravelblocker::laravelblocker.messages.delete-success'));
     }
 
     /**

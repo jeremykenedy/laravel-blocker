@@ -92,6 +92,10 @@ return [
         'blocked-creation-success'  => 'Successfully created blocked item.',
         'delete-success'            => 'Successfully deleted blocked item.',
         'update-success'            => 'Successfully updated blocked item.',
+        'successRestoredItem'       => 'Successfully restored blocked item.',
+        'successRestoredAllItems'   => 'Successfully restored all blocked items.',
+        'successDestroyedItem'      => 'Successfully destroyed blocked item.',
+        'successDestroyedAllItems'  => 'Successfully destroyed all blocked items.',
     ],
 
     'validation' => [
