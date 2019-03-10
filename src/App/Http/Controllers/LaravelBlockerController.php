@@ -3,13 +3,13 @@
 namespace jeremykenedy\LaravelBlocker\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use jeremykenedy\LaravelBlocker\App\Models\BlockedItem;
 use jeremykenedy\LaravelBlocker\App\Models\BlockedType;
 use jeremykenedy\LaravelBlocker\App\Http\Requests\StoreBlockerRequest;
 use jeremykenedy\LaravelBlocker\App\Http\Requests\SearchBlockerRequest;
+use jeremykenedy\LaravelBlocker\App\Http\Requests\UpdateBlockerRequest;
 
 class LaravelBlockerController extends Controller
 {
@@ -76,19 +76,7 @@ class LaravelBlockerController extends Controller
      */
     public function store(StoreBlockerRequest $request)
     {
-        $validatedData = $request->validated();
-
-        $userId = null;
-        if (array_key_exists('userId', $validatedData)) {
-            $userId = $validatedData['userId'];
-        }
-
-        $blockedItem = BlockedItem::create([
-            'typeId'    => $validatedData['typeId'],
-            'value'     => $validatedData['value'],
-            'note'      => $validatedData['note'],
-            'userId'    => $userId,
-        ]);
+        BlockedItem::create($request->blockedFillData());
 
         return redirect('blocker')
                     ->with('success', trans('laravelblocker::laravelblocker.messages.blocked-creation-success'));
@@ -118,10 +106,31 @@ class LaravelBlockerController extends Controller
      */
     public function edit($id)
     {
-        $item = BlockedItem::findOrFail($id);
+        $blockedTypes   = BlockedType::all();
+        $users          = config('laravelblocker.defaultUserModel')::all();
+        $item           = BlockedItem::findOrFail($id);
 
         return view('laravelblocker::laravelblocker.edit')
-                   ->with(compact('item'));
+                   ->with(compact('blockedTypes' ,'users', 'item'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param UpdateBlockerRequest $request
+     * @param int $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UpdateBlockerRequest $request, $id)
+    {
+        $item = BlockedItem::findOrFail($id);
+        $item->fill($request->blockedFillData());
+        $item->save();
+
+        return redirect()
+            ->back()
+            ->with('success', trans('laravelblocker::laravelblocker.messages.update-success'));
     }
 
     /**
@@ -134,7 +143,6 @@ class LaravelBlockerController extends Controller
     public function destroy($id)
     {
         $blockedItem = BlockedItem::findOrFail($id);
-
         $blockedItem->delete();
 
         return redirect('blocker')
@@ -167,5 +175,4 @@ class LaravelBlockerController extends Controller
             json_encode($results),
         ], Response::HTTP_OK);
     }
-
 }

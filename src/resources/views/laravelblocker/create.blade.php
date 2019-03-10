@@ -8,12 +8,12 @@
     switch (config('laravelblocker.blockerBootstapVersion')) {
         case '4':
             $containerClass = 'card';
-            $containerHeaderClass = 'card-header bg-danger text-white';
+            $containerHeaderClass = 'card-header bg-warning text-white';
             $containerBodyClass = 'card-body';
             break;
         case '3':
         default:
-            $containerClass = 'panel panel-default';
+            $containerClass = 'panel panel-warning';
             $containerHeaderClass = 'panel-heading';
             $containerBodyClass = 'panel-body';
     }
@@ -33,7 +33,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             {!! trans('laravelblocker::laravelblocker.titles.create-blocked') !!}
                             <div class="pull-right">
-                                <a href="{{ url('blocker') }}" class="btn btn-light btn-sm float-right" data-toggle="tooltip" data-placement="left" title="{{ trans('laravelblocker::laravelblocker.tooltips.back-blocked') }}">
+                                <a href="{{ url('blocker') }}" class="btn btn-warning btn-sm float-right text-white" data-toggle="tooltip" data-placement="left" title="{{ trans('laravelblocker::laravelblocker.tooltips.back-blocked') }}">
                                     <i class="fa fa-fw fa-reply-all" aria-hidden="true"></i>
                                     {!! trans('laravelblocker::laravelblocker.buttons.back-to-blocked') !!}
                                 </a>
@@ -54,5 +54,5 @@
     @if(config('laravelblocker.tooltipsEnabled'))
         @include('laravelblocker::scripts.tooltips')
     @endif
-    @include('laravelblocker::scripts.create-new-form')
+    @include('laravelblocker::scripts.blocked-form')
 @endsection

@@ -8,12 +8,12 @@
     switch (config('laravelblocker.blockerBootstapVersion')) {
         case '4':
             $containerClass = 'card';
-            $containerHeaderClass = 'card-header bg-warning text-white';
+            $containerHeaderClass = 'card-header bg-danger text-white';
             $containerBodyClass = 'card-body';
             break;
         case '3':
         default:
-            $containerClass = 'panel panel-warning';
+            $containerClass = 'panel panel-danger';
             $containerHeaderClass = 'panel-heading';
             $containerBodyClass = 'panel-body';
     }
@@ -39,16 +39,18 @@
                     <div class="{{ $containerHeaderClass }}">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="card_title">
-                                {!! trans('laravelblocker::laravelblocker.blocked-items-title') !!}
+                                {!! trans('laravelblocker::laravelblocker.blocked-items-deleted-title') !!}
                             </span>
                             <div class="btn-group pull-right btn-group-xs">
-                                <button type="button" class="btn btn-warning text-white dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-ellipsis-v fa-fw" aria-hidden="true"></i>
                                     <span class="sr-only">
                                         {!! trans('laravelblocker::laravelblocker.users-menu-alt') !!}
                                     </span>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
+
+                                    {{--
                                     <a class="dropdown-item" href="{{ route('laravelblocker::blocker.create') }}">
                                         <i class="fa fa-fw fa-plus" aria-hidden="true"></i>
                                         {!! trans('laravelblocker::laravelblocker.buttons.create-new-blocked') !!}
@@ -57,16 +59,20 @@
                                         <i class="fa fa-fw fa-trash-o" aria-hidden="true"></i>
                                         {!! trans('laravelblocker::laravelblocker.buttons.show-deleted-blocked') !!}
                                     </a>
+                                    --}}
+
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="{{ $containerBodyClass }}">
+
                         @if(config('laravelblocker.enableSearchBlocked'))
                             @include('laravelblocker::forms.search-blocked')
                         @endif
 
-                        @include('laravelblocker::partials.blocked-items-table', ['tabletype' => 'normal'])
+                        @include('laravelblocker::partials.blocked-items-table', ['tabletype' => 'deleted'])
+
 
                     </div>
                 </div>
@@ -87,6 +93,6 @@
         @include('laravelblocker::scripts.tooltips')
     @endif
     @if(config('laravelblocker.enableSearchBlocked'))
-        @include('laravelblocker::scripts.search-blocked', ['searchtype' => 'normal'])
+        @include('laravelblocker::scripts.search-blocked', ['searchtype' => 'deleted'])
     @endif
 @endsection

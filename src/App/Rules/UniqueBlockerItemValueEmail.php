@@ -28,16 +28,18 @@ class UniqueBlockerItemValueEmail implements Rule
      */
     public function passes($attribute, $value)
     {
-        $type = BlockedType::find($this->typeId);
+        if ($this->typeId) {
+            $type = BlockedType::find($this->typeId);
 
-        if ($type->slug == 'email' || $type->slug == 'username') {
+            if ($type->slug == 'email' || $type->slug == 'username') {
 
-            $check = $this->checkEmail($value);
+                $check = $this->checkEmail($value);
 
-            if ($check) {
-                return $value;
+                if ($check) {
+                    return $value;
+                }
+                return false;
             }
-            return false;
         }
 
         return true;

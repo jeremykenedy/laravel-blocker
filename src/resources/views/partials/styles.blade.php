@@ -114,4 +114,9 @@
     #search_blocked_form {
         display: none;
     }
+    @media(min-width: 576px) {
+        .edit-form-delete {
+            margin-top: -2.85em;
+        }
+    }
 </style>

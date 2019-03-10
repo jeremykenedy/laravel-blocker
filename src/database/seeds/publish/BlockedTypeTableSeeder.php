@@ -31,8 +31,8 @@ class BlockedTypeTableSeeder extends Seeder
                 'name' => 'Domain Name',
             ],
             [
-                'slug' => 'username',
-                'name' => 'User Name',
+                'slug' => 'user',
+                'name' => 'User',
             ],
             [
                 'slug' => 'city',

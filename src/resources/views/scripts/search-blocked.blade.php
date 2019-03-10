@@ -35,9 +35,16 @@
                                 '<td></td>' +
                                 '</tr>';
 
+            @if($searchtype == 'normal')
+                var searchUrl = "{{ route('laravelblocker::search-blocked') }}";
+            @endif
+            @if($searchtype == 'deleted')
+                var searchUrl = "{{ route('laravelblocker::search-blocked-deleted') }}";
+            @endif
+
             $.ajax({
                 type:'POST',
-                url: "{{ route('laravelblocker::search-blocked') }}",
+                url: searchUrl,
                 data: searchform.serialize(),
                 success: function (result) {
                     var jsonData = JSON.parse(result);
@@ -45,16 +52,24 @@
                         $.each(jsonData, function(index, val) {
                             var rolesHtml = '';
                             var roleClass = '';
-                            var showCellHtml = '<a class="btn btn-sm btn-success btn-block" href="blocker/' + val.id + '" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.show") }}">{!! trans("laravelblocker::laravelblocker.buttons.show") !!}</a>';
-                            var editCellHtml = '<a class="btn btn-sm btn-info btn-block" href="blocker/' + val.id + '/edit" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.edit") }}">{!! trans("laravelblocker::laravelblocker.buttons.edit") !!}</a>';
-                            var deleteCellHtml = '<form method="POST" action="/blocker/'+ val.id +'" accept-charset="UTF-8" data-toggle="tooltip" title="Delete Blocked Item">' +
-                                    '{!! Form::hidden("_method", "DELETE") !!}' +
-                                    '{!! csrf_field() !!}' +
-                                    '<button class="btn btn-danger btn-sm" type="button" style="width: 100%;" data-toggle="modal" data-target="#confirmDelete" data-title="Delete Blocked Item" data-message="{!! trans("laravelblocker::laravelblocker.modals.delete_blocked_message", ["blocked" => "'+val.name+'"]) !!}">' +
-                                        '{!! trans("laravelblocker::laravelblocker.buttons.delete") !!}' +
-                                    '</button>' +
-                                '</form>';
 
+
+                            @if($searchtype == 'normal')
+                                var showCellHtml = '<a class="btn btn-sm btn-success btn-block" href="blocker/' + val.id + '" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.show") }}">{!! trans("laravelblocker::laravelblocker.buttons.show") !!}</a>';
+                                var editCellHtml = '<a class="btn btn-sm btn-info btn-block" href="blocker/' + val.id + '/edit" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.edit") }}">{!! trans("laravelblocker::laravelblocker.buttons.edit") !!}</a>';
+                                var deleteCellHtml = '<form method="POST" action="/blocker/'+ val.id +'" accept-charset="UTF-8" data-toggle="tooltip" title="Delete Blocked Item">' +
+                                        '{!! Form::hidden("_method", "DELETE") !!}' +
+                                        '{!! csrf_field() !!}' +
+                                        '<button class="btn btn-danger btn-sm" type="button" style="width: 100%;" data-toggle="modal" data-target="#confirmDelete" data-title="Delete Blocked Item" data-message="{!! trans("laravelblocker::laravelblocker.modals.delete_blocked_message", ["blocked" => "'+val.name+'"]) !!}">' +
+                                            '{!! trans("laravelblocker::laravelblocker.buttons.delete") !!}' +
+                                        '</button>' +
+                                    '</form>';
+                            @endif
+                            @if($searchtype == 'deleted')
+                                var showCellHtml    ='Show';
+                                var editCellHtml    ='Restore';
+                                var deleteCellHtml  ='Destroy';
+                            @endif
 
                             var userId = val.userId;
                             if (!userId) {
@@ -71,9 +86,12 @@
                                 '<td class="hidden-xs hidden-sm">' + userId + '</td>' +
                                 '<td class="hidden-xs hidden-sm hidden-md">' + val.created_at + '</td>' +
                                 '<td class="hidden-xs hidden-sm hidden-md">' + val.updated_at + '</td>' +
-                                '<td>' + deleteCellHtml + '</td>' +
+                                @if($searchtype == 'deleted')
+                                    '<td class="hidden-xs hidden-sm">' + val.deleted_at + '</td>' +
+                                @endif
                                 '<td>' + showCellHtml + '</td>' +
                                 '<td>' + editCellHtml + '</td>' +
+                                '<td>' + deleteCellHtml + '</td>' +
                             '</tr>');
                         });
                     } else {
@@ -81,14 +99,24 @@
                     };
                     blockedCount.html(jsonData.length + " {!! trans('laravelblocker::laravelblocker.search.found-footer') !!}");
                     userPagination.hide();
-                    cardTitle.html("{!! trans('laravelblocker::laravelblocker.search.title') !!}");
+                    @if($searchtype == 'normal')
+                        cardTitle.html("{!! trans('laravelblocker::laravelblocker.search.title') !!}");
+                    @endif
+                    @if($searchtype == 'deleted')
+                        cardTitle.html("{!! trans('laravelblocker::laravelblocker.search.title-deleted') !!}");
+                    @endif
                 },
                 error: function (response, status, error) {
                     if (response.status === 422) {
                         resultsContainer.append(noResulsHtml);
                         blockedCount.html(0 + " {!! trans('laravelblocker::laravelblocker.search.found-footer') !!}");
                         userPagination.hide();
-                        cardTitle.html("{!! trans('laravelblocker::laravelblocker.search.title') !!}");
+                        @if($searchtype == 'normal')
+                            cardTitle.html("{!! trans('laravelblocker::laravelblocker.search.title') !!}");
+                        @endif
+                        @if($searchtype == 'deleted')
+                            cardTitle.html("{!! trans('laravelblocker::laravelblocker.search.title-deleted') !!}");
+                        @endif
                     };
                 },
             });
@@ -104,7 +132,12 @@
                 clearSearchTrigger.hide();
                 resultsContainer.html('');
                 blockedTableBody.show();
-                cardTitle.html("{!! trans('laravelblocker::laravelblocker.blocked-items-title') !!}");
+                @if($searchtype == 'normal')
+                    cardTitle.html("{!! trans('laravelblocker::laravelblocker.blocked-items-title') !!}");
+                @endif
+                @if($searchtype == 'deleted')
+                    cardTitle.html("{!! trans('laravelblocker::laravelblocker.blocked-items-deleted-title') !!}");
+                @endif
                 userPagination.show();
                 blockedCount.html("{!! trans_choice('laravelblocker::laravelblocker.blocked-table.caption', 1, ['blockedcount' => $blocked->count()]) !!}");
             };
@@ -115,7 +148,12 @@
             blockedTableBody.show();
             resultsContainer.html('');
             searchformInput.val('');
-            cardTitle.html("{!! trans('laravelblocker::laravelblocker.blocked-items-title') !!}");
+            @if($searchtype == 'normal')
+                cardTitle.html("{!! trans('laravelblocker::laravelblocker.blocked-items-title') !!}");
+            @endif
+            @if($searchtype == 'deleted')
+                cardTitle.html("{!! trans('laravelblocker::laravelblocker.blocked-items-deleted-title') !!}");
+            @endif
             userPagination.show();
             blockedCount.html("{!! trans_choice('laravelblocker::laravelblocker.blocked-table.caption', 1, ['blockedcount' => $blocked->count()]) !!}");
         });
