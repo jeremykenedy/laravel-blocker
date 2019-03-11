@@ -71,6 +71,9 @@ return [
     // Flash Messaging
     'blockerFlashMessagesEnabled'   => env('LARAVEL_BLOCKER_FLASH_MESSAGES_ENABLED', true),
 
+    // Enable Search Blocked - Uses jQuery Ajax
+    'enableSearchBlocked'            => env('LARAVEL_BLOCKER_SEARCH_ENABLED', true),
+
     /*
     |--------------------------------------------------------------------------
     | Laravel Blocker Auth & Roles Settings
@@ -92,9 +95,6 @@ return [
     */
     'blockerPaginationEnabled'       => env('LARAVEL_BLOCKER_PAGINATION_ENABLED', false),
     'blockerPaginationPerPage'       => env('LARAVEL_BLOCKER_PAGINATION_PER_PAGE', 25),
-
-    // Enable Search Blocked - Uses jQuery Ajax
-    'enableSearchBlocked'            => env('LARAVEL_BLOCKER_SEARCH_ENABLED', true),
 
     /*
     |--------------------------------------------------------------------------

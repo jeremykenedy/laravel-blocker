@@ -19,6 +19,7 @@ return [
 
     'titles' => [
         'show-blocked'      => 'Blocked Items',
+        'show-blocked-item' => 'Blocked Item',
         'create-blocked'    => 'Create Blocked Item',
     ],
 

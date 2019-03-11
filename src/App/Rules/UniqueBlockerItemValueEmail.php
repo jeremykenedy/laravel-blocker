@@ -31,7 +31,7 @@ class UniqueBlockerItemValueEmail implements Rule
         if ($this->typeId) {
             $type = BlockedType::find($this->typeId);
 
-            if ($type->slug == 'email' || $type->slug == 'username') {
+            if ($type->slug == 'email' || $type->slug == 'user') {
 
                 $check = $this->checkEmail($value);
 
