@@ -1,4 +1,9 @@
-{!! Form::open(array('route' => 'laravelblocker::blocker.store', 'method' => 'POST', 'role' => 'form', 'class' => 'needs-validation')) !!}
+{!! Form::open([
+    'route' => 'laravelblocker::blocker.store',
+    'method' => 'POST',
+    'role' => 'form',
+    'class' => 'needs-validation'
+]) !!}
     {!! csrf_field() !!}
     @include('laravelblocker::forms.partials.item-type-select')
     @include('laravelblocker::forms.partials.item-value-input')

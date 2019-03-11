@@ -30,6 +30,8 @@
 
 @section('content')
 
+    @include('laravelblocker::partials.flash-messages')
+
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -54,11 +56,17 @@
             </div>
         </div>
     </div>
-    @include('laravelblocker::modals.modal-delete')
+
+    @include('LaravelLogger::modals.confirm-modal', [
+        'formTrigger' => 'confirmDelete',
+        'modalClass' => 'danger',
+        'actionBtnIcon' => 'fa-trash-o'
+    ])
+
 @endsection
 
 @section(config('laravelblocker.blockerBladePlacementJs'))
-    @include('laravelblocker::scripts.delete-modal-script')
+    @include('laravelblocker::scripts.confirm-modal', ['formTrigger' => '#confirmDelete'])
     @if(config('laravelblocker.tooltipsEnabled'))
         @include('laravelblocker::scripts.tooltips')
     @endif

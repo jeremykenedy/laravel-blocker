@@ -35,6 +35,9 @@
 @endsection
 
 @section('content')
+
+    @include('laravelblocker::partials.flash-messages')
+
     <div class="container">
         <div class="row">
             <div class="col-md-12 col-lg-10 offset-lg-1">
@@ -131,10 +134,7 @@
                         <div class="row">
                             <div class="col-sm-6 mt-3">
                                 @isset($typeDeleted)
-
-
-
-
+                                    @include('laravelblocker::forms.restore-item', ['restoreType' => 'full'])
                                 @else
                                     <a class="btn btn-sm btn-info btn-block" href="/blocker/{{ $item->id }}/edit" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.edit") }}">
                                         {!! trans("laravelblocker::laravelblocker.buttons.edit-larger") !!}
@@ -143,7 +143,7 @@
                             </div>
                             <div class="col-sm-6 mt-3">
                                 @isset($typeDeleted)
-                                    Destroy Button / Modal-form
+                                    @include('laravelblocker::forms.destroy-full')
                                 @else
                                     @include('laravelblocker::forms.delete-item')
                                 @endisset
@@ -155,12 +155,23 @@
         </div>
     </div>
 
-    @include('laravelblocker::modals.modal-delete')
+    @include('laravelblocker::modals.confirm-modal',[
+        'formTrigger' => 'confirmRestore',
+        'modalClass' => 'success',
+        'actionBtnIcon' => 'fa-check'
+    ])
+
+    @include('LaravelLogger::modals.confirm-modal', [
+        'formTrigger' => 'confirmDelete',
+        'modalClass' => 'danger',
+        'actionBtnIcon' => 'fa-trash-o'
+    ])
 
 @endsection
 
 @section(config('laravelblocker.blockerBladePlacementJs'))
-    @include('laravelblocker::scripts.delete-modal-script')
+    @include('laravelblocker::scripts.confirm-modal', ['formTrigger' => '#confirmDelete'])
+    @include('laravelblocker::scripts.confirm-modal', ['formTrigger' => '#confirmRestore'])
     @if(config('laravelblocker.tooltipsEnabled'))
         @include('laravelblocker::scripts.tooltips')
     @endif

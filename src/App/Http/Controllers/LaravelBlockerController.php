@@ -50,7 +50,9 @@ class LaravelBlockerController extends Controller
             $blocked = BlockedItem::all();
         }
 
-        return view('laravelblocker::laravelblocker.index', compact('blocked'));
+        $deletedBlockedItems = BlockedItem::onlyTrashed();
+
+        return view('laravelblocker::laravelblocker.index', compact('blocked', 'deletedBlockedItems'));
     }
 
     /**

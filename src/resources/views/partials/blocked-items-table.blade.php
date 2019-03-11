@@ -37,70 +37,86 @@
             </tr>
         </thead>
         <tbody class="blocked-table-body">
-            @foreach($blocked as $blockedItem)
-                <tr>
-                    <td>
-                        {!! $blockedItem->id !!}
-                    </td>
-                    <td>
-                        {!! $blockedItem->blockedType->slug !!}
-                    </td>
-                    <td>
-                        {!! $blockedItem->value !!}
-                    </td>
-                    <td class="hidden-xs">
-                        {!! $blockedItem->note !!}
-                    </td>
-                    <td class="hidden-xs hidden-sm">
-                        @if ($blockedItem->userId)
-                            {!! $blockedItem->userId !!}
-                        @else
-                            <span class="disabled">
-                                {!! trans('laravelblocker::laravelblocker.none') !!}
-                            </span>
-                        @endif
-                    </td>
-                    <td class="hidden-xs hidden-sm hidden-md">
-                        {!! $blockedItem->created_at->format('m/d/Y H:ia') !!}
-                    </td>
-                    <td class="hidden-xs hidden-sm hidden-md">
-                        {!! $blockedItem->updated_at->format('m/d/Y H:ia') !!}
-                    </td>
-                    @if($tabletype == 'deleted')
+            @if($blocked->count() > 0)
+                @foreach($blocked as $blockedItem)
+                    <tr>
+                        <td>
+                            {!! $blockedItem->id !!}
+                        </td>
+                        <td>
+                            {!! $blockedItem->blockedType->slug !!}
+                        </td>
+                        <td>
+                            {!! $blockedItem->value !!}
+                        </td>
+                        <td class="hidden-xs">
+                            {!! $blockedItem->note !!}
+                        </td>
                         <td class="hidden-xs hidden-sm">
-                            {!! $blockedItem->deleted_at->format('m/d/Y H:ia') !!}
+                            @if ($blockedItem->userId)
+                                {!! $blockedItem->userId !!}
+                            @else
+                                <span class="disabled">
+                                    {!! trans('laravelblocker::laravelblocker.none') !!}
+                                </span>
+                            @endif
                         </td>
-                    @endif
-                    @if($tabletype == 'normal')
-                        <td>
-                            <a class="btn btn-sm btn-success btn-block" href="/blocker/{{ $blockedItem->id }}" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.show") }}">
-                                {!! trans("laravelblocker::laravelblocker.buttons.show") !!}
-                            </a>
+                        <td class="hidden-xs hidden-sm hidden-md">
+                            {!! $blockedItem->created_at->format('m/d/Y H:ia') !!}
                         </td>
-                        <td>
-                            <a class="btn btn-sm btn-info btn-block" href="/blocker/{{ $blockedItem->id }}/edit" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.edit") }}">
-                                {!! trans("laravelblocker::laravelblocker.buttons.edit") !!}
-                            </a>
+                        <td class="hidden-xs hidden-sm hidden-md">
+                            {!! $blockedItem->updated_at->format('m/d/Y H:ia') !!}
                         </td>
-                        <td>
-                            @include('laravelblocker::forms.delete-sm')
-                        </td>
-                    @endif
-                    @if($tabletype == 'deleted')
-                        <td>
-                            <a class="btn btn-sm btn-success btn-block" href="/blocker-deleted/{{ $blockedItem->id }}" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.show") }}">
-                                {!! trans("laravelblocker::laravelblocker.buttons.show") !!}
-                            </a>
-                        </td>
-                        <td>
-                            Restore
-                        </td>
-                        <td>
-                            Destroy
-                        </td>
-                    @endif
+                        @if($tabletype == 'deleted')
+                            <td class="hidden-xs hidden-sm">
+                                {!! $blockedItem->deleted_at->format('m/d/Y H:ia') !!}
+                            </td>
+                        @endif
+                        @if($tabletype == 'normal')
+                            <td>
+                                <a class="btn btn-sm btn-info btn-block" href="/blocker/{{ $blockedItem->id }}" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.show") }}">
+                                    {!! trans("laravelblocker::laravelblocker.buttons.show") !!}
+                                </a>
+                            </td>
+                            <td>
+                                <a class="btn btn-sm btn-warning btn-block text-white" href="/blocker/{{ $blockedItem->id }}/edit" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.edit") }}">
+                                    {!! trans("laravelblocker::laravelblocker.buttons.edit") !!}
+                                </a>
+                            </td>
+                            <td>
+                                @include('laravelblocker::forms.delete-sm')
+                            </td>
+                        @endif
+                        @if($tabletype == 'deleted')
+                            <td>
+                                <a class="btn btn-sm btn-info btn-block" href="/blocker-deleted/{{ $blockedItem->id }}" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.show") }}">
+                                    {!! trans("laravelblocker::laravelblocker.buttons.show") !!}
+                                </a>
+                            </td>
+                            <td>
+                                @include('laravelblocker::forms.restore-item', ['restoreType' => 'small'])
+                            </td>
+                            <td>
+                                @include('laravelblocker::forms.destroy-sm')
+                            </td>
+                        @endif
+                    </tr>
+                @endforeach
+            @else
+                <tr>
+                    <td>{!! trans("laravelblocker::laravelblocker.blocked-table.none") !!}</td>
+                    <td></td>
+                    <td class="hidden-xs"></td>
+                    <td class="hidden-xs"></td>
+                    <td class="hidden-xs"></td>
+                    <td class="hidden-sm hidden-xs"></td>
+                    <td class="hidden-sm hidden-xs hidden-md"></td>
+                    <td class="hidden-sm hidden-xs hidden-md"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
-            @endforeach
+            @endif
         </tbody>
         @if(config('laravelblocker.enableSearchBlocked'))
             <tbody id="search_results"></tbody>

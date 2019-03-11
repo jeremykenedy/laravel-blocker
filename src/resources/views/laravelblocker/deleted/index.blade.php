@@ -32,6 +32,9 @@
 @endsection
 
 @section('content')
+
+    @include('laravelblocker::partials.flash-messages')
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
@@ -49,38 +52,40 @@
                                     </span>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
-
-                                    {{--
-                                    <a class="dropdown-item" href="{{ route('laravelblocker::blocker.create') }}">
-                                        <i class="fa fa-fw fa-plus" aria-hidden="true"></i>
-                                        {!! trans('laravelblocker::laravelblocker.buttons.create-new-blocked') !!}
+                                    <a href="{{ url('blocker') }}" class="dropdown-item">
+                                        <i class="fa fa-fw fa-reply" aria-hidden="true"></i>
+                                        {!! trans('laravelblocker::laravelblocker.buttons.back-to-blocked') !!}
                                     </a>
-                                    <a class="dropdown-item" href="{{ url('/blocker-deleted') }}">
-                                        <i class="fa fa-fw fa-trash-o" aria-hidden="true"></i>
-                                        {!! trans('laravelblocker::laravelblocker.buttons.show-deleted-blocked') !!}
-                                    </a>
-                                    --}}
-
+                                    @if($blocked->count() > 0)
+                                        @include('laravelblocker::forms.destroy-all')
+                                        @include('laravelblocker::forms.restore-all')
+                                    @endif
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="{{ $containerBodyClass }}">
-
                         @if(config('laravelblocker.enableSearchBlocked'))
                             @include('laravelblocker::forms.search-blocked')
                         @endif
-
                         @include('laravelblocker::partials.blocked-items-table', ['tabletype' => 'deleted'])
-
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    @include('laravelblocker::modals.modal-delete')
+    @include('LaravelLogger::modals.confirm-modal', [
+        'formTrigger' => 'confirmDelete',
+        'modalClass' => 'danger',
+        'actionBtnIcon' => 'fa-trash-o'
+    ])
+
+    @include('laravelblocker::modals.confirm-modal',[
+        'formTrigger' => 'confirmRestore',
+        'modalClass' => 'success',
+        'actionBtnIcon' => 'fa-check'
+    ])
 
 @endsection
 
@@ -88,7 +93,10 @@
     @if (config('laravelblocker.enabledDatatablesJs'))
         @include('laravelblocker::scripts.datatables')
     @endif
-    @include('laravelblocker::scripts.delete-modal-script')
+
+    @include('laravelblocker::scripts.confirm-modal', ['formTrigger' => '#confirmDelete'])
+    @include('laravelblocker::scripts.confirm-modal', ['formTrigger' => '#confirmRestore'])
+
     @if(config('laravelblocker.tooltipsEnabled'))
         @include('laravelblocker::scripts.tooltips')
     @endif

@@ -32,6 +32,9 @@
 @endsection
 
 @section('content')
+
+    @include('laravelblocker::partials.flash-messages')
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
@@ -53,10 +56,15 @@
                                         <i class="fa fa-fw fa-plus" aria-hidden="true"></i>
                                         {!! trans('laravelblocker::laravelblocker.buttons.create-new-blocked') !!}
                                     </a>
-                                    <a class="dropdown-item" href="{{ url('/blocker-deleted') }}">
-                                        <i class="fa fa-fw fa-trash-o" aria-hidden="true"></i>
-                                        {!! trans('laravelblocker::laravelblocker.buttons.show-deleted-blocked') !!}
-                                    </a>
+                                    @if($deletedBlockedItems->count() > 0)
+                                        <a class="dropdown-item" href="{{ url('/blocker-deleted') }}">
+                                            <i class="fa fa-fw fa-trash-o" aria-hidden="true"></i>
+                                            {!! trans('laravelblocker::laravelblocker.buttons.show-deleted-blocked') !!}
+                                            <span class="badge-pill badge badge-warning">
+                                                {{ $deletedBlockedItems->count() }}
+                                            </span>
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -74,7 +82,11 @@
         </div>
     </div>
 
-    @include('laravelblocker::modals.modal-delete')
+    @include('LaravelLogger::modals.confirm-modal', [
+        'formTrigger' => 'confirmDelete',
+        'modalClass' => 'danger',
+        'actionBtnIcon' => 'fa-trash-o'
+    ])
 
 @endsection
 
@@ -82,7 +94,7 @@
     @if (config('laravelblocker.enabledDatatablesJs'))
         @include('laravelblocker::scripts.datatables')
     @endif
-    @include('laravelblocker::scripts.delete-modal-script')
+    @include('laravelblocker::scripts.confirm-modal', ['formTrigger' => '#confirmDelete'])
     @if(config('laravelblocker.tooltipsEnabled'))
         @include('laravelblocker::scripts.tooltips')
     @endif

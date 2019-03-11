@@ -91,7 +91,7 @@ class LaravelBlockerDeletedController extends LaravelBlockerController
             $item->restore();
         }
 
-        return redirect('blocked')
+        return redirect('blocker')
                     ->with('success', trans('laravelblocker::laravelblocker.messages.successRestoredAllItems'));
     }
 
@@ -121,11 +121,12 @@ class LaravelBlockerDeletedController extends LaravelBlockerController
     public function destroyAllItems(Request $request)
     {
         $items = BlockedItem::onlyTrashed()->get();
+
         foreach ($items as $item) {
             $item->forceDelete();
         }
 
-        return redirect('blocked')
+        return redirect('blocker')
                     ->with('success', trans('laravelblocker::laravelblocker.messages.successDestroyedAllItems'));
     }
 

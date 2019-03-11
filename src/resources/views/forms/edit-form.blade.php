@@ -1,4 +1,9 @@
-{!! Form::open(array('route' => ['laravelblocker::blocker.update', $item->id], 'method' => 'PUT', 'role' => 'form', 'class' => 'needs-validation')) !!}
+{!! Form::open([
+    'route' => ['laravelblocker::blocker.update', $item->id],
+    'method' => 'PUT',
+    'role' => 'form',
+    'class' => 'needs-validation'
+]) !!}
     {!! csrf_field() !!}
     @include('laravelblocker::forms.partials.item-type-select')
     @include('laravelblocker::forms.partials.item-value-input')

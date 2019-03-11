@@ -1,6 +1,12 @@
 <div class="row" id="search_blocked_form">
     <div class="col-sm-8 offset-sm-4 col-md-6 offset-md-6 col-lg-5 offset-lg-7 col-xl-4 offset-xl-8">
-        {!! Form::open(['route' => 'search-users', 'method' => 'POST', 'role' => 'form', 'class' => 'needs-validation', 'id' => 'search_blocked']) !!}
+        {!! Form::open([
+            'route' => 'search-users',
+            'method' => 'POST',
+            'role' => 'form',
+            'class' => 'needs-validation',
+            'id' => 'search_blocked'
+        ]) !!}
             {!! csrf_field() !!}
             <div class="input-group mb-3">
                 {!! Form::text('blocked_search_box', NULL, ['id' => 'blocked_search_box', 'class' => 'form-control', 'placeholder' => trans('laravelblocker::laravelblocker.forms.search-blocked-ph'), 'aria-label' => trans('laravelblocker::forms.search-users-ph'), 'required' => false]) !!}
