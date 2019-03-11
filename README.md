@@ -1,9 +1,9 @@
 # LaravelBlocker
 
-[![Latest Stable Version](https://poser.pugx.org/jeremykenedy/laravelBlocker/v/stable)](https://packagist.org/packages/jeremykenedy/laravelBlocker)
-[![Total Downloads](https://poser.pugx.org/jeremykenedy/laravelBlocker/downloads)](https://packagist.org/packages/jeremykenedy/laravelBlocker)
-[![Latest Unstable Version](https://poser.pugx.org/jeremykenedy/laravelBlocker/v/unstable)](https://packagist.org/packages/jeremykenedy/laravelBlocker)
-[![License](https://poser.pugx.org/jeremykenedy/laravelBlocker/license)](https://packagist.org/packages/jeremykenedy/laravelBlocker)
+[![Latest Stable Version](https://poser.pugx.org/jeremykenedy/laravel-blocker/v/stable)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
+[![Total Downloads](https://poser.pugx.org/jeremykenedy/laravel-blocker/downloads)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
+[![Latest Unstable Version](https://poser.pugx.org/jeremykenedy/laravel-blocker/v/unstable)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
+[![License](https://poser.pugx.org/jeremykenedy/laravel-blocker/license)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
 
 - [About](#about)
 - [Features](#features)
