@@ -22,8 +22,9 @@ class UniqueBlockerItemValueEmail implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)
@@ -32,12 +33,12 @@ class UniqueBlockerItemValueEmail implements Rule
             $type = BlockedType::find($this->typeId);
 
             if ($type->slug == 'email' || $type->slug == 'user') {
-
                 $check = $this->checkEmail($value);
 
                 if ($check) {
                     return $value;
                 }
+
                 return false;
             }
         }
@@ -46,18 +47,18 @@ class UniqueBlockerItemValueEmail implements Rule
     }
 
     /**
-     * Check if value is proper formed email
+     * Check if value is proper formed email.
      *
-     * @param string $email  The email
+     * @param string $email The email
      *
-     * @return boolean
+     * @return bool
      */
     public function checkEmail($email)
     {
-       $find1 = strpos($email, '@');
-       $find2 = strpos($email, '.');
+        $find1 = strpos($email, '@');
+        $find2 = strpos($email, '.');
 
-       return ($find1 !== false && $find2 !== false && $find2 > $find1 ? true : false);
+        return $find1 !== false && $find2 !== false && $find2 > $find1 ? true : false;
     }
 
     /**
@@ -69,5 +70,4 @@ class UniqueBlockerItemValueEmail implements Rule
     {
         return trans('laravelblocker::laravelblocker.validation.email');
     }
-
 }

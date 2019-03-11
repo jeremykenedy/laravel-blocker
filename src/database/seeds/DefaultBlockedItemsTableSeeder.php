@@ -2,12 +2,11 @@
 
 namespace jeremykenedy\LaravelBlocker\Database\Seeds;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 use jeremykenedy\LaravelBlocker\App\Models\BlockedItem;
 use jeremykenedy\LaravelBlocker\App\Models\BlockedType;
 
-class BlockedItemsTableSeeder extends Seeder
+class DefaultBlockedItemsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

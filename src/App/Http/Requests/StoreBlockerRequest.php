@@ -18,6 +18,7 @@ class StoreBlockerRequest extends FormRequest
         if (config('laravelblocker.rolesEnabled')) {
             return config('laravelblocker.rolesMiddlware');
         }
+
         return true;
     }
 
@@ -32,7 +33,7 @@ class StoreBlockerRequest extends FormRequest
 
         return [
             'typeId' => 'required|max:255|integer',
-            'value'  => ['required', 'max:255', 'string', 'unique:laravel_blocker,value,' . $id . ',id', new UniqueBlockerItemValueEmail(Request::input('typeId'))],
+            'value'  => ['required', 'max:255', 'string', 'unique:laravel_blocker,value,'.$id.',id', new UniqueBlockerItemValueEmail(Request::input('typeId'))],
             'note'   => 'nullable|max:500|string',
             'userId' => 'nullable|max:255|integer',
         ];
