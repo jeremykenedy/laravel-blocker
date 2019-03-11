@@ -58,7 +58,7 @@ Can work out the box with or without the following roles packages:
 ### Installation Instructions
 1. From your projects root folder in terminal run:
 ```bash
-    composer require jeremykenedy/laravelBlocker
+    composer require jeremykenedy/laravelblocker
 ```
 
 2. Register the package
