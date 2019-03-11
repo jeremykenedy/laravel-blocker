@@ -4,10 +4,8 @@ namespace jeremykenedy\LaravelBlocker\App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerController;
-use jeremykenedy\LaravelBlocker\App\Models\BlockedItem;
-use jeremykenedy\LaravelBlocker\App\Models\BlockedType;
 use jeremykenedy\LaravelBlocker\App\Http\Requests\SearchBlockerRequest;
+use jeremykenedy\LaravelBlocker\App\Models\BlockedItem;
 
 class LaravelBlockerDeletedController extends LaravelBlockerController
 {
@@ -54,8 +52,8 @@ class LaravelBlockerDeletedController extends LaravelBlockerController
      */
     public function show($id)
     {
-        $item           = self::getDeletedBlockedItem($id);
-        $typeDeleted    = 'deleted';
+        $item = self::getDeletedBlockedItem($id);
+        $typeDeleted = 'deleted';
 
         return view('laravelblocker::laravelblocker.show', compact('item', 'typeDeleted'));
     }
@@ -64,7 +62,7 @@ class LaravelBlockerDeletedController extends LaravelBlockerController
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param int $id
+     * @param int                      $id
      *
      * @return \Illuminate\Http\Response
      */
@@ -140,15 +138,16 @@ class LaravelBlockerDeletedController extends LaravelBlockerController
     public function search(SearchBlockerRequest $request)
     {
         $searchTerm = $request->validated()['blocked_search_box'];
-        $results = BlockedItem::onlyTrashed()->where('id', 'like', $searchTerm .'%')->onlyTrashed()
-                        ->orWhere('typeId', 'like', $searchTerm .'%')->onlyTrashed()
-                        ->orWhere('value', 'like', $searchTerm .'%')->onlyTrashed()
-                        ->orWhere('note', 'like', $searchTerm .'%')->onlyTrashed()
+        $results = BlockedItem::onlyTrashed()->where('id', 'like', $searchTerm.'%')->onlyTrashed()
+                        ->orWhere('typeId', 'like', $searchTerm.'%')->onlyTrashed()
+                        ->orWhere('value', 'like', $searchTerm.'%')->onlyTrashed()
+                        ->orWhere('note', 'like', $searchTerm.'%')->onlyTrashed()
                         ->orWhere('userId', 'like', $searchTerm.'%')->onlyTrashed()
                         ->get();
 
         $results->map(function ($item) {
-            $item['type'] = $item->blockedType->slug ;
+            $item['type'] = $item->blockedType->slug;
+
             return $item;
         });
 
@@ -156,5 +155,4 @@ class LaravelBlockerDeletedController extends LaravelBlockerController
             json_encode($results),
         ], Response::HTTP_OK);
     }
-
 }

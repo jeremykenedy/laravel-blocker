@@ -3,9 +3,7 @@
 namespace jeremykenedy\LaravelBlocker\App\Http\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
-use jeremykenedy\LaravelBlocker\App\Traits\IpAddressDetails;
 use jeremykenedy\LaravelBlocker\App\Traits\LaravelCheckBlockedTrait;
 
 class LaravelBlocker
@@ -15,7 +13,7 @@ class LaravelBlocker
     /**
      * Handle an incoming request.
      *
-     * @param Request  $request
+     * @param Request $request
      * @param Closure $next
      *
      * @return mixed

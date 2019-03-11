@@ -16,6 +16,7 @@ class SearchBlockerRequest extends FormRequest
         if (config('laravelblocker.rolesEnabled')) {
             return config('laravelblocker.rolesMiddlware');
         }
+
         return true;
     }
 
@@ -44,5 +45,4 @@ class SearchBlockerRequest extends FormRequest
             'blocked_search_box.max'      => trans('laravelblocker::laravelblocker.search.max'),
         ];
     }
-
 }

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 use jeremykenedy\LaravelBlocker\App\Models\BlockedType;
 
 class CreateLaravelBlockerTypesTable extends Migration
@@ -14,10 +14,9 @@ class CreateLaravelBlockerTypesTable extends Migration
      */
     public function up()
     {
-
-        $blocked    = new BlockedType();
+        $blocked = new BlockedType();
         $connection = $blocked->getConnectionName();
-        $table      = $blocked->getTableName();
+        $table = $blocked->getTableName();
         $tableCheck = Schema::connection($connection)->hasTable($table);
 
         if (!$tableCheck) {
@@ -38,9 +37,9 @@ class CreateLaravelBlockerTypesTable extends Migration
      */
     public function down()
     {
-        $blockedType    = new BlockedType();
-        $connection     = $blockedType->getConnectionName();
-        $table          = $blockedType->getTableName();
+        $blockedType = new BlockedType();
+        $connection = $blockedType->getConnectionName();
+        $table = $blockedType->getTableName();
 
         Schema::connection($connection)->dropIfExists($table);
     }

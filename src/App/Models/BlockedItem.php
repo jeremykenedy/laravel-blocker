@@ -4,7 +4,6 @@ namespace jeremykenedy\LaravelBlocker\App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use jeremykenedy\LaravelBlocker\App\Models\BlockedType;
 
 class BlockedItem extends Model
 {
@@ -107,5 +106,4 @@ class BlockedItem extends Model
     {
         return $this->belongsTo(BlockedType::class, 'typeId');
     }
-
 }
