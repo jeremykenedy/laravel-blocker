@@ -1,8 +1,11 @@
 # LaravelBlocker
 
-[![Latest Stable Version](https://poser.pugx.org/jeremykenedy/laravelBlocker/v/stable)](https://packagist.org/packages/jeremykenedy/laravelBlocker)
-[![Total Downloads](https://poser.pugx.org/jeremykenedy/laravelBlocker/downloads)](https://packagist.org/packages/jeremykenedy/laravelBlocker)
-[![Latest Unstable Version](https://poser.pugx.org/jeremykenedy/laravelBlocker/v/unstable)](https://packagist.org/packages/jeremykenedy/laravelBlocker)
+[![Latest Stable Version](https://poser.pugx.org/jeremykenedy/laravel-blocker/v/stable.svg)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
+[![Total Downloads](https://poser.pugx.org/jeremykenedy/laravel-blocker/d/total.svg)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
+[![Travis-CI Build](https://travis-ci.org/jeremykenedy/laravel-blocker.svg?branch=master)](https://travis-ci.org/jeremykenedy/laravel-blocker)
+[![StyleCI](https://github.styleci.io/repos/171390607/shield?branch=master)](https://github.styleci.io/repos/171390607)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jeremykenedy/laravel-blocker/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jeremykenedy/laravel-blocker/?branch=master)
+[![Latest Unstable Version](https://poser.pugx.org/jeremykenedy/laravel-blocker/v/unstable)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
 [![License](https://poser.pugx.org/jeremykenedy/laravelBlocker/license)](https://packagist.org/packages/jeremykenedy/laravelBlocker)
 
 - [About](#about)
@@ -468,4 +471,4 @@ LARAVEL_BLOCKER_DEFAULT_ACTION_REDIRECT='/'
 * File tree generated using command `tree -a -I '.git|node_modules|vendor|storage|tests'`
 
 ### License
-LaravelBlocker is licensed under the MIT license. Enjoy!
+LaravelBlocker is licensed under the [MIT license](https://opensource.org/licenses/MIT). Enjoy!
