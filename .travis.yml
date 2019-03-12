@@ -1,0 +1,34 @@
+language: php
+sudo: required
+dist: trusty
+group: edge
+
+php:
+  - 7.0
+  - 7.1
+  - 7.2
+  - 7.3
+  - nightly
+
+sudo: false
+
+services:
+  - mysql
+
+before_script:
+  - mysql -u root -e 'create database laravelblocker;'
+  - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install
+  - composer create-project --prefer-dist laravel/laravel laravelblocker
+  - cp .env.travis laravelblocker/.env
+  - cd laravelblocker
+  - composer self-update
+  - composer install --prefer-source --no-interaction
+  - composer require jeremykenedy/laravel-blocker
+  - php artisan key:generate
+  - php artisan vendor:publish --provider="jeremykenedy\LaravelBlocker\LaravelBlockerServiceProvider"
+  - php artisan make:auth
+  - php artisan migrate
+  - composer dump-autoload
+  - php artisan clear-compiled
+  - php artisan db:seed
