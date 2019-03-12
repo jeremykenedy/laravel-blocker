@@ -20,6 +20,7 @@ before_script:
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar install
   - composer create-project --prefer-dist laravel/laravel laravelblocker
+  - php artisan make:auth
   - cp .env.travis laravelblocker/.env
   - cd laravelblocker
   - composer self-update
