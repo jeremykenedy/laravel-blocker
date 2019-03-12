@@ -82,7 +82,7 @@
         </div>
     </div>
 
-    @include('LaravelLogger::modals.confirm-modal', [
+    @include('laravelblocker::modals.confirm-modal',[
         'formTrigger' => 'confirmDelete',
         'modalClass' => 'danger',
         'actionBtnIcon' => 'fa-trash-o'
