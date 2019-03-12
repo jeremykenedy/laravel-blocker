@@ -74,7 +74,7 @@
                         @endif
                         @if($tabletype == 'normal')
                             <td>
-                                <a class="btn btn-sm btn-info btn-block" href="/blocker/{{ $blockedItem->id }}" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.show") }}">
+                                <a class="btn btn-sm btn-info btn-block text-white" href="/blocker/{{ $blockedItem->id }}" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.show") }}">
                                     {!! trans("laravelblocker::laravelblocker.buttons.show") !!}
                                 </a>
                             </td>
@@ -89,7 +89,7 @@
                         @endif
                         @if($tabletype == 'deleted')
                             <td>
-                                <a class="btn btn-sm btn-info btn-block" href="/blocker-deleted/{{ $blockedItem->id }}" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.show") }}">
+                                <a class="btn btn-sm btn-info btn-block text-white" href="/blocker-deleted/{{ $blockedItem->id }}" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.show") }}">
                                     {!! trans("laravelblocker::laravelblocker.buttons.show") !!}
                                 </a>
                             </td>

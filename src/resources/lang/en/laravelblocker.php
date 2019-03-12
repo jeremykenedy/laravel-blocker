@@ -107,6 +107,8 @@ return [
         'resotreAllBlockedMessage'      => 'Are you sure you want to RESTORE ALL blocked items?',
         'resotreBlockedItemTitle'       => 'Restore Blocked Item',
         'resotreBlockedItemMessage'     => 'Are you sure you want to RESTORE :value?',
+        'btnConfirm'                    => 'Confirm',
+        'btnCancel'                     => 'Cancel',
     ],
 
     'messages' => [

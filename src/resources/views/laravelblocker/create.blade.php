@@ -21,6 +21,11 @@
 @endphp
 
 @section(config('laravelblocker.blockerBladePlacementCss'))
+    @if(config('laravelblocker.blockerEnableFontAwesomeCDN'))
+        <link rel="stylesheet" type="text/css" href="{{ config('laravelblocker.blockerFontAwesomeCDN') }}">
+    @endif
+    @include('laravelblocker::partials.styles')
+    @include('laravelblocker::partials.bs-visibility-css')
 @endsection
 
 @section('content')
@@ -53,8 +58,14 @@
 @endsection
 
 @section(config('laravelblocker.blockerBladePlacementJs'))
+    @if(config('laravelblocker.enablejQueryCDN'))
+        <script type="text/javascript" src="{{ config('laravelblocker.JQueryCDN') }}"></script>
+    @endif
     @if(config('laravelblocker.tooltipsEnabled'))
         @include('laravelblocker::scripts.tooltips')
     @endif
     @include('laravelblocker::scripts.blocked-form')
 @endsection
+
+@yield('inline_template_linked_css')
+@yield('inline_footer_scripts')

@@ -136,7 +136,7 @@
                                 @isset($typeDeleted)
                                     @include('laravelblocker::forms.restore-item', ['restoreType' => 'full'])
                                 @else
-                                    <a class="btn btn-sm btn-info btn-block" href="/blocker/{{ $item->id }}/edit" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.edit") }}">
+                                    <a class="btn btn-sm btn-info btn-block text-white" href="/blocker/{{ $item->id }}/edit" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.edit") }}">
                                         {!! trans("laravelblocker::laravelblocker.buttons.edit-larger") !!}
                                     </a>
                                 @endisset
@@ -161,7 +161,7 @@
         'actionBtnIcon' => 'fa-check'
     ])
 
-    @include('LaravelLogger::modals.confirm-modal', [
+    @include('laravelblocker::modals.confirm-modal',[
         'formTrigger' => 'confirmDelete',
         'modalClass' => 'danger',
         'actionBtnIcon' => 'fa-trash-o'
@@ -170,9 +170,15 @@
 @endsection
 
 @section(config('laravelblocker.blockerBladePlacementJs'))
+    @if(config('laravelblocker.enablejQueryCDN'))
+        <script type="text/javascript" src="{{ config('laravelblocker.JQueryCDN') }}"></script>
+    @endif
     @include('laravelblocker::scripts.confirm-modal', ['formTrigger' => '#confirmDelete'])
     @include('laravelblocker::scripts.confirm-modal', ['formTrigger' => '#confirmRestore'])
     @if(config('laravelblocker.tooltipsEnabled'))
         @include('laravelblocker::scripts.tooltips')
     @endif
 @endsection
+
+@yield('inline_template_linked_css')
+@yield('inline_footer_scripts')

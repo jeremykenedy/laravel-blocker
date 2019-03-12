@@ -8,7 +8,7 @@
         $modalClass = null;
     }
     if (!isset($btnSubmitText)) {
-        $btnSubmitText = trans('LaravelLogger::laravel-logger.modals.shared.btnConfirm');
+        $btnSubmitText = trans('laravelblocker::laravelblocker.modals.btnConfirm');
     }
 @endphp
 <div class="modal fade modal-{{$modalClass}}" id="{{$formTrigger}}" role="dialog" aria-labelledby="{{$formTrigger}}Label" aria-hidden="true">
@@ -26,7 +26,7 @@
                 </p>
             </div>
             <div class="modal-footer">
-                {!! Form::button('<i class="fa fa-fw fa-close" aria-hidden="true"></i> ' . trans('LaravelLogger::laravel-logger.modals.shared.btnCancel'), array('class' => 'btn btn-outline pull-left btn-flat', 'type' => 'button', 'data-dismiss' => 'modal' )) !!}
+                {!! Form::button('<i class="fa fa-fw fa-close" aria-hidden="true"></i> ' . trans('laravelblocker::laravelblocker.modals.btnCancel'), array('class' => 'btn btn-outline pull-left btn-flat', 'type' => 'button', 'data-dismiss' => 'modal' )) !!}
                 {!! Form::button('<i class="fa ' . $actionBtnIcon . '" aria-hidden="true"></i> ' . $btnSubmitText, array('class' => 'btn btn-' . $modalClass . ' pull-right btn-flat', 'type' => 'button', 'id' => 'confirm' )) !!}
             </div>
         </div>
