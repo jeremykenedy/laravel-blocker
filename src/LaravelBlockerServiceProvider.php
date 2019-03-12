@@ -5,8 +5,8 @@ namespace jeremykenedy\LaravelBlocker;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use jeremykenedy\LaravelBlocker\App\Http\Middleware\LaravelBlocker;
-use jeremykenedy\LaravelBlocker\Database\Seeds\DefaultBlockedTypeTableSeeder;
 use jeremykenedy\LaravelBlocker\Database\Seeds\DefaultBlockedItemsTableSeeder;
+use jeremykenedy\LaravelBlocker\Database\Seeds\DefaultBlockedTypeTableSeeder;
 
 class LaravelBlockerServiceProvider extends ServiceProvider
 {
