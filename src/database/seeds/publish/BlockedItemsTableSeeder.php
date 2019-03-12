@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeds;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 use jeremykenedy\LaravelBlocker\App\Models\BlockedItem;
@@ -66,5 +68,6 @@ class BlockedItemsTableSeeder extends Seeder
                 }
             }
         }
+        echo "\e[32mSeeding:\e[0m BlockedItemsTableSeeder\r\n";
     }
 }

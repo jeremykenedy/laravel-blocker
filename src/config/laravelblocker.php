@@ -21,6 +21,8 @@ return [
     'seedDefaultBlockedItems'       => env('LARAVEL_BLOCKER_SEED_DEFAULT_ITEMS', true),
     'seedPublishedBlockedTypes'     => env('LARAVEL_BLOCKER_TYPES_SEED_PUBLISHED', true),
     'seedPublishedBlockedItems'     => env('LARAVEL_BLOCKER_ITEMS_SEED_PUBLISHED', true),
+    'useSeededBlockedTypes'         => env('LARAVEL_BLOCKER_USE_TYPES_SEED_PUBLISHED', false),
+    'useSeededBlockedItems'         => env('LARAVEL_BLOCKER_USE_ITEMS_SEED_PUBLISHED', false),
 
     /*
     |--------------------------------------------------------------------------

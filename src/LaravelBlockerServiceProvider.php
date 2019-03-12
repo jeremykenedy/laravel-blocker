@@ -78,6 +78,21 @@ class LaravelBlockerServiceProvider extends ServiceProvider
                 DefaultBlockedTypeTableSeeder::class
             );
         }
+
+        if (config('laravelblocker.useSeededBlockedTypes')) {
+            $this->app['seed.handler']->register(
+                \Database\Seeds\BlockedTypeTableSeeder::class
+            );
+        }
+
+        if (config('laravelblocker.useSeededBlockedItems')) {
+            $this->app['seed.handler']->register(
+                \Database\Seeds\BlockedItemsTableSeeder::class
+            );
+        }
+
+
+
     }
 
     /**
