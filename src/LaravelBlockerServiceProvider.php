@@ -89,9 +89,6 @@ class LaravelBlockerServiceProvider extends ServiceProvider
                 \Database\Seeds\BlockedItemsTableSeeder::class
             );
         }
-
-
-
     }
 
     /**
