@@ -68,7 +68,7 @@ return [
         'updatedAt' => 'Updated',
         'deletedAt' => 'Deleted',
         'actions'   => 'Actions',
-        'none'      => 'No Blocked Items'
+        'none'      => 'No Blocked Items',
     ],
 
     'forms' => [
@@ -137,6 +137,6 @@ return [
         'whoops'        => 'Whoops! ',
         'someProblems'  => 'There were some problems with your input.',
 
-    ]
+    ],
 
 ];

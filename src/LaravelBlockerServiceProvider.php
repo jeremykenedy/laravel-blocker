@@ -6,7 +6,6 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use jeremykenedy\LaravelBlocker\App\Http\Middleware\LaravelBlocker;
 use jeremykenedy\LaravelBlocker\Database\Seeds\DefaultBlockedTypeTableSeeder;
-use jeremykenedy\LaravelBlocker\Database\Seeds\DefaultBlockedItemsTableSeeder;
 
 class LaravelBlockerServiceProvider extends ServiceProvider
 {
@@ -26,7 +25,7 @@ class LaravelBlockerServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        $router->middlewareGroup('checkblocked',[LaravelBlocker::class]);
+        $router->middlewareGroup('checkblocked', [LaravelBlocker::class]);
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
         $this->loadTranslationsFrom(__DIR__.'/resources/lang/', $this->_packageTag);
     }
@@ -39,16 +38,16 @@ class LaravelBlockerServiceProvider extends ServiceProvider
     public function register()
     {
         $this->packageRegistration();
-        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
-        $this->loadViewsFrom(__DIR__ . '/resources/views/', $this->_packageTag);
-        $this->mergeConfigFrom(__DIR__ . '/config/' . $this->_packageTag . '.php', $this->_packageTag);
+        $this->loadRoutesFrom(__DIR__.'/routes/web.php');
+        $this->loadViewsFrom(__DIR__.'/resources/views/', $this->_packageTag);
+        $this->mergeConfigFrom(__DIR__.'/config/'.$this->_packageTag.'.php', $this->_packageTag);
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
         $this->loadSeedsFrom();
         $this->publishFiles();
     }
 
     /**
-     * Package Registration
+     * Package Registration.
      *
      * @return void
      */
@@ -105,24 +104,23 @@ class LaravelBlockerServiceProvider extends ServiceProvider
         $publishTag = $this->_packageTag;
 
         $this->publishes([
-            __DIR__ . '/config/' . $this->_packageTag . '.php' => base_path('config/' . $this->_packageTag . '.php'),
-        ], $publishTag . '-config');
+            __DIR__.'/config/'.$this->_packageTag.'.php' => base_path('config/'.$this->_packageTag.'.php'),
+        ], $publishTag.'-config');
 
         $this->publishes([
-            __DIR__ . '/resources/views' => base_path('resources/views/vendor/'),
-        ], $publishTag . '-views');
+            __DIR__.'/resources/views' => base_path('resources/views/vendor/'),
+        ], $publishTag.'-views');
 
         $this->publishes([
-            __DIR__ . '/resources/lang' => base_path('resources/lang/vendor/' . $this->_packageTag),
-        ], $publishTag . '-lang');
+            __DIR__.'/resources/lang' => base_path('resources/lang/vendor/'.$this->_packageTag),
+        ], $publishTag.'-lang');
 
         $this->publishes([
-            __DIR__ . '/database/migrations' => database_path('migrations'),
-        ], $publishTag . '-migrations');
+            __DIR__.'/database/migrations' => database_path('migrations'),
+        ], $publishTag.'-migrations');
 
         $this->publishes([
-            __DIR__ . '/database/seeds/publish' => database_path('seeds'),
-        ], $publishTag . '-seeds');
-
+            __DIR__.'/database/seeds/publish' => database_path('seeds'),
+        ], $publishTag.'-seeds');
     }
 }

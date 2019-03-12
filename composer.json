@@ -1,5 +1,5 @@
 {
-    "name": "jeremykenedy/LaravelBlocker",
+    "name": "jeremykenedy/laravel-blocker",
     "description": "",
     "keywords": [
             "laravel blocker",
@@ -19,7 +19,7 @@
     "repositories": [
         {
             "type": "composer",
-            "url": "https://packagist.org/packages/jeremykenedy/laravelBlocker"
+            "url": "https://packagist.org/packages/jeremykenedy/laravel-blocker"
         }
     ],
     "require": {

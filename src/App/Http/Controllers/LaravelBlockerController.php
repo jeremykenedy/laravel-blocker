@@ -3,13 +3,12 @@
 namespace jeremykenedy\LaravelBlocker\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use jeremykenedy\LaravelBlocker\App\Http\Requests\SearchBlockerRequest;
+use jeremykenedy\LaravelBlocker\App\Http\Requests\StoreBlockerRequest;
+use jeremykenedy\LaravelBlocker\App\Http\Requests\UpdateBlockerRequest;
 use jeremykenedy\LaravelBlocker\App\Models\BlockedItem;
 use jeremykenedy\LaravelBlocker\App\Models\BlockedType;
-use jeremykenedy\LaravelBlocker\App\Http\Requests\StoreBlockerRequest;
-use jeremykenedy\LaravelBlocker\App\Http\Requests\SearchBlockerRequest;
-use jeremykenedy\LaravelBlocker\App\Http\Requests\UpdateBlockerRequest;
 
 class LaravelBlockerController extends Controller
 {
@@ -24,9 +23,9 @@ class LaravelBlockerController extends Controller
      */
     public function __construct()
     {
-        $this->_authEnabled     = config('laravelblocker.authEnabled');
-        $this->_rolesEnabled    = config('laravelblocker.rolesEnabled');
-        $this->_rolesMiddlware  = config('laravelblocker.rolesMiddlware');
+        $this->_authEnabled = config('laravelblocker.authEnabled');
+        $this->_rolesEnabled = config('laravelblocker.rolesEnabled');
+        $this->_rolesMiddlware = config('laravelblocker.rolesMiddlware');
 
         if ($this->_authEnabled) {
             $this->middleware('auth');
@@ -106,18 +105,18 @@ class LaravelBlockerController extends Controller
      */
     public function edit($id)
     {
-        $blockedTypes   = BlockedType::all();
-        $users          = config('laravelblocker.defaultUserModel')::all();
-        $item           = BlockedItem::findOrFail($id);
+        $blockedTypes = BlockedType::all();
+        $users = config('laravelblocker.defaultUserModel')::all();
+        $item = BlockedItem::findOrFail($id);
 
-        return view('laravelblocker::laravelblocker.edit', compact('blockedTypes' ,'users', 'item'));
+        return view('laravelblocker::laravelblocker.edit', compact('blockedTypes', 'users', 'item'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param UpdateBlockerRequest $request
-     * @param int $id
+     * @param int                  $id
      *
      * @return \Illuminate\Http\Response
      */
@@ -158,15 +157,16 @@ class LaravelBlockerController extends Controller
     public function search(SearchBlockerRequest $request)
     {
         $searchTerm = $request->validated()['blocked_search_box'];
-        $results    = BlockedItem::where('id', 'like', $searchTerm .'%')
-                            ->orWhere('typeId', 'like', $searchTerm .'%')
-                            ->orWhere('value', 'like', $searchTerm .'%')
-                            ->orWhere('note', 'like', $searchTerm .'%')
+        $results = BlockedItem::where('id', 'like', $searchTerm.'%')
+                            ->orWhere('typeId', 'like', $searchTerm.'%')
+                            ->orWhere('value', 'like', $searchTerm.'%')
+                            ->orWhere('note', 'like', $searchTerm.'%')
                             ->orWhere('userId', 'like', $searchTerm.'%')
                             ->get();
 
         $results->map(function ($item) {
-            $item['type'] = $item->blockedType->slug ;
+            $item['type'] = $item->blockedType->slug;
+
             return $item;
         });
 

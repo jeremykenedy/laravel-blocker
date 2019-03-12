@@ -2,7 +2,6 @@
 
 namespace jeremykenedy\LaravelBlocker\Database\Seeds;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 use jeremykenedy\LaravelBlocker\App\Models\BlockedType;
 
