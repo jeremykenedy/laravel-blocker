@@ -11,16 +11,11 @@
             "Blocker"
         ],
     "license": "MIT",
+    "type": "package",
     "authors": [
         {
             "name": "Jeremy Kenedy",
             "email": "jeremykenedy@gmail.com"
-        }
-    ],
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://packagist.org/packages/jeremykenedy/laravel-blocker"
         }
     ],
     "require": {
