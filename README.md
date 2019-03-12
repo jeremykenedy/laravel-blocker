@@ -6,7 +6,7 @@
 [![StyleCI](https://github.styleci.io/repos/171390607/shield?branch=master)](https://github.styleci.io/repos/171390607)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jeremykenedy/laravel-blocker/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jeremykenedy/laravel-blocker/?branch=master)
 [![Latest Unstable Version](https://poser.pugx.org/jeremykenedy/laravel-blocker/v/unstable)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
-[![License](https://poser.pugx.org/jeremykenedy/laravelBlocker/license)](https://packagist.org/packages/jeremykenedy/laravelBlocker)
+[![License](https://poser.pugx.org/jeremykenedy/laravel-blocker/license)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
 
 - [About](#about)
 - [Features](#features)
