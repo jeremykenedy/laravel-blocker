@@ -7,7 +7,8 @@
             "laravel Email blocker",
             "Email blocker",
             "User blocker",
-            "IP blocker"
+            "IP blocker",
+            "Blocker"
         ],
     "license": "MIT",
     "authors": [
