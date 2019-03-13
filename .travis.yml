@@ -20,10 +20,17 @@ before_script:
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar install
   - composer create-project --prefer-dist laravel/laravel laravelblocker
-  - composer install
-  - php artisan key:generate
-  - php artisan make:auth
   - cp .env.travis laravelblocker/.env
   - cd laravelblocker
   - composer self-update
+  - composer install --prefer-source --no-interaction
   - composer require jeremykenedy/laravel-blocker
+  - php artisan key:generate
+  - php artisan vendor:publish --provider="jeremykenedy\LaravelBlocker\LaravelBlockerServiceProvider"
+  - php artisan make:auth
+  - composer dump-autoload
+  - php artisan clear-compiled
+  
+
+
+  
