@@ -1,4 +1,5 @@
 # LaravelBlocker
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 [![Latest Stable Version](https://poser.pugx.org/jeremykenedy/laravel-blocker/v/stable.svg)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
 [![Total Downloads](https://poser.pugx.org/jeremykenedy/laravel-blocker/d/total.svg)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
@@ -473,3 +474,15 @@ LARAVEL_BLOCKER_DEFAULT_ACTION_REDIRECT='/'
 
 ### License
 LaravelBlocker is licensed under the [MIT license](https://opensource.org/licenses/MIT). Enjoy!
+
+## Contributors
+
+Thanks goes to these wonderful people ([emoji key](https://github.com/all-contributors/all-contributors#emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+| [<img src="https://avatars0.githubusercontent.com/u/6244570?v=4" width="100px;" alt="Jeremy Kenedy"/><br /><sub><b>Jeremy Kenedy</b></sub>](http://jeremykenedy.github.io/)<br />[💻](https://github.com/jeremykenedy/laravel-blocker/commits?author=jeremykenedy "Code") |
+| :---: |
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
