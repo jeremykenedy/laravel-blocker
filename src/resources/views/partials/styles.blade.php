@@ -114,6 +114,16 @@
     #search_blocked_form {
         display: none;
     }
+    .disabled {
+        color: #dcdbdb;
+        pointer-events: none;
+        cursor: not-allowed;
+    }
+    .disabled .switch span.active {
+        color: #dcdbdb;
+        pointer-events: none;
+        cursor: not-allowed;
+    }
     @media(min-width: 576px) {
         .edit-form-delete {
             margin-top: -2.85em;

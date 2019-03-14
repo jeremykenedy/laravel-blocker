@@ -82,7 +82,7 @@
         </div>
     </div>
 
-    @include('LaravelLogger::modals.confirm-modal', [
+    @include('laravelblocker::modals.confirm-modal',[
         'formTrigger' => 'confirmDelete',
         'modalClass' => 'danger',
         'actionBtnIcon' => 'fa-trash-o'
@@ -91,6 +91,9 @@
 @endsection
 
 @section(config('laravelblocker.blockerBladePlacementJs'))
+    @if(config('laravelblocker.enablejQueryCDN'))
+        <script type="text/javascript" src="{{ config('laravelblocker.JQueryCDN') }}"></script>
+    @endif
     @if (config('laravelblocker.enabledDatatablesJs'))
         @include('laravelblocker::scripts.datatables')
     @endif
@@ -102,3 +105,6 @@
         @include('laravelblocker::scripts.search-blocked', ['searchtype' => 'normal'])
     @endif
 @endsection
+
+@yield('inline_template_linked_css')
+@yield('inline_footer_scripts')

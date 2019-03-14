@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    @include('LaravelLogger::modals.confirm-modal', [
+    @include('laravelblocker::modals.confirm-modal',[
         'formTrigger' => 'confirmDelete',
         'modalClass' => 'danger',
         'actionBtnIcon' => 'fa-trash-o'
@@ -66,9 +66,15 @@
 @endsection
 
 @section(config('laravelblocker.blockerBladePlacementJs'))
+    @if(config('laravelblocker.enablejQueryCDN'))
+        <script type="text/javascript" src="{{ config('laravelblocker.JQueryCDN') }}"></script>
+    @endif
     @include('laravelblocker::scripts.confirm-modal', ['formTrigger' => '#confirmDelete'])
     @if(config('laravelblocker.tooltipsEnabled'))
         @include('laravelblocker::scripts.tooltips')
     @endif
     @include('laravelblocker::scripts.blocked-form')
 @endsection
+
+@yield('inline_template_linked_css')
+@yield('inline_footer_scripts')

@@ -5,10 +5,8 @@ group: edge
 
 php:
   - 7.0
-  - 7.1
   - 7.2
   - 7.3
-  - nightly
 
 sudo: false
 
@@ -28,7 +26,6 @@ before_script:
   - php artisan key:generate
   - php artisan vendor:publish --provider="jeremykenedy\LaravelBlocker\LaravelBlockerServiceProvider"
   - php artisan make:auth
-  - php artisan migrate
   - composer dump-autoload
   - php artisan clear-compiled
-  - php artisan db:seed
+  

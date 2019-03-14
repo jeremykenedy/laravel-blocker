@@ -7,19 +7,15 @@
             "laravel Email blocker",
             "Email blocker",
             "User blocker",
-            "IP blocker"
+            "IP blocker",
+            "Blocker"
         ],
     "license": "MIT",
+    "type": "package",
     "authors": [
         {
             "name": "Jeremy Kenedy",
             "email": "jeremykenedy@gmail.com"
-        }
-    ],
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://packagist.org/packages/jeremykenedy/laravel-blocker"
         }
     ],
     "require": {

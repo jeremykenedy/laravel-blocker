@@ -1,3 +1,7 @@
+@if(config('laravelblocker.jQueryIpMaskEnabled'))
+    <script src="{{ config('laravelblocker.jQueryIpMaskCDN') }}"></script>
+@endif
+
 <script>
     $(function() {
         var blockedType = $('#typeId');
@@ -32,9 +36,11 @@
             blockerUserLabel2.addClass(disabledClass);
         };
 
+        {{--
         @if(config('laravelblocker.jQueryIpMaskEnabled'))
             blockedValue.unmask();
         @endif
+        --}}
 
         if (type == 'user') {
             blockedValue.addClass(disabledClass).val('');
@@ -48,6 +54,7 @@
             blockerUserLabel2.removeClass(disabledClass);
         };
 
+        {{--
         @if(config('laravelblocker.jQueryIpMaskEnabled'))
             if (type == 'ipAddress') {
                 blockedValue.mask('0ZZ.0ZZ.0ZZ.0ZZ', {
@@ -60,6 +67,7 @@
                 });
             };
         @endif
+        --}}
     }
 
     function checkBlockedUser(blockedUser, blockedValue) {
@@ -68,7 +76,3 @@
     }
 
 </script>
-
-@if(config('laravelblocker.jQueryIpMaskEnabled'))
-    <script src="{{ config('laravelblocker.jQueryIpMaskCDN') }}"></script>
-@endif

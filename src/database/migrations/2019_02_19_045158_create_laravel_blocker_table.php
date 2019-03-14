@@ -31,7 +31,7 @@ class CreateLaravelBlockerTable extends Migration
                 $table->string('value')->unique();
                 $table->longText('note')->nullable();
                 $table->integer('userId')->unsigned()->index()->nullable();
-                $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');
+                // $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');
                 $table->timestamps();
                 $table->softDeletes();
             });
