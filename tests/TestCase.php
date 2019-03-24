@@ -2,7 +2,6 @@
 
 namespace jeremykenedy\LaravelBlocker\Test;
 
-use jeremykenedy\LaravelBlocker\LaravelBlockerFacade;
 use jeremykenedy\LaravelBlocker\LaravelBlockerServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
