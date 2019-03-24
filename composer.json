@@ -19,7 +19,7 @@
         }
     ],
     "require": {
-        "php": ">=7.0.0",
+        "php": ">=7.1.3",
         "eklundkristoffer/seedster": "^3.0",
         "laravelcollective/html": "^5.8"
     },
