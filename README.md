@@ -4,6 +4,7 @@
 [![Total Downloads](https://poser.pugx.org/jeremykenedy/laravel-blocker/d/total.svg)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
 [![Travis-CI Build](https://travis-ci.org/jeremykenedy/laravel-blocker.svg?branch=master)](https://travis-ci.org/jeremykenedy/laravel-blocker)
 [![StyleCI](https://github.styleci.io/repos/171390607/shield?branch=master)](https://github.styleci.io/repos/171390607)
+[![Scrutinizer Build Status](https://scrutinizer-ci.com/g/jeremykenedy/laravel-blocker/badges/build.png?b=master)](https://scrutinizer-ci.com/g/jeremykenedy/laravel-blocker/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jeremykenedy/laravel-blocker/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jeremykenedy/laravel-blocker/?branch=master)
 [![Latest Unstable Version](https://poser.pugx.org/jeremykenedy/laravel-blocker/v/unstable)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
