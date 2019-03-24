@@ -7,8 +7,8 @@
 [![Scrutinizer Build Status](https://scrutinizer-ci.com/g/jeremykenedy/laravel-blocker/badges/build.png?b=master)](https://scrutinizer-ci.com/g/jeremykenedy/laravel-blocker/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jeremykenedy/laravel-blocker/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jeremykenedy/laravel-blocker/?branch=master)
 [![Latest Unstable Version](https://poser.pugx.org/jeremykenedy/laravel-blocker/v/unstable)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 [![License](https://poser.pugx.org/jeremykenedy/laravel-blocker/license)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 <a href="https://www.patreon.com/bePatron?u=10119959" title="Become a Patreon">
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patreon" width="85px" > 
 </a>
