@@ -9,7 +9,11 @@
 [![Latest Unstable Version](https://poser.pugx.org/jeremykenedy/laravel-blocker/v/unstable)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 [![License](https://poser.pugx.org/jeremykenedy/laravel-blocker/license)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
+<a href="https://www.patreon.com/bePatron?u=10119959" title="Become a Patreon">
+    <img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patreon" width="85px" > 
+</a>
 
+#### Table of contents
 - [About](#about)
 - [Features](#features)
 - [Requirements](#requirements)
