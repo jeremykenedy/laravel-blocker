@@ -1,4 +1,4 @@
-# LaravelBlocker
+# Laravel Blocker
 
 [![Latest Stable Version](https://poser.pugx.org/jeremykenedy/laravel-blocker/v/stable.svg)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
 [![Total Downloads](https://poser.pugx.org/jeremykenedy/laravel-blocker/d/total.svg)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
@@ -25,7 +25,7 @@
 - [License](#license)
 
 ### About
-Larave Blocker (LaravelBlocker) is a middleware interface to block users, emails, ip addresses, domain names, cities, states, countries, continents, and regions from using your application, logging in, or registering. The types of items to be blocked can be extended to what you think via a seed. The items you are blocking have a CRUD interface along with a softdeletes interface.
+Laravel Blocker (LaravelBlocker) is a middleware interface to block users, emails, ip addresses, domain names, cities, states, countries, continents, and regions from using your application, logging in, or registering. The types of items to be blocked can be extended to what you think via a seed. The items you are blocking have a CRUD interface along with a softdeletes interface.
 
 Can work out the box with or without the following roles packages:
 * [jeremykenedy/laravel-roles](https://github.com/jeremykenedy/laravel-roles)
@@ -62,9 +62,19 @@ Can work out the box with or without the following roles packages:
 
 ### Installation Instructions
 1. From your projects root folder in terminal run:
-```bash
-    composer require jeremykenedy/laravel-blocker
-```
+
+    Laravel 5.8+ use:
+
+    ```bash
+        composer require jeremykenedy/laravel-blocker
+    ```
+
+    Laravel 5.7 and below use:
+
+    ```
+        composer require jeremykenedy/laravel-blocker:v1.0.6
+    ```
+
 
 2. Register the package
 
@@ -384,10 +394,14 @@ LARAVEL_BLOCKER_DEFAULT_ACTION_REDIRECT='/'
 
 ### File Tree
 ```bash
+├── .all-contributorsrc
+├── .env.travis
 ├── .gitignore
+├── .travis.yml
 ├── LICENSE
 ├── README.md
 ├── composer.json
+├── phpunit.xml
 └── src
     ├── App
     │   ├── Http
