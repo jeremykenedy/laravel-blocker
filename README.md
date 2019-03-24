@@ -494,8 +494,7 @@ LARAVEL_BLOCKER_DEFAULT_ACTION_REDIRECT='/'
 ### License
 LaravelBlocker is licensed under the [MIT license](https://opensource.org/licenses/MIT). Enjoy!
 
-## Contributors
-
+### Contributors
 Thanks goes to these wonderful people ([emoji key](https://github.com/all-contributors/all-contributors#emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
