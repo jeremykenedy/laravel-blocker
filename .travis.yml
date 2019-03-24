@@ -30,5 +30,3 @@ before_script:
   - php artisan clear-compiled
   - sudo chgrp -R www-data storage bootstrap/cache
   - sudo chmod -R ug+rwx storage bootstrap/cache
-  - php artisan migrate
-  - php artisan db:seed
