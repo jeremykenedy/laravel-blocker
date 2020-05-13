@@ -6,7 +6,6 @@
 [![StyleCI](https://github.styleci.io/repos/171390607/shield?branch=master)](https://github.styleci.io/repos/171390607)
 [![Scrutinizer Build Status](https://scrutinizer-ci.com/g/jeremykenedy/laravel-blocker/badges/build.png?b=master)](https://scrutinizer-ci.com/g/jeremykenedy/laravel-blocker/build-status/master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jeremykenedy/laravel-blocker/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jeremykenedy/laravel-blocker/?branch=master)
-(https://packagist.org/packages/jeremykenedy/laravel-blocker)
 [![License](https://poser.pugx.org/jeremykenedy/laravel-blocker/license)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 <a href="https://www.patreon.com/bePatron?u=10119959" title="Become a Patreon">
