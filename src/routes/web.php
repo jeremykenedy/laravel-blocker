@@ -7,10 +7,10 @@
 |
 */
 Route::group([
-        'middleware'    => ['web', 'checkblocked'],
-        'as'            => 'laravelblocker::',
-        'namespace'     => 'jeremykenedy\LaravelBlocker\App\Http\Controllers',
-    ], function () {
+    'middleware'    => ['web', 'checkblocked'],
+    'as'            => 'laravelblocker::',
+    'namespace'     => 'jeremykenedy\LaravelBlocker\App\Http\Controllers',
+], function () {
 
     // Blocker
         Route::resource('blocker', 'LaravelBlockerController');
