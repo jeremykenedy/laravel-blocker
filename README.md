@@ -1,3 +1,5 @@
+![Laravel Blocker](https://github-project-images.s3-us-west-2.amazonaws.com/laravel-blocker/laravel-blocker-logo.png)
+
 # Laravel Blocker
 
 [![Latest Stable Version](https://poser.pugx.org/jeremykenedy/laravel-blocker/v/stable.svg)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
@@ -12,8 +14,9 @@
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patreon" width="85px" > 
 </a>
 
+Laravel Blocker (LaravelBlocker) is a middleware interface to block users, emails, ip addresses, domain names, cities, states, countries, continents, and regions from using your application, logging in, or registering. The types of items to be blocked can be extended to what you think via a seed. The items you are blocking have a CRUD interface along with a softdeletes interface.
+
 #### Table of contents
-- [About](#about)
 - [Features](#features)
 - [Requirements](#requirements)
     - [Required Packages](#required-packages)
@@ -27,9 +30,6 @@
 - [Screenshots](#screenshots)
 - [File Tree](#file-tree)
 - [License](#license)
-
-### About
-Laravel Blocker (LaravelBlocker) is a middleware interface to block users, emails, ip addresses, domain names, cities, states, countries, continents, and regions from using your application, logging in, or registering. The types of items to be blocked can be extended to what you think via a seed. The items you are blocking have a CRUD interface along with a softdeletes interface.
 
 Can work out the box with or without the following roles packages:
 * [jeremykenedy/laravel-roles](https://github.com/jeremykenedy/laravel-roles)
