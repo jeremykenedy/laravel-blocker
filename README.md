@@ -1,4 +1,4 @@
-![Laravel Blocker](https://github-project-images.s3-us-west-2.amazonaws.com/laravel-blocker/laravel-blocker-logo.png)
+
 
 # Laravel Blocker
 
