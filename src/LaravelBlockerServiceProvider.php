@@ -106,7 +106,7 @@ class LaravelBlockerServiceProvider extends ServiceProvider
         ], $publishTag.'-config');
 
         $this->publishes([
-            __DIR__.'/resources/views' => base_path('resources/views/vendor/'),
+            __DIR__.'/resources/views' => base_path('resources/views/vendor/'.$this->_packageTag),
         ], $publishTag.'-views');
 
         $this->publishes([
