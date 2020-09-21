@@ -19,9 +19,9 @@
         }
     ],
     "require": {
-        "php": "^7.2",
-        "eklundkristoffer/seedster": "^3.3",
-        "laravelcollective/html": "^6.0"
+        "php": "^7.3",
+        "eklundkristoffer/seedster": "^4.0",
+        "laravelcollective/html": "^6.2"
     },
     "autoload": {
         "psr-4": {
