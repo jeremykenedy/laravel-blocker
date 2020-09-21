@@ -1,6 +1,6 @@
 <?php
 
-namespace jeremykenedy\LaravelBlocker\Database\Seeds;
+namespace jeremykenedy\LaravelBlocker\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use jeremykenedy\LaravelBlocker\App\Models\BlockedItem;

@@ -1,11 +1,11 @@
 <?php
 
-namespace jeremykenedy\LaravelBlocker\Database\Seeds;
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use jeremykenedy\LaravelBlocker\App\Models\BlockedType;
 
-class DefaultBlockedTypeTableSeeder extends Seeder
+class BlockedTypeTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -65,17 +65,19 @@ class DefaultBlockedTypeTableSeeder extends Seeder
          * Add Blocked Types
          *
          */
-        foreach ($BlockedTypes as $BlockedType) {
-            $newBlockedType = BlockedType::where('slug', '=', $BlockedType['slug'])
-                ->withTrashed()
-                ->first();
-            if ($newBlockedType === null) {
-                $newBlockedType = BlockedType::create([
-                    'slug' => $BlockedType['slug'],
-                    'name' => $BlockedType['name'],
-                ]);
+        if (config('laravelblocker.seedPublishedBlockedTypes')) {
+            foreach ($BlockedTypes as $BlockedType) {
+                $newBlockedType = BlockedType::where('slug', '=', $BlockedType['slug'])
+                    ->withTrashed()
+                    ->first();
+                if ($newBlockedType === null) {
+                    $newBlockedType = BlockedType::create([
+                        'slug' => $BlockedType['slug'],
+                        'name' => $BlockedType['name'],
+                    ]);
+                }
             }
         }
-        echo "\e[32mSeeding:\e[0m DefaultBlockedTypeTableSeeder\r\n";
+        echo "\e[32mSeeding:\e[0m BlockedTypeTableSeeder\r\n";
     }
 }

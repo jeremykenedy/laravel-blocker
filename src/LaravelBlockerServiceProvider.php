@@ -5,8 +5,8 @@ namespace jeremykenedy\LaravelBlocker;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use jeremykenedy\LaravelBlocker\App\Http\Middleware\LaravelBlocker;
-use jeremykenedy\LaravelBlocker\Database\Seeds\DefaultBlockedItemsTableSeeder;
-use jeremykenedy\LaravelBlocker\Database\Seeds\DefaultBlockedTypeTableSeeder;
+use jeremykenedy\LaravelBlocker\Database\Seeders\DefaultBlockedItemsTableSeeder;
+use jeremykenedy\LaravelBlocker\Database\Seeders\DefaultBlockedTypeTableSeeder;
 
 class LaravelBlockerServiceProvider extends ServiceProvider
 {
@@ -81,13 +81,13 @@ class LaravelBlockerServiceProvider extends ServiceProvider
 
         if (config('laravelblocker.useSeededBlockedTypes')) {
             $this->app['seed.handler']->register(
-                \Database\Seeds\BlockedTypeTableSeeder::class
+                \Database\Seeders\BlockedTypeTableSeeder::class
             );
         }
 
         if (config('laravelblocker.useSeededBlockedItems')) {
             $this->app['seed.handler']->register(
-                \Database\Seeds\BlockedItemsTableSeeder::class
+                \Database\Seeders\BlockedItemsTableSeeder::class
             );
         }
     }
