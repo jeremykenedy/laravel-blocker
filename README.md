@@ -57,7 +57,7 @@ Can work out the box with or without the following roles packages:
 |Configurable blocked action|
 
 ### Requirements
-* [Laravel 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 6.0+](https://laravel.com/docs/installation)
+* [Laravel 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 6.0+, 7.0+, and 8.0+](https://laravel.com/docs/installation)
 
 #### Required Packages
 (included in this package)
