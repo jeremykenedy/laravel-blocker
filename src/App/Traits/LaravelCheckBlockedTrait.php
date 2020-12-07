@@ -136,11 +136,15 @@ trait LaravelCheckBlockedTrait
      */
     private static function checkedBlockedList($checkAgainst, $blocked)
     {
-        $blockedItems = BlockedItem::all();
+        static $blockedItems = null;
+        if ($blockedItems === null) {
+            $blockedItems = BlockedItem::all();
+        }
 
-        foreach ($blockedItems as $blockedItems) {
-            if ($blockedItems->value == $checkAgainst) {
+        foreach ($blockedItems as $blockedItem) {
+            if ($blockedItem->value == $checkAgainst) {
                 $blocked = true;
+                break;
             }
         }
 
