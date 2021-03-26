@@ -91,7 +91,7 @@ Register the package with laravel in `config/app.php` under `providers` with the
 ```php
     'providers' => [
         Collective\Html\HtmlServiceProvider::class,
-        jeremykenedy\LaravelBlocker\LaravelBlockerServiceProvider::class,,
+        jeremykenedy\LaravelBlocker\LaravelBlockerServiceProvider::class,
     ];
 ```
 
