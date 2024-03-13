@@ -1,7 +1,7 @@
 @extends(config('laravelblocker.laravelBlockerBladeExtended'))
 
 @section(config('laravelblocker.laravelBlockerTitleExtended'))
-    {!! trans('laravelblocker::laravelblocker.titles.show-blocked') !!}
+    {{ trans('laravelblocker::laravelblocker.titles.show-blocked') }}
 @endsection
 
 @php
@@ -17,15 +17,15 @@
             $containerHeaderClass = 'panel-heading';
             $containerBodyClass = 'panel-body';
     }
-    $blockerBootstrapCardClasses = (is_null(config('laravelblocker.blockerBootstrapCardClasses')) ? '' : config('laravelblocker.blockerBootstrapCardClasses'));
+    $blockerBootstrapCardClasses = config('laravelblocker.blockerBootstrapCardClasses') ?? '';
 @endphp
 
 @section(config('laravelblocker.blockerBladePlacementCss'))
     @if(config('laravelblocker.enabledDatatablesJs'))
-        <link rel="stylesheet" type="text/css" href="{{ config('laravelblocker.datatablesCssCDN') }}">
+        <link rel="stylesheet" href="{{ config('laravelblocker.datatablesCssCDN') }}">
     @endif
     @if(config('laravelblocker.blockerEnableFontAwesomeCDN'))
-        <link rel="stylesheet" type="text/css" href="{{ config('laravelblocker.blockerFontAwesomeCDN') }}">
+        <link rel="stylesheet" href="{{ config('laravelblocker.blockerFontAwesomeCDN') }}">
     @endif
     @include('laravelblocker::partials.styles')
     @include('laravelblocker::partials.bs-visibility-css')
@@ -42,19 +42,19 @@
                     <div class="{{ $containerHeaderClass }}">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="card_title">
-                                {!! trans('laravelblocker::laravelblocker.blocked-items-deleted-title') !!}
+                                {{ trans('laravelblocker::laravelblocker.blocked-items-deleted-title') }}
                             </span>
                             <div class="btn-group pull-right btn-group-xs">
                                 <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="fa fa-ellipsis-v fa-fw" aria-hidden="true"></i>
                                     <span class="sr-only">
-                                        {!! trans('laravelblocker::laravelblocker.users-menu-alt') !!}
+                                        {{ trans('laravelblocker::laravelblocker.users-menu-alt') }}
                                     </span>
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a href="{{ url('blocker') }}" class="dropdown-item">
                                         <i class="fa fa-fw fa-reply" aria-hidden="true"></i>
-                                        {!! trans('laravelblocker::laravelblocker.buttons.back-to-blocked') !!}
+                                        {{ trans('laravelblocker::laravelblocker.buttons.back-to-blocked') }}
                                     </a>
                                     @if($blocked->count() > 0)
                                         @include('laravelblocker::forms.destroy-all')
@@ -91,7 +91,7 @@
 
 @section(config('laravelblocker.blockerBladePlacementJs'))
     @if(config('laravelblocker.enablejQueryCDN'))
-        <script type="text/javascript" src="{{ config('laravelblocker.JQueryCDN') }}"></script>
+        <script src="{{ config('laravelblocker.JQueryCDN') }}"></script>
     @endif
     @if (config('laravelblocker.enabledDatatablesJs'))
         @include('laravelblocker::scripts.datatables')
