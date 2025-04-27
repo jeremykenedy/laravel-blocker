@@ -1,12 +1,8 @@
 <div class="form-group has-feedback row">
-    {!! Form::label('value', trans('laravelblocker::laravelblocker.forms.blockedValueLabel'), array('class' => 'col-md-3 control-label', 'id' => 'blockerValueLabel1')); !!}
+    <label for="value" class="col-md-3 control-label" id="blockerValueLabel1">{{ trans('laravelblocker::laravelblocker.forms.blockedValueLabel') }}</label>
     <div class="col-md-9">
         <div class="input-group">
-            @isset($item)
-                {!! Form::text('value', $item->value, array('id' => 'value', 'class' => $errors->has('value') ? 'form-control is-invalid ' : 'form-control', 'placeholder' => trans('laravelblocker::laravelblocker.forms.blockedValuePH'))) !!}
-            @else
-                {!! Form::text('value', NULL, array('id' => 'value', 'class' => $errors->has('value') ? 'form-control is-invalid ' : 'form-control', 'placeholder' => trans('laravelblocker::laravelblocker.forms.blockedValuePH'))) !!}
-            @endisset
+            <input type="text" name="value" id="value" class="{{ $errors->has('value') ? 'form-control is-invalid' : 'form-control' }}" placeholder="{{ trans('laravelblocker::laravelblocker.forms.blockedValuePH') }}" value="@isset($item){{ $item->value }}@endisset">
             <div class="input-group-append">
                 <label class="input-group-text" for="value" id="blockerValueLabel2">
                     <i class="fa fa-fw fa-key fa-rotate-90" aria-hidden="true"></i>

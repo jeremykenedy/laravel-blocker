@@ -1,21 +1,26 @@
 <div class="form-group has-feedback row">
-    {!! Form::label('note', trans('laravelblocker::laravelblocker.forms.blockedNoteLabel'), array('class' => 'col-md-3 control-label')); !!}
+    <label for="userId" class="col-md-3 control-label disabled" id="blockerUserLabel1">{{ trans('laravelblocker::laravelblocker.forms.blockedUserLabel') }}</label>
     <div class="col-md-9">
         <div class="input-group">
-            @isset($item)
-                {!! Form::textarea('note', $item->note, array('id' => 'note', 'class' => $errors->has('note') ? 'form-control is-invalid ' : 'form-control', 'placeholder' => trans('laravelblocker::laravelblocker.forms.blockedNotePH'))) !!}
-            @else
-                {!! Form::textarea('note', NULL, array('id' => 'note', 'class' => $errors->has('note') ? 'form-control is-invalid ' : 'form-control', 'placeholder' => trans('laravelblocker::laravelblocker.forms.blockedNotePH'))) !!}
-            @endisset
+            <select class="{{ $errors->has('userId') ? 'custom-select form-control is-invalid disabled' : 'custom-select form-control disabled' }}" name="userId" id="userId">
+                <option value="">{{ trans('laravelblocker::laravelblocker.forms.blockedUserSelect') }}</option>
+                @if($users)
+                    @foreach($users as $aUser)
+                        <option value="{{ $aUser->id }}" data-email="{{ $aUser->email }}" @isset($item->userId) @if($item->userId == $aUser->id) selected @endif @endisset>
+                            {{ $aUser->name }}
+                        </option>
+                    @endforeach
+                @endif
+            </select>
             <div class="input-group-append">
-                <label class="input-group-text" for="note">
-                    <i class="fa fa-fw fa-pencil" aria-hidden="true"></i>
+                <label class="input-group-text disabled" for="userId" id="blockerUserLabel2">
+                    <i class="fa fas fa-fw fa-shield" aria-hidden="true"></i>
                 </label>
             </div>
         </div>
-        @if ($errors->has('note'))
+        @if ($errors->has('userId'))
             <span class="help-block">
-                <strong>{{ $errors->first('note') }}</strong>
+                <strong>{{ $errors->first('userId') }}</strong>
             </span>
         @endif
     </div>

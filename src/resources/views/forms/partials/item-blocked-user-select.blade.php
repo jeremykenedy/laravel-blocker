@@ -1,5 +1,5 @@
 <div class="form-group has-feedback row">
-    {!! Form::label('userId', trans('laravelblocker::laravelblocker.forms.blockedUserLabel'), array('class' => 'col-md-3 control-label disabled', 'id' => 'blockerUserLabel1')); !!}
+    <label for="userId" class="col-md-3 control-label disabled" id="blockerUserLabel1">{{ trans('laravelblocker::laravelblocker.forms.blockedUserLabel') }}</label>
     <div class="col-md-9">
         <div class="input-group">
             <select class="{{ $errors->has('userId') ? 'custom-select form-control is-invalid disabled' : 'custom-select form-control disabled' }}" name="userId" id="userId">
@@ -8,7 +8,7 @@
                 </option>
                 @if($users)
                     @foreach($users as $aUser)
-                        <option value="{{ $aUser->id }}" data-email="{{ $aUser->email }}" @isset($item->userId) {{ $item->userId == $aUser->id ? 'selected="selected"' : '' }} @endisset >
+                        <option value="{{ $aUser->id }}" data-email="{{ $aUser->email }}" @isset($item->userId) @if($item->userId == $aUser->id) selected="selected" @endif @endisset>
                             {{ $aUser->name }}
                         </option>
                     @endforeach
