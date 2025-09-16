@@ -15,21 +15,18 @@
     @endphp
 @endif
 
-{!! Form::open([
-    'route' => ['laravelblocker::blocker-item-restore', $itemId],
-    'method' => 'PUT',
-    'accept-charset' => 'UTF-8',
-    'data-toggle' => 'tooltip',
-    'title' => trans("laravelblocker::laravelblocker.tooltips.restoreItem")
-]) !!}
-    {!! Form::hidden("_method", "PUT") !!}
-    {!! csrf_field() !!}
-    {!! Form::button($itemText, [
-            'type' => 'button',
-            'class' => $itemClasses,
-            'data-toggle' => 'modal',
-            'data-target' => '#confirmRestore',
-            'data-title' => trans('laravelblocker::laravelblocker.modals.resotreBlockedItemTitle'),
-            'data-message' => trans('laravelblocker::laravelblocker.modals.resotreBlockedItemMessage', ['value' => $itemValue])
-        ]) !!}
-{!! Form::close() !!}
+{{ html()->form('POST', route('laravelblocker::blocker-item-restore', $itemId))
+        ->attribute('accept-charset', 'UTF-8')
+        ->attribute('data-toggle', 'tooltip')
+        ->attribute('title', trans('laravelblocker::laravelblocker.tooltips.restoreItem'))
+        ->open() }}
+    @csrf
+    @method('PUT')
+    {{ html()->button($itemText)
+            ->type('button')
+            ->class($itemClasses)
+            ->attribute('data-toggle', 'modal')
+            ->attribute('data-target', '#confirmRestore')
+            ->attribute('data-title', trans('laravelblocker::laravelblocker.modals.resotreBlockedItemTitle'))
+            ->attribute('data-message', trans('laravelblocker::laravelblocker.modals.resotreBlockedItemMessage', ['value' => $itemValue])) }}
+{{ html()->form()->close() }}

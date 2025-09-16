@@ -47,7 +47,7 @@ Can work out the box with or without the following roles packages:
 |Seeded blocked types with ability to add own published seeds|
 |Seeded blocked items with ability to add own published seeds|
 |Softdeletes with easy to use restore and destroy interface|
-|Uses [laravelcollective/html](https://github.com/LaravelCollective/html) package for secure HTML forms|
+|Uses [spatie/laravel-html](https://github.com/spatie/laravel-html) package for secure HTML forms|
 |Uses [eklundkristoffer/seedster](https://github.com/eklundkristoffer/seedster) for optional default seeds|
 |Makes use of proper custom request classes structure|
 |Can use pagination if desired for dashboards|
@@ -61,7 +61,7 @@ Can work out the box with or without the following roles packages:
 
 #### Required Packages
 (included in this package)
-* [laravelcollective/html](https://packagist.org/packages/laravelcollective/html)
+* [spatie/laravel-html](https://packagist.org/packages/spatie/laravel-html)
 * [eklundkristoffer/seedster](https://github.com/eklundkristoffer/seedster)
 
 ### Installation Instructions
@@ -90,7 +90,7 @@ Register the package with laravel in `config/app.php` under `providers` with the
 
 ```php
     'providers' => [
-        Collective\Html\HtmlServiceProvider::class,
+        Spatie\Html\HtmlServiceProvider::class,
         jeremykenedy\LaravelBlocker\LaravelBlockerServiceProvider::class,
     ];
 ```
@@ -98,8 +98,7 @@ Register the package with laravel in `config/app.php` under `providers` with the
 In `config/app.php` section under `aliases` with the following:
 
 ```php
-    'Form' => Collective\Html\FormFacade::class,
-    'Html' => Collective\Html\HtmlFacade::class,
+    'Html' => Spatie\Html\HtmlFacade::class,
 ```
 
 3. Publish the packages views, config file, assets, and language files by running the following from your projects root folder:

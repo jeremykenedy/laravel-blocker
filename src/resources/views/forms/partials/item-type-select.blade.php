@@ -1,5 +1,5 @@
 <div class="form-group has-feedback row">
-    {!! Form::label('typeId', trans('laravelblocker::laravelblocker.forms.blockedTypeLabel'), array('class' => 'col-md-3 control-label')); !!}
+    {{ html()->label('typeId', trans('laravelblocker::laravelblocker.forms.blockedTypeLabel'))->class('col-md-3 control-label') }}
     <div class="col-md-9">
         <div class="input-group">
             <select class="{{ $errors->has('typeId') ? 'custom-select form-control is-invalid ' : 'custom-select form-control' }}" name="typeId" id="typeId" >

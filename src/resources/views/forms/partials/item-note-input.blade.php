@@ -1,11 +1,18 @@
 <div class="form-group has-feedback row">
-    {!! Form::label('note', trans('laravelblocker::laravelblocker.forms.blockedNoteLabel'), array('class' => 'col-md-3 control-label')); !!}
+    {{ html()->label('note', trans('laravelblocker::laravelblocker.forms.blockedNoteLabel'))->class('col-md-3 control-label') }}
     <div class="col-md-9">
         <div class="input-group">
+            @php($noteInputClass = $errors->has('note') ? 'form-control is-invalid' : 'form-control')
             @isset($item)
-                {!! Form::textarea('note', $item->note, array('id' => 'note', 'class' => $errors->has('note') ? 'form-control is-invalid ' : 'form-control', 'placeholder' => trans('laravelblocker::laravelblocker.forms.blockedNotePH'))) !!}
+                {{ html()->textarea('note', old('note', $item->note))
+                        ->id('note')
+                        ->class($noteInputClass)
+                        ->attribute('placeholder', trans('laravelblocker::laravelblocker.forms.blockedNotePH')) }}
             @else
-                {!! Form::textarea('note', NULL, array('id' => 'note', 'class' => $errors->has('note') ? 'form-control is-invalid ' : 'form-control', 'placeholder' => trans('laravelblocker::laravelblocker.forms.blockedNotePH'))) !!}
+                {{ html()->textarea('note', old('note'))
+                        ->id('note')
+                        ->class($noteInputClass)
+                        ->attribute('placeholder', trans('laravelblocker::laravelblocker.forms.blockedNotePH')) }}
             @endisset
             <div class="input-group-append">
                 <label class="input-group-text" for="note">
