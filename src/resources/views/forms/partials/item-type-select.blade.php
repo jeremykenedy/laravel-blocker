@@ -6,9 +6,10 @@
                 <option value="">
                     {{ trans('laravelblocker::laravelblocker.forms.blockedTypeSelect') }}
                 </option>
+                @php($oldValue = old('typeId', isset($item) ? $item->typeId : ''))
                 @if($blockedTypes)
                     @foreach($blockedTypes as $blockedType)
-                        <option value="{{ $blockedType->id }}" data-type="{{ $blockedType->slug }}" @isset($item) {{ $item->typeId == $blockedType->id ? 'selected="selected"' : '' }} @endisset >
+                        <option value="{{ $blockedType->id }}" data-type="{{ $blockedType->slug }}" {{ $oldValue == $blockedType->id ? 'selected' : '' }} >
                             {{ $blockedType->name }}
                         </option>
                     @endforeach

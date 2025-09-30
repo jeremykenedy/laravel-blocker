@@ -6,9 +6,10 @@
                 <option value="">
                     {{ trans('laravelblocker::laravelblocker.forms.blockedUserSelect') }}
                 </option>
+                @php($oldValue = old('userId', isset($item) ? $item->userId : ''))
                 @if($users)
                     @foreach($users as $aUser)
-                        <option value="{{ $aUser->id }}" data-email="{{ $aUser->email }}" @isset($item->userId) {{ $item->userId == $aUser->id ? 'selected="selected"' : '' }} @endisset >
+                        <option value="{{ $aUser->id }}" data-email="{{ $aUser->email }}" {{ $oldValue == $aUser->id ? 'selected' : '' }} >
                             {{ $aUser->name }}
                         </option>
                     @endforeach
