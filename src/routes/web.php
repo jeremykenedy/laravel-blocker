@@ -13,7 +13,6 @@ Route::group([
     'as'            => 'laravelblocker::',
     'namespace'     => 'jeremykenedy\LaravelBlocker\App\Http\Controllers',
 ], function () {
-
     // Blocker
     Route::resource('blocker', 'LaravelBlockerController');
 
