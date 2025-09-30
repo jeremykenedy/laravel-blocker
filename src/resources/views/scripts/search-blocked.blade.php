@@ -55,12 +55,12 @@
 
 
                             @if($searchtype == 'normal')
-                                var showCellHtml = '<a class="btn btn-sm btn-success btn-block" href="blocker/' + val.id + '" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.show") }}">{!! trans("laravelblocker::laravelblocker.buttons.show") !!}</a>';
-                                var editCellHtml = '<a class="btn btn-sm btn-info btn-block" href="blocker/' + val.id + '/edit" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.edit") }}">{!! trans("laravelblocker::laravelblocker.buttons.edit") !!}</a>';
+                                var showCellHtml = '<a class="btn btn-sm btn-info btn-block text-white" href="blocker/' + val.id + '" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.show") }}">{!! trans("laravelblocker::laravelblocker.buttons.show") !!}</a>';
+                                var editCellHtml = '<a class="btn btn-sm btn-warning btn-block text-white" href="blocker/' + val.id + '/edit" data-toggle="tooltip" title="{{ trans("laravelblocker::laravelblocker.tooltips.edit") }}">{!! trans("laravelblocker::laravelblocker.buttons.edit") !!}</a>';
                                 var deleteCellHtml = '<form method="POST" action="/blocker/'+ val.id +'" accept-charset="UTF-8" data-toggle="tooltip" title="Delete Blocked Item">' +
                                         '{{ html()->hidden("_method", "DELETE") }}' +
                                         '{{ csrf_field() }}' +
-                                        '<button class="btn btn-danger btn-sm" type="button" style="width: 100%;" data-toggle="modal" data-target="#confirmDelete" data-title="Delete Blocked Item" data-message="{!! trans("laravelblocker::laravelblocker.modals.delete_blocked_message", ["blocked" => "'+val.name+'"]) !!}">' +
+                                        '<button class="btn btn-danger btn-sm btn-block" type="button" style="width: 100%;" data-toggle="modal" data-target="#confirmDelete" data-title="Delete Blocked Item" data-message="{!! trans("laravelblocker::laravelblocker.modals.delete_blocked_message", ["blocked" => "'+val.name+'"]) !!}">' +
                                             '{!! trans("laravelblocker::laravelblocker.buttons.delete") !!}' +
                                         '</button>' +
                                     '</form>';
