@@ -119,7 +119,7 @@ class LaravelBlockerServiceProvider extends ServiceProvider
         ], $publishTag.'-migrations');
 
         $this->publishes([
-            __DIR__.'/database/seeders/publish' => database_path('seeds'),
-        ], $publishTag.'-seeds');
+            __DIR__.'/database/seeders/publish' => database_path('seeders'),
+        ], $publishTag.'-seeders');
     }
 }

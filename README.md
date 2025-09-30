@@ -114,7 +114,7 @@ In `config/app.php` section under `aliases` with the following:
     php artisan vendor:publish --tag=laravelblocker-views
     php artisan vendor:publish --tag=laravelblocker-lang
     php artisan vendor:publish --tag=laravelblocker-migrations
-    php artisan vendor:publish --tag=laravelblocker-seeds
+    php artisan vendor:publish --tag=laravelblocker-seeders
 ```
 
 ### Usage
