@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Laravel Blocker Web Routes
@@ -11,7 +13,6 @@ Route::group([
     'as'            => 'laravelblocker::',
     'namespace'     => 'jeremykenedy\LaravelBlocker\App\Http\Controllers',
 ], function () {
-
     // Blocker
     Route::resource('blocker', 'LaravelBlockerController');
 

@@ -21,7 +21,11 @@
     "require": {
         "php": "^7.3|^8.0",
         "eklundkristoffer/seedster": "^7.0|^8.0|^9.0",
-        "laravelcollective/html": "^6.4"
+        "spatie/laravel-html": "^2.0|^3.0"
+    },
+    "require-dev": {
+        "laravel/framework": "^10.0|^11.0|^12.0",
+        "laravel/laravel": "^10.0|^11.0|^12.0"
     },
     "autoload": {
         "psr-4": {

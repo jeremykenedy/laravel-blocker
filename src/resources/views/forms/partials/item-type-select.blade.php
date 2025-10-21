@@ -1,14 +1,15 @@
 <div class="form-group has-feedback row">
-    {!! Form::label('typeId', trans('laravelblocker::laravelblocker.forms.blockedTypeLabel'), array('class' => 'col-md-3 control-label')); !!}
+    {{ html()->label('typeId', trans('laravelblocker::laravelblocker.forms.blockedTypeLabel'))->class('col-md-3 control-label') }}
     <div class="col-md-9">
         <div class="input-group">
             <select class="{{ $errors->has('typeId') ? 'custom-select form-control is-invalid ' : 'custom-select form-control' }}" name="typeId" id="typeId" >
                 <option value="">
                     {{ trans('laravelblocker::laravelblocker.forms.blockedTypeSelect') }}
                 </option>
+                @php($oldValue = old('typeId', isset($item) ? $item->typeId : ''))
                 @if($blockedTypes)
                     @foreach($blockedTypes as $blockedType)
-                        <option value="{{ $blockedType->id }}" data-type="{{ $blockedType->slug }}" @isset($item) {{ $item->typeId == $blockedType->id ? 'selected="selected"' : '' }} @endisset >
+                        <option value="{{ $blockedType->id }}" data-type="{{ $blockedType->slug }}" {{ $oldValue == $blockedType->id ? 'selected' : '' }} >
                             {{ $blockedType->name }}
                         </option>
                     @endforeach

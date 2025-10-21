@@ -4,6 +4,7 @@ namespace jeremykenedy\LaravelBlocker;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
+use jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerController;
 use jeremykenedy\LaravelBlocker\App\Http\Middleware\LaravelBlocker;
 use jeremykenedy\LaravelBlocker\Database\Seeders\DefaultBlockedItemsTableSeeder;
 use jeremykenedy\LaravelBlocker\Database\Seeders\DefaultBlockedTypeTableSeeder;
@@ -24,7 +25,7 @@ class LaravelBlockerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(Router $router)
+    public function boot(Router $router): void
     {
         $router->middlewareGroup('checkblocked', [LaravelBlocker::class]);
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
@@ -36,7 +37,7 @@ class LaravelBlockerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->packageRegistration();
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
@@ -52,10 +53,10 @@ class LaravelBlockerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    private function packageRegistration()
+    private function packageRegistration(): void
     {
-        $this->app->make('jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerController');
-        $this->app->singleton(jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerController::class, function () {
+        $this->app->make(LaravelBlockerController::class);
+        $this->app->singleton(LaravelBlockerController::class, function () {
             return new App\Http\Controllers\LaravelBlockerController();
         });
         $this->app->alias(LaravelBlockerController::class, $this->_packageTag);
@@ -66,7 +67,7 @@ class LaravelBlockerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    private function loadSeedsFrom()
+    private function loadSeedsFrom(): void
     {
         if (config('laravelblocker.seedDefaultBlockedTypes')) {
             $this->app['seed.handler']->register(
@@ -97,7 +98,7 @@ class LaravelBlockerServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    private function publishFiles()
+    private function publishFiles(): void
     {
         $publishTag = $this->_packageTag;
 
@@ -118,7 +119,7 @@ class LaravelBlockerServiceProvider extends ServiceProvider
         ], $publishTag.'-migrations');
 
         $this->publishes([
-            __DIR__.'/database/seeders/publish' => database_path('seeds'),
-        ], $publishTag.'-seeds');
+            __DIR__.'/database/seeders/publish' => database_path('seeders'),
+        ], $publishTag.'-seeders');
     }
 }
