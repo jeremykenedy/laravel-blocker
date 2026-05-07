@@ -14,7 +14,7 @@
     <img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patreon" width="85px" >
 </a>
 
-Laravel Blocker (LaravelBlocker) is a middleware interface to block users, emails, ip addresses, domain names, cities, states, countries, continents, and regions from using your application, logging in, or registering. The types of items to be blocked can be extended to what you think via a seed. The items you are blocking have a CRUD interface along with a softdeletes interface.
+Laravel Blocker (LaravelBlocker) is a middleware that blocks users, emails, IP addresses, domain names, cities, states, countries, continents, and regions from using your application, logging in, or registering. The types of items to be blocked can be extended to what you think via a seed. The items you are blocking have a CRUD interface along with a softdeletes interface.
 
 #### Table of contents
 - [Features](#features)
@@ -57,7 +57,7 @@ Can work out the box with or without the following roles packages:
 |Configurable blocked action|
 
 ### Requirements
-* [Laravel 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 6.0+, 7.0+, and 8.0+](https://laravel.com/docs/installation)
+* [Laravel 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 6.0+, 7.0+, 8.0+, 9.0+, 10.0+, 11.0+, 12.0+, and 13.0+](https://laravel.com/docs/installation)
 
 #### Required Packages
 (included in this package)
@@ -65,97 +65,97 @@ Can work out the box with or without the following roles packages:
 * [eklundkristoffer/seedster](https://github.com/eklundkristoffer/seedster)
 
 ### Installation Instructions
-1. From your projects root folder in terminal run:
+1. From your project's root folder in the terminal, run:
 
-    Laravel 5.8+ use:
+    Laravel >= 11.0+ use:
 
     ```bash
-        composer require jeremykenedy/laravel-blocker
+    composer require jeremykenedy/laravel-blocker
     ```
 
     Laravel 5.7 and below use:
 
     ```
-        composer require jeremykenedy/laravel-blocker:v1.0.6
+    composer require jeremykenedy/laravel-blocker:v1.0.6
     ```
 
 
 2. Register the package
 
 * Laravel 5.5 and up
-Uses package auto discovery feature, no need to edit the `config/app.php` file.
+Uses the package auto-discovery feature, no need to edit the `config/app.php` file.
 
 * Laravel 5.4 and below
-Register the package with laravel in `config/app.php` under `providers` with the following:
+Register the package with Laravel in `config/app.php` under `providers` with the following:
 
 ```php
-    'providers' => [
-        Spatie\Html\HtmlServiceProvider::class,
-        jeremykenedy\LaravelBlocker\LaravelBlockerServiceProvider::class,
-    ];
+'providers' => [
+    Spatie\Html\HtmlServiceProvider::class,
+    jeremykenedy\LaravelBlocker\LaravelBlockerServiceProvider::class,
+];
 ```
 
 In `config/app.php` section under `aliases` with the following:
 
 ```php
-    'Html' => Spatie\Html\HtmlFacade::class,
+'Html' => Spatie\Html\HtmlFacade::class,
 ```
 
-3. Publish the packages views, config file, assets, and language files by running the following from your projects root folder:
+3. Publish the packages' views, config file, assets, and language files by running the following from your project's root folder:
 
 #### Publish All Assets
 ```bash
-    php artisan vendor:publish --provider="jeremykenedy\LaravelBlocker\LaravelBlockerServiceProvider"
+php artisan vendor:publish --provider="jeremykenedy\LaravelBlocker\LaravelBlockerServiceProvider"
 ```
 
 #### Publish Specific Assets
 ```bash
-    php artisan vendor:publish --tag=laravelblocker-config
-    php artisan vendor:publish --tag=laravelblocker-views
-    php artisan vendor:publish --tag=laravelblocker-lang
-    php artisan vendor:publish --tag=laravelblocker-migrations
-    php artisan vendor:publish --tag=laravelblocker-seeders
+php artisan vendor:publish --tag=laravelblocker-config
+php artisan vendor:publish --tag=laravelblocker-views
+php artisan vendor:publish --tag=laravelblocker-lang
+php artisan vendor:publish --tag=laravelblocker-migrations
+php artisan vendor:publish --tag=laravelblocker-seeders
 ```
 
 ### Usage
 
 ##### From Route File:
-* You can include the `checkblocked` in a route groups or on individual routes.
+* You can include the `checkblocked` in a route group or on individual routes.
 
 ###### Route Group Example:
 
 ```php
-    Route::group(['middleware' => ['web', 'checkblocked']], function () {
-        Route::get('/', 'WelcomeController@welcome');
-    });
+Route::group(['middleware' => ['web', 'checkblocked']], function () {
+    Route::get('/', 'WelcomeController@welcome');
+});
 ```
 
 ###### Individual Route Examples:
 
 ```php
-    Route::get('/', 'WelcomeController@welcome')->middleware('checkblocked');
-    Route::match(['post'], '/test', 'Testing\TestingController@runTest')->middleware('checkblocked');
+Route::get('/', 'WelcomeController@welcome')->middleware('checkblocked');
+Route::match(['post'], '/test', 'Testing\TestingController@runTest')->middleware('checkblocked');
 ```
 
 ##### From Controller File:
-* You can include the `checkblocked` in the contructor of your controller file.
+* You can include the `checkblocked` in the constructor of your controller file.
 
 ###### Controller File Example:
 
 ```php
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-       $this->middleware('checkblocked');
-    }
+/**
+ * Create a new controller instance.
+ *
+ * @return void
+ */
+public function __construct()
+{
+   $this->middleware('checkblocked');
+}
 ```
 
 ### Configuration
-There are many configurable options which have all been extended to be able to configured via `.env` file variables. Editing the configuration file directly is not needed becuase of this.
+There are many configurable options that have all been extended to be configured via the `.env` file variables. Editing the configuration file directly is not needed because of this.
 
 * See config file: [laravelblocker.php](https://github.com/jeremykenedy/LaravelBlocker/blob/development/src/config/laravelblocker.php).
 * See default Types Seed: [DefaultBlockedTypeTableSeeder.php](https://github.com/jeremykenedy/LaravelBlocker/blob/development/src/database/seeds/DefaultBlockedTypeTableSeeder.php)
@@ -207,7 +207,7 @@ return [
     // Titles placement extend
     'laravelBlockerTitleExtended'   => env('LARAVEL_BLOCKER_TITLE_EXTENDED', 'template_title'),
 
-    // Switch Between bootstrap 3 `panel` and bootstrap 4 `card` classes
+    // Switch Between Bootstrap 3 `panel`, Bootstrap 4, or Bootstrap 5 `card` classes
     'blockerBootstapVersion'        => env('LARAVEL_BLOCKER_BOOTSTRAP_VERSION', '4'),
 
     // Additional Card classes for styling -
@@ -265,7 +265,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Laravel Blocker Databales Settings - Not recommended with pagination.
+    | Laravel Blocker Datatables Settings - Not recommended with pagination.
     |--------------------------------------------------------------------------
     */
     'blockerDatatables'             => env('LARAVEL_BLOCKER_DATATABLES_ENABLED', false),
@@ -291,7 +291,7 @@ return [
 
 ### Testing, Faker, and this package
 
-This package is great at blocking unwanted content from your application, but your configuration may conflict with auto generated content in your Laravel Factories. A common example is when your application is set to block email addresses that match @example.com, one of the most common email address TLD generated by `$faker->safeEmail`.
+This package is great at blocking unwanted content from your application, but your configuration may conflict with auto-generated content in your Laravel Factories. A common example is when your application is set to block email addresses that match @example.com, one of the most common email address TLDs generated by `$faker->safeEmail`.
 
 To avoid this package throwing inaccurate failures with auto-generated models, make sure you disable this package in your `phpunit.xml` configuration file:
 
@@ -353,7 +353,7 @@ LARAVEL_BLOCKER_ROLES_MIDDLWARE='role:admin'
 LARAVEL_BLOCKER_PAGINATION_ENABLED=false
 LARAVEL_BLOCKER_PAGINATION_PER_PAGE=25
 
-# Laravel Blocker Databales Settings - Not recommended with pagination.
+# Laravel Blocker Datatables Settings - Not recommended with pagination.
 LARAVEL_BLOCKER_DATATABLES_ENABLED=false
 LARAVEL_BLOCKER_DATATABLES_JS_ENABLED=false
 LARAVEL_BLOCKER_DATATABLES_JS_START_COUNT=25
