@@ -70,13 +70,13 @@ Can work out the box with or without the following roles packages:
     Laravel >= 11.0+ use:
 
     ```bash
-        composer require jeremykenedy/laravel-blocker
+    composer require jeremykenedy/laravel-blocker
     ```
 
     Laravel 5.7 and below use:
 
     ```
-        composer require jeremykenedy/laravel-blocker:v1.0.6
+    composer require jeremykenedy/laravel-blocker:v1.0.6
     ```
 
 
@@ -89,32 +89,32 @@ Uses the package auto-discovery feature, no need to edit the `config/app.php` fi
 Register the package with Laravel in `config/app.php` under `providers` with the following:
 
 ```php
-    'providers' => [
-        Spatie\Html\HtmlServiceProvider::class,
-        jeremykenedy\LaravelBlocker\LaravelBlockerServiceProvider::class,
-    ];
+'providers' => [
+    Spatie\Html\HtmlServiceProvider::class,
+    jeremykenedy\LaravelBlocker\LaravelBlockerServiceProvider::class,
+];
 ```
 
 In `config/app.php` section under `aliases` with the following:
 
 ```php
-    'Html' => Spatie\Html\HtmlFacade::class,
+'Html' => Spatie\Html\HtmlFacade::class,
 ```
 
 3. Publish the packages' views, config file, assets, and language files by running the following from your project's root folder:
 
 #### Publish All Assets
 ```bash
-    php artisan vendor:publish --provider="jeremykenedy\LaravelBlocker\LaravelBlockerServiceProvider"
+php artisan vendor:publish --provider="jeremykenedy\LaravelBlocker\LaravelBlockerServiceProvider"
 ```
 
 #### Publish Specific Assets
 ```bash
-    php artisan vendor:publish --tag=laravelblocker-config
-    php artisan vendor:publish --tag=laravelblocker-views
-    php artisan vendor:publish --tag=laravelblocker-lang
-    php artisan vendor:publish --tag=laravelblocker-migrations
-    php artisan vendor:publish --tag=laravelblocker-seeders
+php artisan vendor:publish --tag=laravelblocker-config
+php artisan vendor:publish --tag=laravelblocker-views
+php artisan vendor:publish --tag=laravelblocker-lang
+php artisan vendor:publish --tag=laravelblocker-migrations
+php artisan vendor:publish --tag=laravelblocker-seeders
 ```
 
 ### Usage
@@ -125,16 +125,16 @@ In `config/app.php` section under `aliases` with the following:
 ###### Route Group Example:
 
 ```php
-    Route::group(['middleware' => ['web', 'checkblocked']], function () {
-        Route::get('/', 'WelcomeController@welcome');
-    });
+Route::group(['middleware' => ['web', 'checkblocked']], function () {
+    Route::get('/', 'WelcomeController@welcome');
+});
 ```
 
 ###### Individual Route Examples:
 
 ```php
-    Route::get('/', 'WelcomeController@welcome')->middleware('checkblocked');
-    Route::match(['post'], '/test', 'Testing\TestingController@runTest')->middleware('checkblocked');
+Route::get('/', 'WelcomeController@welcome')->middleware('checkblocked');
+Route::match(['post'], '/test', 'Testing\TestingController@runTest')->middleware('checkblocked');
 ```
 
 ##### From Controller File:
@@ -143,15 +143,15 @@ In `config/app.php` section under `aliases` with the following:
 ###### Controller File Example:
 
 ```php
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-       $this->middleware('checkblocked');
-    }
+/**
+ * Create a new controller instance.
+ *
+ * @return void
+ */
+public function __construct()
+{
+   $this->middleware('checkblocked');
+}
 ```
 
 ### Configuration
