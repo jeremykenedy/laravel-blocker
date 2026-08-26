@@ -25,11 +25,13 @@ Laravel Blocker (LaravelBlocker) is a middleware interface to block users, email
     - [Publish Specific Assets](#publish-specific-assets)
 - [Usage](#usage)
 - [Configuration](#configuration)
-    - [Environment File](#environment-file)
+- [Testing, Faker, and this package](#testing-faker-and-this-package)
+- [Environment File](#environment-file)
 - [Routes](#routes)
 - [Screenshots](#screenshots)
 - [File Tree](#file-tree)
 - [License](#license)
+- [Contributors](#contributors)
 
 Can work out the box with or without the following roles packages:
 * [jeremykenedy/laravel-roles](https://github.com/jeremykenedy/laravel-roles)
@@ -57,7 +59,7 @@ Can work out the box with or without the following roles packages:
 |Configurable blocked action|
 
 ### Requirements
-* [Laravel 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 6.0+, 7.0+, and 8.0+](https://laravel.com/docs/installation)
+* [Laravel 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 6.0+, 7.0+, 8.0+, 9.0+, 10.0+, 12.0+, 13.0+](https://laravel.com/docs/installation)
 
 #### Required Packages
 (included in this package)
@@ -307,7 +309,7 @@ To avoid this package throwing inaccurate failures with auto-generated models, m
 </phpunit>
 ```
 
-##### Environment File
+### Environment File
 ```
 # Laravel Blocker Core Setting
 LARAVEL_BLOCKER_ENABLED=true
