@@ -2,8 +2,8 @@
 
 namespace jeremykenedy\LaravelBlocker\App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use jeremykenedy\LaravelBlocker\App\Http\Requests\SearchBlockerRequest;
 use jeremykenedy\LaravelBlocker\App\Http\Requests\StoreBlockerRequest;
 use jeremykenedy\LaravelBlocker\App\Http\Requests\UpdateBlockerRequest;
