@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" role="img" aria-labelledby="title desc">
+  <title id="title">Laravel Blocker</title>
+  <desc id="desc">Access management for Laravel. Block, review, and restore.</desc>
+  <rect width="1200" height="340" rx="24" fill="#101a2b"/>
+  <rect x="1" y="1" width="1198" height="338" rx="23" fill="none" stroke="#3d4b63"/>
+  <path d="M150 76 223 104V169C223 219 184 252 150 267 116 252 77 219 77 169V104Z" fill="#244fbe"/>
+  <rect x="122" y="153" width="56" height="51" rx="8" fill="#fff"/>
+  <path d="M133 153V139a17 17 0 0 1 34 0v14" fill="none" stroke="#fff" stroke-width="9"/>
+  <circle cx="150" cy="174" r="5" fill="#244fbe"/>
+  <path d="M150 174v12" stroke="#244fbe" stroke-width="5"/>
+  <text x="284" y="113" font-family="Arial, sans-serif" font-size="16" letter-spacing="4" fill="#b3bfd2">ACCESS MANAGEMENT</text>
+  <text x="280" y="185" font-family="Arial, sans-serif" font-size="62" font-weight="700" fill="#edf2fa">Laravel Blocker</text>
+  <text x="284" y="237" font-family="Arial, sans-serif" font-size="23" fill="#b3bfd2">Block, review, and restore. Built for your application.</text>
+</svg>

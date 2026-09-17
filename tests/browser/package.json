@@ -1,0 +1,18 @@
+{
+  "name": "laravel-blocker-browser-tests",
+  "private": true,
+  "scripts": {
+    "build": "tailwindcss -i input.css -o tailwind.css --minify",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@axe-core/playwright": "^4.11.0",
+    "@tailwindcss/cli": "^4.2.0",
+    "tailwindcss": "^4.2.0",
+    "bootstrap": "^5.3.8",
+    "bootstrap3": "npm:bootstrap@^3.4.1",
+    "bootstrap4": "npm:bootstrap@^4.6.2",
+    "jquery": "^3.7.1"
+  }
+}

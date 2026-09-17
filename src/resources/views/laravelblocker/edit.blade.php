@@ -29,6 +29,8 @@
 @endsection
 
 @section('content')
+    <div data-blocker-root data-theme="{{ config('laravelblocker.theme', 'light') }}">
+    @include('laravelblocker::partials.theme')
 
     @include('laravelblocker::partials.flash-messages')
 
@@ -39,7 +41,7 @@
                     <div class="{{ $containerHeaderClass }}">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="card_title">
-                                {!! trans('laravelblocker::laravelblocker.edit-blocked-item-title', ['name' => $item->value]) !!}
+                                {!! trans('laravelblocker::laravelblocker.edit-blocked-item-title', ['name' => e($item->value)]) !!}
                             </span>
                             <div class="pull-right">
                                 <a href="{{ url('blocker') }}" class="btn btn-warning text-white btn-sm float-right" data-toggle="tooltip" data-placement="left" title="{{ trans('laravelblocker::laravelblocker.tooltips.back-blocked') }}">
@@ -63,6 +65,7 @@
         'actionBtnIcon' => 'fa-trash-o'
     ])
 
+    </div>
 @endsection
 
 @section(config('laravelblocker.blockerBladePlacementJs'))

@@ -17,7 +17,7 @@ trait IpAddressDetails
     {
         $output = null;
         if (filter_var($ip, FILTER_VALIDATE_IP) === false) {
-            $ip = $_SERVER['REMOTE_ADDR'];
+            $ip = $_SERVER['REMOTE_ADDR'] ?? null;
             if ($deep_detect) {
                 if (filter_var(@$_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP)) {
                     $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
@@ -27,7 +27,7 @@ trait IpAddressDetails
                 }
             }
         }
-        $purpose = str_replace(['name', "\n", "\t", ' ', '-', '_'], null, strtolower(trim($purpose)));
+        $purpose = str_replace(['name', "\n", "\t", ' ', '-', '_'], '', strtolower(trim($purpose)));
         $support = ['country', 'countrycode', 'state', 'region', 'city', 'location', 'address'];
         $continents = [
             'AF' => 'Africa',
@@ -39,8 +39,11 @@ trait IpAddressDetails
             'SA' => 'South America',
         ];
         if (filter_var($ip, FILTER_VALIDATE_IP) && in_array($purpose, $support)) {
-            $ipdat = @json_decode(file_get_contents('http://www.geoplugin.net/json.gp?ip='.$ip));
-            if (@strlen(trim($ipdat->geoplugin_countryCode)) == 2) {
+            $ipdat = static::lookupIpAddress($ip);
+            if (!is_object($ipdat) || !isset($ipdat->geoplugin_countryCode)) {
+                return null;
+            }
+            if (@strlen(trim((string) $ipdat->geoplugin_countryCode)) == 2) {
                 switch ($purpose) {
                     case 'location':
                         $output = [
@@ -88,5 +91,19 @@ trait IpAddressDetails
         }
 
         return $output;
+    }
+
+    protected static function lookupIpAddress($ip)
+    {
+        $url = config('laravelblocker.geolocationUrl', 'http://www.geoplugin.net/json.gp');
+        if (!is_string($url) || !in_array(parse_url($url, PHP_URL_SCHEME), ['http', 'https'], true)) {
+            return null;
+        }
+        $url .= (strpos($url, '?') === false ? '?' : '&').'ip='.rawurlencode($ip);
+        $timeout = max(0.1, (float) config('laravelblocker.geolocationTimeout', 2));
+        $context = stream_context_create(['http' => ['timeout' => $timeout]]);
+        $response = @file_get_contents($url, false, $context);
+
+        return $response === false ? null : json_decode($response);
     }
 }

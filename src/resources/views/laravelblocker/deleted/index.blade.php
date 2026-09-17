@@ -32,6 +32,8 @@
 @endsection
 
 @section('content')
+    <div data-blocker-root data-theme="{{ config('laravelblocker.theme', 'light') }}">
+    @include('laravelblocker::partials.theme')
 
     @include('laravelblocker::partials.flash-messages')
 
@@ -87,6 +89,7 @@
         'actionBtnIcon' => 'fa-check'
     ])
 
+    </div>
 @endsection
 
 @section(config('laravelblocker.blockerBladePlacementJs'))

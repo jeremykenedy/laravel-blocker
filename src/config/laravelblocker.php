@@ -7,6 +7,8 @@ return [
     | Laravel Blocker Core Setting
     |--------------------------------------------------------------------------
     */
+    'geolocationUrl'                => env('LARAVEL_BLOCKER_GEOLOCATION_URL', 'http://www.geoplugin.net/json.gp'),
+    'geolocationTimeout'            => env('LARAVEL_BLOCKER_GEOLOCATION_TIMEOUT', 2),
     'laravelBlockerEnabled'         => env('LARAVEL_BLOCKER_ENABLED', true),
 
     /*
@@ -36,6 +38,9 @@ return [
     | Laravel Blocker Front End Settings
     |--------------------------------------------------------------------------
     */
+    'frontend'                     => env('LARAVEL_BLOCKER_FRONTEND', 'legacy'),
+    'theme'                        => env('LARAVEL_BLOCKER_THEME', 'light'),
+
     // The parent blade file
     'laravelBlockerBladeExtended'   => env('LARAVEL_BLOCKER_BLADE_EXTENDED', 'layouts.app'),
 

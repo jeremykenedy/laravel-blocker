@@ -11,7 +11,7 @@
                         ->id('blocked_search_box')
                         ->class('form-control')
                         ->attribute('placeholder', trans('laravelblocker::laravelblocker.forms.search-blocked-ph'))
-                        ->attribute('aria-label', trans('laravelblocker::forms.search-users-ph')) }}
+                        ->attribute('aria-label', trans('laravelblocker::laravelblocker.forms.search-blocked-ph')) }}
                 <div class="input-group-append">
                     <a href="#" class="btn btn-warning clear-search" style="display: none;" data-toggle="tooltip" title="{!! trans('laravelblocker::laravelblocker.tooltips.clear-search') !!}">
                         @if(config('laravelblocker.blockerEnableFontAwesomeCDN'))

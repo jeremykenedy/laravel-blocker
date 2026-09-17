@@ -16,6 +16,42 @@ class LaravelBlockerController extends Controller
     private $_rolesEnabled;
     private $_rolesMiddlware;
 
+    protected function blockedItems($deleted = false)
+    {
+        $query = BlockedItem::with('blockedType');
+        if ($deleted) {
+            $query->onlyTrashed();
+        }
+        if (in_array(config('laravelblocker.frontend'), ['bootstrap5', 'tailwind'], true) && config('laravelblocker.enableSearchBlocked')) {
+            $input = request()->validate(['q' => 'nullable|string|max:255']);
+            if (isset($input['q']) && $input['q'] !== '') {
+                $this->filterBlockedItems($query, $input['q']);
+            }
+        }
+
+        return config('laravelblocker.blockerPaginationEnabled')
+            ? $query->paginate(config('laravelblocker.blockerPaginationPerPage'))
+            : $query->get();
+    }
+
+    protected function filterBlockedItems($query, $term)
+    {
+        return $query->where(function ($query) use ($term) {
+            $query->where('id', 'like', $term.'%')
+                ->orWhere('typeId', 'like', $term.'%')
+                ->orWhere('value', 'like', $term.'%')
+                ->orWhere('note', 'like', $term.'%')
+                ->orWhere('userId', 'like', $term.'%');
+        });
+    }
+
+    protected function blockerView($view)
+    {
+        $framework = config('laravelblocker.frontend', 'legacy');
+
+        return 'laravelblocker::'.(in_array($framework, ['bootstrap5', 'tailwind'], true) ? 'modern.' : 'laravelblocker.').$view;
+    }
+
     /**
      * Create a new controller instance.
      *
@@ -27,11 +63,11 @@ class LaravelBlockerController extends Controller
         $this->_rolesEnabled = config('laravelblocker.rolesEnabled');
         $this->_rolesMiddlware = config('laravelblocker.rolesMiddlware');
 
-        if ($this->_authEnabled) {
+        if ($this->_authEnabled && method_exists($this, 'middleware')) {
             $this->middleware('auth');
         }
 
-        if ($this->_rolesEnabled) {
+        if ($this->_rolesEnabled && method_exists($this, 'middleware')) {
             $this->middleware($this->_rolesMiddlware);
         }
     }
@@ -43,15 +79,11 @@ class LaravelBlockerController extends Controller
      */
     public function index()
     {
-        if (config('laravelblocker.blockerPaginationEnabled')) {
-            $blocked = BlockedItem::paginate(config('laravelblocker.blockerPaginationPerPage'));
-        } else {
-            $blocked = BlockedItem::all();
-        }
+        $blocked = $this->blockedItems();
 
         $deletedBlockedItems = BlockedItem::onlyTrashed();
 
-        return view('laravelblocker::laravelblocker.index', compact('blocked', 'deletedBlockedItems'));
+        return view($this->blockerView('index'), compact('blocked', 'deletedBlockedItems'));
     }
 
     /**
@@ -64,7 +96,7 @@ class LaravelBlockerController extends Controller
         $blockedTypes = BlockedType::all();
         $users = config('laravelblocker.defaultUserModel')::all();
 
-        return view('laravelblocker::laravelblocker.create', compact('blockedTypes', 'users'));
+        return view($this->blockerView('create'), compact('blockedTypes', 'users'));
     }
 
     /**
@@ -93,7 +125,7 @@ class LaravelBlockerController extends Controller
     {
         $item = BlockedItem::findOrFail($id);
 
-        return view('laravelblocker::laravelblocker.show', compact('item'));
+        return view($this->blockerView('show'), compact('item'));
     }
 
     /**
@@ -109,7 +141,7 @@ class LaravelBlockerController extends Controller
         $users = config('laravelblocker.defaultUserModel')::all();
         $item = BlockedItem::findOrFail($id);
 
-        return view('laravelblocker::laravelblocker.edit', compact('blockedTypes', 'users', 'item'));
+        return view($this->blockerView('edit'), compact('blockedTypes', 'users', 'item'));
     }
 
     /**
@@ -157,15 +189,10 @@ class LaravelBlockerController extends Controller
     public function search(SearchBlockerRequest $request)
     {
         $searchTerm = $request->validated()['blocked_search_box'];
-        $results = BlockedItem::where('id', 'like', $searchTerm.'%')
-                            ->orWhere('typeId', 'like', $searchTerm.'%')
-                            ->orWhere('value', 'like', $searchTerm.'%')
-                            ->orWhere('note', 'like', $searchTerm.'%')
-                            ->orWhere('userId', 'like', $searchTerm.'%')
-                            ->get();
+        $results = $this->filterBlockedItems(BlockedItem::with('blockedType'), $searchTerm)->get();
 
         $results->map(function ($item) {
-            $item['type'] = $item->blockedType->slug;
+            $item['type'] = $item->blockedType ? $item->blockedType->slug : '';
 
             return $item;
         });

@@ -47,7 +47,10 @@
                 url: searchUrl,
                 data: searchform.serialize(),
                 success: function (result) {
-                    var jsonData = JSON.parse(result);
+                    var jsonData = JSON.parse(result[0]);
+                    function escapeHtml(value) {
+                        return $('<span>').text(value == null ? '' : String(value)).html();
+                    }
                     if (jsonData.length != 0) {
                         $.each(jsonData, function(index, val) {
                             var rolesHtml = '';
@@ -60,7 +63,7 @@
                                 var deleteCellHtml = '<form method="POST" action="/blocker/'+ val.id +'" accept-charset="UTF-8" data-toggle="tooltip" title="Delete Blocked Item">' +
                                         '{{ html()->hidden("_method", "DELETE") }}' +
                                         '{{ csrf_field() }}' +
-                                        '<button class="btn btn-danger btn-sm btn-block" type="button" style="width: 100%;" data-toggle="modal" data-target="#confirmDelete" data-title="Delete Blocked Item" data-message="{!! trans("laravelblocker::laravelblocker.modals.delete_blocked_message", ["blocked" => "'+val.name+'"]) !!}">' +
+                                        '<button class="btn btn-danger btn-sm btn-block" type="button" style="width: 100%;" data-toggle="modal" data-target="#confirmDelete" data-title="Delete Blocked Item" data-message="{{ trans("laravelblocker::laravelblocker.modals.delete_blocked_message", ["blocked" => "blocked item"]) }}">' +
                                             '{!! trans("laravelblocker::laravelblocker.buttons.delete") !!}' +
                                         '</button>' +
                                     '</form>';
@@ -80,14 +83,14 @@
 
                             resultsContainer.append('<tr>' +
                                 '<td>' + val.id + '</td>' +
-                                '<td>' + val.type + '</td>' +
-                                '<td>' + val.value + '</td>' +
-                                '<td class="hidden-xs">' + val.note + '</td>' +
+                                '<td>' + escapeHtml(val.type) + '</td>' +
+                                '<td>' + escapeHtml(val.value) + '</td>' +
+                                '<td class="hidden-xs">' + escapeHtml(val.note) + '</td>' +
                                 '<td class="hidden-xs hidden-sm">' + userId + '</td>' +
-                                '<td class="hidden-xs hidden-sm hidden-md">' + val.created_at + '</td>' +
-                                '<td class="hidden-xs hidden-sm hidden-md">' + val.updated_at + '</td>' +
+                                '<td class="hidden-xs hidden-sm hidden-md">' + escapeHtml(val.created_at) + '</td>' +
+                                '<td class="hidden-xs hidden-sm hidden-md">' + escapeHtml(val.updated_at) + '</td>' +
                                 @if($searchtype == 'deleted')
-                                    '<td class="hidden-xs hidden-sm">' + val.deleted_at + '</td>' +
+                                    '<td class="hidden-xs hidden-sm">' + escapeHtml(val.deleted_at) + '</td>' +
                                 @endif
                                 '<td>' + showCellHtml + '</td>' +
                                 '<td>' + editCellHtml + '</td>' +

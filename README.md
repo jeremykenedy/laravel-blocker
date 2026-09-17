@@ -1,524 +1,182 @@
-![Laravel Blocker](https://github-project-images.s3-us-west-2.amazonaws.com/laravel-blocker/laravel-blocker-logo.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="art/banner-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="art/banner-light.svg">
+  <img alt="Laravel Blocker: access management for Laravel" src="art/banner-light.svg">
+</picture>
 
 # Laravel Blocker
 
+[![Tests](https://github.com/jeremykenedy/laravel-blocker/actions/workflows/tests.yml/badge.svg)](https://github.com/jeremykenedy/laravel-blocker/actions/workflows/tests.yml)
 [![Latest Stable Version](https://poser.pugx.org/jeremykenedy/laravel-blocker/v/stable.svg)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
 [![Total Downloads](https://poser.pugx.org/jeremykenedy/laravel-blocker/d/total.svg)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
-[![Travis-CI Build](https://travis-ci.org/jeremykenedy/laravel-blocker.svg?branch=master)](https://travis-ci.org/jeremykenedy/laravel-blocker)
-[![StyleCI](https://github.styleci.io/repos/171390607/shield?branch=master)](https://github.styleci.io/repos/171390607)
-[![Scrutinizer Build Status](https://scrutinizer-ci.com/g/jeremykenedy/laravel-blocker/badges/build.png?b=master)](https://scrutinizer-ci.com/g/jeremykenedy/laravel-blocker/build-status/master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jeremykenedy/laravel-blocker/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jeremykenedy/laravel-blocker/?branch=master)
-[![License](https://poser.pugx.org/jeremykenedy/laravel-blocker/license)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
-<a href="https://www.patreon.com/bePatron?u=10119959" title="Become a Patreon">
-    <img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patreon" width="85px" >
-</a>
+[![License](https://poser.pugx.org/jeremykenedy/laravel-blocker/license)](LICENSE)
 
-Laravel Blocker (LaravelBlocker) is a middleware interface to block users, emails, ip addresses, domain names, cities, states, countries, continents, and regions from using your application, logging in, or registering. The types of items to be blocked can be extended to what you think via a seed. The items you are blocking have a CRUD interface along with a softdeletes interface.
+Block IP addresses, email addresses, domains, users, cities, states, countries, continents, and regions. Manage entries through a Blade interface with search, soft deletion, restoration, and permanent deletion.
 
-#### Table of contents
-- [Features](#features)
-- [Requirements](#requirements)
-    - [Required Packages](#required-packages)
-- [Installation Instructions](#installation-instructions)
-    - [Publish All Assets](#publish-all-assets)
-    - [Publish Specific Assets](#publish-specific-assets)
-- [Usage](#usage)
+Bootstrap 4 remains the default. Bootstrap 3, Bootstrap 5, and Tailwind CSS are available. Composer updates do not switch frameworks, publish files, change your configuration, or run migrations.
+
+- [Installation](#installation)
+- [Frontend options](#frontend-options)
+- [Middleware and authorization](#middleware-and-authorization)
 - [Configuration](#configuration)
-- [Testing, Faker, and this package](#testing-faker-and-this-package)
-- [Environment File](#environment-file)
-- [Routes](#routes)
-- [Screenshots](#screenshots)
-- [File Tree](#file-tree)
-- [License](#license)
-- [Contributors](#contributors)
+- [Optional packages](#optional-packages)
+- [Updating](docs/upgrading.md)
+- [Testing](docs/testing.md)
+- [Changelog](CHANGELOG.md)
 
-Can work out the box with or without the following roles packages:
-* [jeremykenedy/laravel-roles](https://github.com/jeremykenedy/laravel-roles)
-* [spatie/laravel-permission](https://github.com/spatie/laravel-permission)
-* [Zizaco/entrust](https://github.com/Zizaco/entrust)
-* [romanbican/roles](https://github.com/romanbican/roles)
-* [ultraware/roles](https://github.com/ultraware/roles)
+## Requirements
 
-### Features
-| LaravelBlocker Features  |
-| :------------ |
-|Easy to use middlware that can be applied directly to controller and/or routes|
-|Full CRUD (Create, Read, Update, Delete) interface for adding blocked items|
-|Lots of easily customizable options through .env file variables|
-|Seeded blocked types with ability to add own published seeds|
-|Seeded blocked items with ability to add own published seeds|
-|Softdeletes with easy to use restore and destroy interface|
-|Uses [spatie/laravel-html](https://github.com/spatie/laravel-html) package for secure HTML forms|
-|Uses [eklundkristoffer/seedster](https://github.com/eklundkristoffer/seedster) for optional default seeds|
-|Makes use of proper custom request classes structure|
-|Can use pagination if desired for dashboards|
-|Front end Bootstrap version can be changed|
-|Uses [localization](https://laravel.com/docs/5.8/localization) language files|
-|Ajax search for blocked items|
-|Configurable blocked action|
+The package retains its PHP `^7.3|^8.0` requirement and existing runtime dependency ranges. The compatibility suite covers Laravel 5.8 through 13 using the matching PHP and Testbench versions. Historical compatibility does not extend Laravel's own security support period. Laravel 5.7 and earlier applications should keep their existing release, such as `v1.0.6`.
 
-### Requirements
-* [Laravel 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7, 5.8, 6.0+, 7.0+, 8.0+, 9.0+, 10.0+, 12.0+, 13.0+](https://laravel.com/docs/installation)
+[spatie/laravel-html](https://github.com/spatie/laravel-html) and [eklundkristoffer/seedster](https://github.com/eklundkristoffer/seedster) remain runtime dependencies for existing forms and seed registration. None of the optional packages below is required.
 
-#### Required Packages
-(included in this package)
-* [spatie/laravel-html](https://packagist.org/packages/spatie/laravel-html)
-* [eklundkristoffer/seedster](https://github.com/eklundkristoffer/seedster)
+## Installation
 
-### Installation Instructions
-1. From your projects root folder in terminal run:
+```sh
+composer require jeremykenedy/laravel-blocker
+php artisan blocker:install
+```
 
-    Laravel 5.8+ use:
+The installer asks which CSS framework to use. It writes presentation settings to `config/laravelblocker-ui.php` and publishes the package configuration only when it is missing. Views run directly from the package unless you choose to publish them.
 
-    ```bash
-        composer require jeremykenedy/laravel-blocker
-    ```
+For an unattended installation that retains Bootstrap 4:
 
-    Laravel 5.7 and below use:
+```sh
+php artisan blocker:install --no-interaction
+```
 
-    ```
-        composer require jeremykenedy/laravel-blocker:v1.0.6
-    ```
+Before migrating, configure your database connection and user model. The defaults remain `mysql` and `App\User` for existing applications. A typical newer application uses:
 
+```dotenv
+LARAVEL_BLOCKER_DATABASE_CONNECTION=mysql
+LARAVEL_BLOCKER_USER_MODEL="App\Models\User"
+```
 
-2. Register the package
+The `users` table must exist on the blocker connection before the package migration runs; the package's existing foreign keys reference that table. Migrations load automatically and do not need publishing.
 
-* Laravel 5.5 and up
-Uses package auto discovery feature, no need to edit the `config/app.php` file.
+```sh
+php artisan migrate
+php artisan db:seed --class='jeremykenedy\LaravelBlocker\Database\Seeders\DefaultBlockedTypeTableSeeder'
+```
 
-* Laravel 5.4 and below
-Register the package with laravel in `config/app.php` under `providers` with the following:
+Optionally seed the existing sample blocked domains:
+
+```sh
+php artisan db:seed --class='jeremykenedy\LaravelBlocker\Database\Seeders\DefaultBlockedItemsTableSeeder'
+```
+
+These include `example.com`, `test.com`, and `mailinator.com`. Do not run the item seeder unless you want those domains blocked. Existing Seedster registration and configuration flags remain available; normal Composer updates never execute seeders.
+
+## Frontend options
+
+| Selection | Views | Assets supplied by your layout |
+| --- | --- | --- |
+| `bootstrap4` (default) | Existing Blade views | Bootstrap 4 and jQuery |
+| `bootstrap3` | Existing Blade views | Bootstrap 3 and jQuery |
+| `bootstrap5` | Modern Blade views | Bootstrap 5 CSS |
+| `tailwind` | Modern Blade views | Your compiled Tailwind CSS |
+
+```sh
+php artisan blocker:install --framework=bootstrap5 --theme=system
+php artisan blocker:update --framework=tailwind --theme=dark
+php artisan blocker:update --framework=bootstrap4 --theme=light
+```
+
+Modern views use native forms and JavaScript, including confirmation dialogs for destructive actions. They provide search, pagination, inline validation feedback, and light, dark, and system appearance choices. The appearance selector stores the visitor's choice in local storage and affects only the Blocker interface. If storage is unavailable, the selector still works for the current page.
+
+The legacy views support `--theme=dark` and `--theme=system` through scoped styles. Their existing jQuery, DataTables, tooltip, and CDN switches remain unchanged. DataTables applies only to legacy views; modern views use the configured server pagination.
+
+All views extend `layouts.app` by default and use its `content` section. Customize `laravelBlockerBladeExtended` and the title placement in the package config. For legacy layouts, use distinct CSS and script sections to avoid loading jQuery or scripts twice:
+
+```dotenv
+LARAVEL_BLOCKER_BLADE_PLACEMENT_CSS=blocker_css
+LARAVEL_BLOCKER_BLADE_PLACEMENT_JS=blocker_js
+LARAVEL_BLOCKER_JQUERY_CDN_ENABLED=false
+```
+
+```blade
+<head>
+    {{-- Load your application's CSS here. --}}
+    @yield('blocker_css')
+</head>
+<body>
+    @yield('content')
+    {{-- Load jQuery and Bootstrap before this section for legacy views. --}}
+    @yield('blocker_js')
+</body>
+```
+
+For Tailwind 4, add the package views to your application's CSS sources. Adjust the relative path for your CSS file:
+
+```css
+@source "../../vendor/jeremykenedy/laravel-blocker/src/resources/views/modern";
+@source "../views/vendor/laravelblocker/modern";
+```
+
+For Tailwind 3, include those paths in `content` in `tailwind.config.js`. The package supplies scoped colors and layout styling; it does not modify the host application's theme or build pipeline.
+
+## Middleware and authorization
 
 ```php
-    'providers' => [
-        Spatie\Html\HtmlServiceProvider::class,
-        jeremykenedy\LaravelBlocker\LaravelBlockerServiceProvider::class,
-    ];
+Route::middleware(['web', 'checkblocked'])->group(function () {
+    Route::get('/account', [AccountController::class, 'show']);
+});
 ```
 
-In `config/app.php` section under `aliases` with the following:
+The management routes keep their existing paths and `laravelblocker::` names. Visit `/blocker` for active items and `/blocker-deleted` for deleted items. Authentication is enabled by default. Restrict management to administrators using your application's role middleware:
 
-```php
-    'Html' => Spatie\Html\HtmlFacade::class,
-```
-
-3. Publish the packages views, config file, assets, and language files by running the following from your projects root folder:
-
-#### Publish All Assets
-```bash
-    php artisan vendor:publish --provider="jeremykenedy\LaravelBlocker\LaravelBlockerServiceProvider"
-```
-
-#### Publish Specific Assets
-```bash
-    php artisan vendor:publish --tag=laravelblocker-config
-    php artisan vendor:publish --tag=laravelblocker-views
-    php artisan vendor:publish --tag=laravelblocker-lang
-    php artisan vendor:publish --tag=laravelblocker-migrations
-    php artisan vendor:publish --tag=laravelblocker-seeders
-```
-
-### Usage
-
-##### From Route File:
-* You can include the `checkblocked` in a route groups or on individual routes.
-
-###### Route Group Example:
-
-```php
-    Route::group(['middleware' => ['web', 'checkblocked']], function () {
-        Route::get('/', 'WelcomeController@welcome');
-    });
-```
-
-###### Individual Route Examples:
-
-```php
-    Route::get('/', 'WelcomeController@welcome')->middleware('checkblocked');
-    Route::match(['post'], '/test', 'Testing\TestingController@runTest')->middleware('checkblocked');
-```
-
-##### From Controller File:
-* You can include the `checkblocked` in the contructor of your controller file.
-
-###### Controller File Example:
-
-```php
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-       $this->middleware('checkblocked');
-    }
-```
-
-### Configuration
-There are many configurable options which have all been extended to be able to configured via `.env` file variables. Editing the configuration file directly is not needed becuase of this.
-
-* See config file: [laravelblocker.php](https://github.com/jeremykenedy/LaravelBlocker/blob/development/src/config/laravelblocker.php).
-* See default Types Seed: [DefaultBlockedTypeTableSeeder.php](https://github.com/jeremykenedy/LaravelBlocker/blob/development/src/database/seeds/DefaultBlockedTypeTableSeeder.php)
-* See default Blocked Items seed: [DefaultBlockedItemsTableSeeder.php](https://github.com/jeremykenedy/LaravelBlocker/blob/development/src/database/seeds/DefaultBlockedItemsTableSeeder.php)
-
-```php
-
-<?php
-
-return [
-
-    /*
-    |--------------------------------------------------------------------------
-    | Laravel Blocker Core Setting
-    |--------------------------------------------------------------------------
-    */
-    'laravelBlockerEnabled'         => env('LARAVEL_BLOCKER_ENABLED', true),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Laravel Blocker Database Settings
-    |--------------------------------------------------------------------------
-    */
-    'blockerDatabaseConnection'     => env('LARAVEL_BLOCKER_DATABASE_CONNECTION', 'mysql'),
-    'blockerDatabaseTable'          => env('LARAVEL_BLOCKER_DATABASE_TABLE', 'laravel_blocker'),
-    'blockerTypeDatabaseTable'      => env('LARAVEL_BLOCKER_TYPE_DATABASE_TABLE', 'laravel_blocker_types'),
-    'seedDefaultBlockedTypes'       => env('LARAVEL_BLOCKER_SEED_DEFAULT_TYPES', true),
-    'seedDefaultBlockedItems'       => env('LARAVEL_BLOCKER_SEED_DEFAULT_ITEMS', true),
-    'seedPublishedBlockedTypes'     => env('LARAVEL_BLOCKER_TYPES_SEED_PUBLISHED', true),
-    'seedPublishedBlockedItems'     => env('LARAVEL_BLOCKER_ITEMS_SEED_PUBLISHED', true),
-    'useSeededBlockedTypes'         => env('LARAVEL_BLOCKER_USE_TYPES_SEED_PUBLISHED', false),
-    'useSeededBlockedItems'         => env('LARAVEL_BLOCKER_USE_ITEMS_SEED_PUBLISHED', false),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Laravel Default User Model
-    |--------------------------------------------------------------------------
-    */
-    'defaultUserModel'              => env('LARAVEL_BLOCKER_USER_MODEL', 'App\User'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Laravel Blocker Front End Settings
-    |--------------------------------------------------------------------------
-    */
-    // The parent blade file
-    'laravelBlockerBladeExtended'   => env('LARAVEL_BLOCKER_BLADE_EXTENDED', 'layouts.app'),
-
-    // Titles placement extend
-    'laravelBlockerTitleExtended'   => env('LARAVEL_BLOCKER_TITLE_EXTENDED', 'template_title'),
-
-    // Switch Between bootstrap 3 `panel` and bootstrap 4 `card` classes
-    'blockerBootstapVersion'        => env('LARAVEL_BLOCKER_BOOTSTRAP_VERSION', '4'),
-
-    // Additional Card classes for styling -
-    // See: https://getbootstrap.com/docs/4.0/components/card/#background-and-color
-    // Example classes: 'text-white bg-primary mb-3'
-    'blockerBootstrapCardClasses'   => env('LARAVEL_BLOCKER_CARD_CLASSES', ''),
-
-    // Blade Extension Placement
-    'blockerBladePlacement'         => env('LARAVEL_BLOCKER_BLADE_PLACEMENT', 'yield'),
-    'blockerBladePlacementCss'      => env('LARAVEL_BLOCKER_BLADE_PLACEMENT_CSS', 'inline_template_linked_css'),
-    'blockerBladePlacementJs'       => env('LARAVEL_BLOCKER_BLADE_PLACEMENT_JS', 'inline_footer_scripts'),
-
-    // jQuery
-    'enablejQueryCDN'               => env('LARAVEL_BLOCKER_JQUERY_CDN_ENABLED', true),
-    'JQueryCDN'                     => env('LARAVEL_BLOCKER_JQUERY_CDN_URL', 'https://code.jquery.com/jquery-3.3.1.min.js'),
-
-    // Font Awesome
-    'blockerEnableFontAwesomeCDN'   => env('LARAVEL_BLOCKER_FONT_AWESOME_CDN_ENABLED', true),
-    'blockerFontAwesomeCDN'         => env('LARAVEL_BLOCKER_FONT_AWESOME_CDN_URL', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'),
-
-    // Bootstrap Tooltips
-    'tooltipsEnabled'               => env('LARAVEL_BLOCKER_TOOLTIPS_ENABLED', true),
-
-    // jQuery IP Mask
-    'jQueryIpMaskEnabled'           => env('LARAVEL_BLOCKER_JQUERY_IP_MASK_ENABLED', true),
-    'jQueryIpMaskCDN'               => env('LARAVEL_BLOCKER_JQUERY_IP_MASK_CDN', 'https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js'),
-
-    // Flash Messaging
-    'blockerFlashMessagesEnabled'   => env('LARAVEL_BLOCKER_FLASH_MESSAGES_ENABLED', true),
-
-    // Enable Search Blocked - Uses jQuery Ajax
-    'enableSearchBlocked'            => env('LARAVEL_BLOCKER_SEARCH_ENABLED', true),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Laravel Blocker Auth & Roles Settings
-    |--------------------------------------------------------------------------
-    */
-    // Enable `auth` middleware
-    'authEnabled'                   => env('LARAVEL_BLOCKER_AUTH_ENABLED', true),
-
-    // Enable Optional Roles Middleware
-    'rolesEnabled'                  => env('LARAVEL_BLOCKER_ROLES_ENABLED', false),
-
-    // Optional Roles Middleware
-    'rolesMiddlware'                => env('LARAVEL_BLOCKER_ROLES_MIDDLWARE', 'role:admin'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Laravel Blocker Pagination Settings
-    |--------------------------------------------------------------------------
-    */
-    'blockerPaginationEnabled'       => env('LARAVEL_BLOCKER_PAGINATION_ENABLED', false),
-    'blockerPaginationPerPage'       => env('LARAVEL_BLOCKER_PAGINATION_PER_PAGE', 25),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Laravel Blocker Databales Settings - Not recommended with pagination.
-    |--------------------------------------------------------------------------
-    */
-    'blockerDatatables'             => env('LARAVEL_BLOCKER_DATATABLES_ENABLED', false),
-    'enabledDatatablesJs'           => env('LARAVEL_BLOCKER_DATATABLES_JS_ENABLED', false),
-    'datatablesJsStartCount'        => env('LARAVEL_BLOCKER_DATATABLES_JS_START_COUNT', 25),
-    'datatablesCssCDN'              => env('LARAVEL_BLOCKER_DATATABLES_CSS_CDN', 'https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css'),
-    'datatablesJsCDN'               => env('LARAVEL_BLOCKER_DATATABLES_JS_CDN', 'https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js'),
-    'datatablesJsPresetCDN'         => env('LARAVEL_BLOCKER_DATATABLES_JS_PRESET_CDN', 'https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Laravel Blocker Actions Options
-    |--------------------------------------------------------------------------
-    */
-    'blockerDefaultAction'          => env('LARAVEL_BLOCKER_DEFAULT_ACTION', 'abort'), //'abort', 'view' ,'redirect'
-    'blockerDefaultActionAbortType' => env('LARAVEL_BLOCKER_DEFAULT_ACTION_ABORT_TYPE', '403'),
-    'blockerDefaultActionView'      => env('LARAVEL_BLOCKER_DEFAULT_ACTION_VIEW', 'welcome'),
-    'blockerDefaultActionRedirect'  => env('LARAVEL_BLOCKER_DEFAULT_ACTION_REDIRECT', '/'), // Internal or external
-];
-
-
-```
-
-### Testing, Faker, and this package
-
-This package is great at blocking unwanted content from your application, but your configuration may conflict with auto generated content in your Laravel Factories. A common example is when your application is set to block email addresses that match @example.com, one of the most common email address TLD generated by `$faker->safeEmail`.
-
-To avoid this package throwing inaccurate failures with auto-generated models, make sure you disable this package in your `phpunit.xml` configuration file:
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<phpunit>
-    ...
-    <php>
-        ...
-        <env name="LARAVEL_BLOCKER_ENABLED" value="false" />
-        ...
-    </php>
-</phpunit>
-```
-
-### Environment File
-```
-# Laravel Blocker Core Setting
-LARAVEL_BLOCKER_ENABLED=true
-
-# Laravel Blocker Database Settings
-LARAVEL_BLOCKER_DATABASE_CONNECTION='mysql'
-LARAVEL_BLOCKER_DATABASE_TABLE='laravel_blocker'
-LARAVEL_BLOCKER_TYPE_DATABASE_TABLE='laravel_blocker_types'
-LARAVEL_BLOCKER_SEED_DEFAULT_TYPES=true
-LARAVEL_BLOCKER_SEED_DEFAULT_ITEMS=true
-LARAVEL_BLOCKER_TYPES_SEED_PUBLISHED=true
-LARAVEL_BLOCKER_ITEMS_SEED_PUBLISHED=true
-LARAVEL_BLOCKER_USE_TYPES_SEED_PUBLISHED=false
-LARAVEL_BLOCKER_USE_ITEMS_SEED_PUBLISHED=false
-
-# Laravel Default User Model
-LARAVEL_BLOCKER_USER_MODEL='App\User'
-
-# Laravel Blocker Front End Settings
-LARAVEL_BLOCKER_BLADE_EXTENDED='layouts.app'
-LARAVEL_BLOCKER_TITLE_EXTENDED='template_title'
-LARAVEL_BLOCKER_BOOTSTRAP_VERSION='4'
-LARAVEL_BLOCKER_CARD_CLASSES=''
-LARAVEL_BLOCKER_BLADE_PLACEMENT='yield'
-LARAVEL_BLOCKER_BLADE_PLACEMENT_CSS='template_linked_css'
-LARAVEL_BLOCKER_BLADE_PLACEMENT_JS='footer_scripts'
-LARAVEL_BLOCKER_JQUERY_CDN_ENABLED=true
-LARAVEL_BLOCKER_JQUERY_CDN_URL='https://code.jquery.com/jquery-3.2.1.slim.min.js'
-LARAVEL_BLOCKER_FONT_AWESOME_CDN_ENABLED=true
-LARAVEL_BLOCKER_FONT_AWESOME_CDN_URL='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
-LARAVEL_BLOCKER_TOOLTIPS_ENABLED=true
-LARAVEL_BLOCKER_JQUERY_IP_MASK_ENABLED=true
-LARAVEL_BLOCKER_JQUERY_IP_MASK_CDN='https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js'
-LARAVEL_BLOCKER_FLASH_MESSAGES_ENABLED=true
-LARAVEL_BLOCKER_SEARCH_ENABLED=true
-
-# Laravel Blocker Auth & Roles Settings
+```dotenv
 LARAVEL_BLOCKER_AUTH_ENABLED=true
-LARAVEL_BLOCKER_ROLES_ENABLED=false
-LARAVEL_BLOCKER_ROLES_MIDDLWARE='role:admin'
-
-# Laravel Blocker Pagination Settings
-LARAVEL_BLOCKER_PAGINATION_ENABLED=false
-LARAVEL_BLOCKER_PAGINATION_PER_PAGE=25
-
-# Laravel Blocker Databales Settings - Not recommended with pagination.
-LARAVEL_BLOCKER_DATATABLES_ENABLED=false
-LARAVEL_BLOCKER_DATATABLES_JS_ENABLED=false
-LARAVEL_BLOCKER_DATATABLES_JS_START_COUNT=25
-LARAVEL_BLOCKER_DATATABLES_CSS_CDN='https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css'
-LARAVEL_BLOCKER_DATATABLES_JS_CDN='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js'
-LARAVEL_BLOCKER_DATATABLES_JS_PRESET_CDN='https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js'
-
-# Laravel Blocker Actions Options
-LARAVEL_BLOCKER_DEFAULT_ACTION='abort'
-LARAVEL_BLOCKER_DEFAULT_ACTION_ABORT_TYPE='403'
-LARAVEL_BLOCKER_DEFAULT_ACTION_VIEW='welcome'
-LARAVEL_BLOCKER_DEFAULT_ACTION_REDIRECT='/'
+LARAVEL_BLOCKER_ROLES_ENABLED=true
+LARAVEL_BLOCKER_ROLES_MIDDLWARE=role:admin
 ```
 
-### Routes
-* ```/blocker```
-* ```/blocker/{id}```
-* ```/blocker/create```
-* ```/blocker/{id}/edit```
-* ```/blocker-deleted```
-* ```/blocker-deleted/{id}```
-* ```/blocker-deleted/{id}```
+The historical spelling `rolesMiddlware` is retained. The package does not choose a roles implementation. Without roles enabled, any authenticated user can manage blocked entries, as in existing releases.
 
-###### Routes In-depth
-```
-+--------+----------------------------------------+---------------------------------------+---------------------------------------------+---------------------------------------------------------------------------------------------------------+--------------------------------------------------------------+
-| Domain | Method                                 | URI                                   | Name                                        | Action                                                                                                  | Middleware                                                   |
-+--------+----------------------------------------+---------------------------------------+---------------------------------------------+---------------------------------------------------------------------------------------------------------+--------------------------------------------------------------+
-|        | GET|HEAD                               | blocker                               | laravelblocker::blocker.index               | jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerController@index                         | web,checkblocked,auth                                        |
-|        | POST                                   | blocker                               | laravelblocker::blocker.store               | jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerController@store                         | web,checkblocked,auth                                        |
-|        | GET|HEAD                               | blocker-deleted                       | laravelblocker::blocker-deleted             | jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerDeletedController@index                  | web,checkblocked,auth                                        |
-|        | DELETE                                 | blocker-deleted-destroy-all           | laravelblocker::destroy-all-blocked         | jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerDeletedController@destroyAllItems        | web,checkblocked,auth                                        |
-|        | POST                                   | blocker-deleted-restore-all           | laravelblocker::blocker-deleted-restore-all | jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerDeletedController@restoreAllBlockedItems | web,checkblocked,auth                                        |
-|        | DELETE                                 | blocker-deleted/{id}                  | laravelblocker::blocker-item-destroy        | jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerDeletedController@destroy                | web,checkblocked,auth                                        |
-|        | PUT                                    | blocker-deleted/{id}                  | laravelblocker::blocker-item-restore        | jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerDeletedController@restoreBlockedItem     | web,checkblocked,auth                                        |
-|        | GET|HEAD                               | blocker-deleted/{id}                  | laravelblocker::blocker-item-show-deleted   | jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerDeletedController@show                   | web,checkblocked,auth                                        |
-|        | GET|HEAD                               | blocker/create                        | laravelblocker::blocker.create              | jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerController@create                        | web,checkblocked,auth                                        |
-|        | DELETE                                 | blocker/{blocker}                     | laravelblocker::blocker.destroy             | jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerController@destroy                       | web,checkblocked,auth                                        |
-|        | PUT|PATCH                              | blocker/{blocker}                     | laravelblocker::blocker.update              | jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerController@update                        | web,checkblocked,auth                                        |
-|        | GET|HEAD                               | blocker/{blocker}                     | laravelblocker::blocker.show                | jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerController@show                          | web,checkblocked,auth                                        |
-|        | GET|HEAD                               | blocker/{blocker}/edit                | laravelblocker::blocker.edit                | jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerController@edit                          | web,checkblocked,auth                                        |
-|        | POST                                   | search-blocked                        | laravelblocker::search-blocked              | jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerController@search                        | web,checkblocked,auth                                        |
-|        | POST                                   | search-blocked-deleted                | laravelblocker::search-blocked-deleted      | jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerDeletedController@search                 | web,checkblocked,auth                                        |
-+--------+----------------------------------------+---------------------------------------+---------------------------------------------+---------------------------------------------------------------------------------------------------------+--------------------------------------------------------------+
-```
+Blocking checks the request IP, available location details, and the authenticated user's email and domain. It also checks email and domain when posting to the `register` route URI. Deleted rules are ignored; restored and newly created rules take effect on subsequent requests, including long-running workers.
 
-### Screenshots
-![Laravel Blocker Dashboard](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker0.jpg)
-![Laravel Blocker Search](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker1.jpg)
-![Laravel Blocker Create](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker2.jpg)
-![Laravel Blocker View](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker3.jpg)
-![Laravel Blocker Edit](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker4.jpg)
-![Laravel Blocker Delete Modal](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker5.jpg)
-![Laravel Blocker Deleted Dashboard](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker6.jpg)
-![Laravel Blocker Destroy Modal](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker7.jpg)
-![Laravel Blocker Flash Message](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker8.jpg)
-![Laravel Blocker Restore Modal](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker9.jpg)
-![Laravel Blocker Restore Flash Message](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker10.jpg)
+Location lookup retains the existing GeoPlugin URL, with a configurable two-second timeout. GeoPlugin now requires a paid plan; its [HTTPS endpoint](https://www.geoplugin.com/webservices/ssl) uses an account key. Set `LARAVEL_BLOCKER_GEOLOCATION_URL` to your working JSON endpoint, including its key if needed, and `LARAVEL_BLOCKER_GEOLOCATION_TIMEOUT` to adjust the timeout. The package appends the request IP to that URL and expects the existing `geoplugin_*` fields. It does not switch providers or purchase service automatically. An unavailable or invalid response supplies no location data, so IP and email checks continue. Configure trusted proxies in your application so Laravel resolves client IP addresses correctly.
 
-### File Tree
-```bash
-├── .all-contributorsrc
-├── .env.travis
-├── .gitignore
-├── .travis.yml
-├── LICENSE
-├── README.md
-├── composer.json
-├── phpunit.xml
-└── src
-    ├── App
-    │   ├── Http
-    │   │   ├── Controllers
-    │   │   │   ├── LaravelBlockerController.php
-    │   │   │   └── LaravelBlockerDeletedController.php
-    │   │   ├── Middleware
-    │   │   │   └── LaravelBlocker.php
-    │   │   └── Requests
-    │   │       ├── SearchBlockerRequest.php
-    │   │       ├── StoreBlockerRequest.php
-    │   │       └── UpdateBlockerRequest.php
-    │   ├── Models
-    │   │   ├── BlockedItem.php
-    │   │   └── BlockedType.php
-    │   ├── Rules
-    │   │   └── UniqueBlockerItemValueEmail.php
-    │   └── Traits
-    │       ├── IpAddressDetails.php
-    │       └── LaravelCheckBlockedTrait.php
-    ├── LaravelBlockerFacade.php
-    ├── LaravelBlockerServiceProvider.php
-    ├── config
-    │   └── laravelblocker.php
-    ├── database
-    │   ├── migrations
-    │   │   ├── 2019_02_19_032636_create_laravel_blocker_types_table.php
-    │   │   └── 2019_02_19_045158_create_laravel_blocker_table.php
-    │   └── seeds
-    │       ├── DefaultBlockedItemsTableSeeder.php
-    │       ├── DefaultBlockedTypeTableSeeder.php
-    │       └── publish
-    │           ├── BlockedItemsTableSeeder.php
-    │           └── BlockedTypeTableSeeder.php
-    ├── resources
-    │   ├── lang
-    │   │   └── en
-    │   │       └── laravelblocker.php
-    │   └── views
-    │       ├── forms
-    │       │   ├── create-new.blade.php
-    │       │   ├── delete-full.blade.php
-    │       │   ├── delete-item.blade.php
-    │       │   ├── delete-sm.blade.php
-    │       │   ├── destroy-all.blade.php
-    │       │   ├── destroy-full.blade.php
-    │       │   ├── destroy-sm.blade.php
-    │       │   ├── edit-form.blade.php
-    │       │   ├── partials
-    │       │   │   ├── item-blocked-user-select.blade.php
-    │       │   │   ├── item-note-input.blade.php
-    │       │   │   ├── item-type-select.blade.php
-    │       │   │   └── item-value-input.blade.php
-    │       │   ├── restore-all.blade.php
-    │       │   ├── restore-item.blade.php
-    │       │   └── search-blocked.blade.php
-    │       ├── laravelblocker
-    │       │   ├── create.blade.php
-    │       │   ├── deleted
-    │       │   │   └── index.blade.php
-    │       │   ├── edit.blade.php
-    │       │   ├── index.blade.php
-    │       │   └── show.blade.php
-    │       ├── modals
-    │       │   └── confirm-modal.blade.php
-    │       ├── partials
-    │       │   ├── blocked-items-table.blade.php
-    │       │   ├── bs-visibility-css.blade.php
-    │       │   ├── flash-messages.blade.php
-    │       │   ├── form-status.blade.php
-    │       │   └── styles.blade.php
-    │       └── scripts
-    │           ├── blocked-form.blade.php
-    │           ├── confirm-modal.blade.php
-    │           ├── datatables.blade.php
-    │           ├── search-blocked.blade.php
-    │           └── tooltips.blade.php
-    └── routes
-        └── web.php
+Choose the blocked response with `blockerDefaultAction`: `abort`, `view`, or `redirect`. Registration blocks redirect back with an error. See the [configuration file](src/config/laravelblocker.php) for the existing response settings.
+
+## Configuration
+
+All existing configuration keys, environment variables, route names, model namespaces, facade binding, and publish tags remain available. The new settings are:
+
+| Setting | Environment variable | Default |
+| --- | --- | --- |
+| `frontend` | `LARAVEL_BLOCKER_FRONTEND` | `legacy` |
+| `theme` | `LARAVEL_BLOCKER_THEME` | `light` |
+
+`frontend` accepts `legacy`, `bootstrap5`, or `tailwind`. The legacy setting continues to use `blockerBootstapVersion`, including its historical spelling, to select Bootstrap 3 or 4.
+
+The setup commands save `frontend`, `theme`, and `blockerBootstapVersion` in `config/laravelblocker-ui.php`. That file takes precedence over the corresponding main config/environment settings. Remove it to return to environment-managed presentation settings. Commands clear configuration and compiled view caches; rebuild your config cache as part of deployment if needed.
+
+Existing publish commands still work:
+
+```sh
+php artisan vendor:publish --tag=laravelblocker-config
+php artisan vendor:publish --tag=laravelblocker-views
+php artisan vendor:publish --tag=laravelblocker-lang
+php artisan vendor:publish --tag=laravelblocker-migrations
+php artisan vendor:publish --tag=laravelblocker-seeders
 ```
 
-* Tree command can be installed using brew: `brew install tree`
-* File tree generated using command `tree -a -I '.git|node_modules|vendor|storage|tests'`
+## Optional packages
 
-### License
-LaravelBlocker is licensed under the [MIT license](https://opensource.org/licenses/MIT). Enjoy!
+[Laravel UI Kit](https://github.com/jeremykenedy/laravel-ui-kit) can be set up explicitly alongside Blocker's Blade views:
 
-### Contributors
-Thanks goes to these wonderful people ([emoji key](https://github.com/all-contributors/all-contributors#emoji-key)):
+```sh
+composer require jeremykenedy/laravel-ui-kit
+php artisan blocker:install --framework=bootstrap5 --ui-kit
+```
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore -->
-| [<img src="https://avatars0.githubusercontent.com/u/6244570?v=4" width="100px;" alt="Jeremy Kenedy"/><br /><sub><b>Jeremy Kenedy</b></sub>](http://jeremykenedy.github.io/)<br />[💻](https://github.com/jeremykenedy/laravel-blocker/commits?author=jeremykenedy "Code") |
-| :---: |
-<!-- ALL-CONTRIBUTORS-LIST:END -->
+The `--ui-kit` option calls the installed package's `ui-kit:install` command with the selected CSS framework and Blade frontend. It does not run Composer or install dependencies on your behalf. UI Kit's own installation checks still apply. Bootstrap 3 is not supported by UI Kit. Blocker's views work without UI Kit and are not replaced with UI Kit components.
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+[Laravel Toast](https://github.com/jeremykenedy/laravel-toast), [Laravel Darkmode Toggle](https://github.com/jeremykenedy/laravel-darkmode-toggle), [Laravel IP Capture](https://github.com/jeremykenedy/laravel-ip-capture), and [Laravel Seedster](https://github.com/jeremykenedy/laravel-seedster) may be installed and configured independently in the host application. None is installed, enabled, or invoked automatically. The built-in themes and flash messages need no additional package. The optional Laravel Seedster package does not replace the existing `eklundkristoffer/seedster` dependency.
+
+## License and contributors
+
+[MIT](LICENSE), copyright 2020-2026 Jeremy Kenedy.
+
+Maintained by [Jeremy Kenedy](https://github.com/jeremykenedy). Thanks to [all contributors](https://github.com/jeremykenedy/laravel-blocker/graphs/contributors).

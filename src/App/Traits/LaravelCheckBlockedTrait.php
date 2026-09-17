@@ -16,61 +16,37 @@ trait LaravelCheckBlockedTrait
     public static function checkBlocked()
     {
         $requestIp = Request::ip();
-        $all = Request::all();
-        $method = Request::method();
         $route = Request::route();
-        $ipAddressDetails = IpAddressDetails::checkIP($requestIp);
-        $blocked = false;
-        $type = null;
+        $blockedItems = BlockedItem::all();
+        $blocked = self::checkedBlockedList($requestIp, false, $blockedItems);
+        $type = 'ip';
 
-        // Check IP
-        $blocked = self::checkedBlockedList($requestIp, $blocked);
-
-        // Check Ip Address Details
-        if ($ipAddressDetails) {
-            // Check City
-            $blocked = self::checkedBlockedList($ipAddressDetails['city'], $blocked);
-
-            // Check State
-            $blocked = self::checkedBlockedList($ipAddressDetails['state'], $blocked);
-
-            // Check Country
-            $blocked = self::checkedBlockedList($ipAddressDetails['country'], $blocked);
-
-            // Check Country Code
-            $blocked = self::checkedBlockedList($ipAddressDetails['countryCode'], $blocked);
-
-            // Check Continent
-            $blocked = self::checkedBlockedList($ipAddressDetails['continent'], $blocked);
-
-            // Check Continent
-            $blocked = self::checkedBlockedList($ipAddressDetails['continent'], $blocked);
-
-            // Check Region
-            $blocked = self::checkedBlockedList($ipAddressDetails['region'], $blocked);
-
-            $type = 'ip';
+        if (!$blocked) {
+            $details = static::checkIP($requestIp);
+            foreach (['city', 'state', 'country', 'countryCode', 'continent', 'region'] as $field) {
+                if (!empty($details[$field])) {
+                    $blocked = self::checkedBlockedList($details[$field], $blocked, $blockedItems);
+                }
+            }
         }
 
-        // Registering
-        if ($method === 'POST' && $route->uri === 'register') {
-            $domain_name = self::getEmailDomain($all['email']);
-            $blocked = self::checkedBlockedList($domain_name, $blocked);
-            $blocked = self::checkedBlockedList($all['email'], $blocked);
+        if (Request::method() === 'POST' && $route && $route->uri() === 'register') {
+            $email = Request::input('email');
+            if (is_string($email)) {
+                $blocked = self::checkedBlockedList(self::getEmailDomain($email), $blocked, $blockedItems);
+                $blocked = self::checkedBlockedList($email, $blocked, $blockedItems);
+            }
             $type = 'register';
         }
 
-        // Logged IN
         if (\Auth::check()) {
-            $userId = Request::user()->id;
-            $userEmail = Request::user()->email;
-            $domain_name = self::getEmailDomain($userEmail);
-            $blocked = self::checkedBlockedList($domain_name, $blocked);
-            $blocked = self::checkedBlockedList($userEmail, $blocked);
+            $email = Request::user()->email;
+            $blocked = self::checkedBlockedList(self::getEmailDomain($email), $blocked, $blockedItems);
+            $blocked = self::checkedBlockedList($email, $blocked, $blockedItems);
             $type = 'auth';
         }
 
-        self::checkBlockedActions($blocked, $type);
+        return self::checkBlockedActions($blocked, $type);
     }
 
     /**
@@ -96,10 +72,10 @@ trait LaravelCheckBlockedTrait
                             break;
 
                         case 'redirect':
-                            $currentRoute = Request::route()->getName();
+                            $currentRoute = Request::route() ? Request::route()->getName() : null;
                             $redirectRoute = config('laravelblocker.blockerDefaultActionRedirect');
 
-                            if ($currentRoute != $redirectRoute) {
+                            if ($currentRoute != $redirectRoute && Request::url() !== url($redirectRoute)) {
                                 abort(redirect($redirectRoute));
                             }
                             break;
@@ -123,7 +99,7 @@ trait LaravelCheckBlockedTrait
      */
     private static function getEmailDomain($email)
     {
-        return substr(strrchr($email, '@'), 1);
+        return is_string($email) && strpos($email, '@') !== false ? substr(strrchr($email, '@'), 1) : '';
     }
 
     /**
@@ -134,13 +110,8 @@ trait LaravelCheckBlockedTrait
      *
      * @return bool ( description_of_the_return_value )
      */
-    private static function checkedBlockedList($checkAgainst, $blocked)
+    private static function checkedBlockedList($checkAgainst, $blocked, $blockedItems)
     {
-        static $blockedItems = null;
-        if ($blockedItems === null) {
-            $blockedItems = BlockedItem::all();
-        }
-
         foreach ($blockedItems as $blockedItem) {
             if ($blockedItem->value == $checkAgainst) {
                 $blocked = true;
