@@ -3,7 +3,9 @@
 namespace jeremykenedy\LaravelBlocker\App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use jeremykenedy\LaravelBlocker\App\Models\BlockedItem;
+use jeremykenedy\LaravelBlocker\App\Models\BlockedType;
 use jeremykenedy\LaravelBlocker\App\Rules\UniqueBlockerItemValueEmail;
 
 class StoreBlockerRequest extends FormRequest
@@ -29,13 +31,18 @@ class StoreBlockerRequest extends FormRequest
      */
     public function rules()
     {
-        $id = $this->route('blocker');
+        $item = new BlockedItem();
+        $type = new BlockedType();
+        $unique = Rule::unique($item->getConnectionName().'.'.$item->getTable(), 'value');
+        if ($this->route('blocker')) {
+            $unique->ignore($this->route('blocker'));
+        }
 
         return [
-            'typeId' => 'required|max:255|integer',
-            'value'  => ['required', 'max:255', 'string', 'unique:laravel_blocker,value,'.$id.',id', new UniqueBlockerItemValueEmail(Request::input('typeId'))],
+            'typeId' => ['required', 'integer', Rule::exists($type->getConnectionName().'.'.$type->getTable(), 'id')->whereNull('deleted_at')],
+            'value'  => ['required', 'max:255', 'string', $unique, new UniqueBlockerItemValueEmail($this->input('typeId'))],
             'note'   => 'nullable|max:500|string',
-            'userId' => 'nullable|integer',
+            'userId' => ['nullable', 'integer', Rule::exists($item->getConnectionName().'.users', 'id')],
         ];
     }
 

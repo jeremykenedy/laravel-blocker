@@ -35,6 +35,8 @@
 @endsection
 
 @section('content')
+    <div data-blocker-root data-theme="{{ config('laravelblocker.theme', 'light') }}">
+    @include('laravelblocker::partials.theme')
 
     @include('laravelblocker::partials.flash-messages')
 
@@ -46,9 +48,9 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span id="card_title">
                                 @isset($typeDeleted)
-                                    {!! trans('laravelblocker::laravelblocker.blocked-item-deleted-title', ['name' => $item->value]) !!}
+                                    {!! trans('laravelblocker::laravelblocker.blocked-item-deleted-title', ['name' => e($item->value)]) !!}
                                 @else
-                                    {!! trans('laravelblocker::laravelblocker.blocked-item-title', ['name' => $item->value]) !!}
+                                    {!! trans('laravelblocker::laravelblocker.blocked-item-title', ['name' => e($item->value)]) !!}
                                 @endisset
                             </span>
                             <div class="pull-right">
@@ -83,7 +85,7 @@
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Slug
                                 <span class="badge badge-pill">
-                                    {!! $item->blockedType->slug !!}
+                                    {{ $item->blockedType->slug }}
                                 </span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -102,7 +104,7 @@
                                 UserId
                                 <span class="badge badge-pill">
                                     @if ($item->userId)
-                                        {!! $item->userId !!}
+                                        {{ $item->userId }}
                                     @else
                                         <span class="disabled">
                                             {!! trans('laravelblocker::laravelblocker.none') !!}
@@ -113,20 +115,20 @@
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Created At
                                 <span class="badge badge-pill">
-                                    {!! $item->created_at->format('m/d/Y H:ia') !!}
+                                    {{ $item->created_at->format('m/d/Y H:ia') }}
                                 </span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 Updated At
                                 <span class="badge badge-pill">
-                                    {!! $item->updated_at->format('m/d/Y H:ia') !!}
+                                    {{ $item->updated_at->format('m/d/Y H:ia') }}
                                 </span>
                             </li>
                             @if ($item->deleted_at)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     Deleted At
                                     <span class="badge badge-pill">
-                                        {!! $item->deleted_at->format('m/d/Y H:ia') !!}
+                                        {{ $item->deleted_at->format('m/d/Y H:ia') }}
                                     </span>
                                 </li>
                             @endif
@@ -167,6 +169,7 @@
         'actionBtnIcon' => 'fa-trash-o'
     ])
 
+    </div>
 @endsection
 
 @section(config('laravelblocker.blockerBladePlacementJs'))

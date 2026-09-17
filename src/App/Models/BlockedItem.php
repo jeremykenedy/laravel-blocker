@@ -104,6 +104,6 @@ class BlockedItem extends Model
      */
     public function blockedType()
     {
-        return $this->belongsTo(BlockedType::class, 'typeId');
+        return $this->belongsTo(BlockedType::class, 'typeId')->withTrashed();
     }
 }

@@ -1,5 +1,5 @@
 <div class="form-group has-feedback row">
-    {{ html()->label('note', trans('laravelblocker::laravelblocker.forms.blockedNoteLabel'))->class('col-md-3 control-label') }}
+    {{ html()->label(trans('laravelblocker::laravelblocker.forms.blockedNoteLabel'), 'note')->class('col-md-3 control-label') }}
     <div class="col-md-9">
         <div class="input-group">
             @php($oldValue = old('note', isset($item) ? $item->note : ''))

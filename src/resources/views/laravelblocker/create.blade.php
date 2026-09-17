@@ -29,6 +29,8 @@
 @endsection
 
 @section('content')
+    <div data-blocker-root data-theme="{{ config('laravelblocker.theme', 'light') }}">
+    @include('laravelblocker::partials.theme')
 
     @include('laravelblocker::partials.flash-messages')
 
@@ -55,6 +57,7 @@
         </div>
     </div>
 
+    </div>
 @endsection
 
 @section(config('laravelblocker.blockerBladePlacementJs'))

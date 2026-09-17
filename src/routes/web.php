@@ -11,7 +11,11 @@ use jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerDeletedContro
 |
 */
 Route::group([
-    'middleware'    => ['web', 'checkblocked'],
+    'middleware'    => array_merge(
+        ['web', 'checkblocked'],
+        config('laravelblocker.authEnabled') ? ['auth'] : [],
+        config('laravelblocker.rolesEnabled') ? [config('laravelblocker.rolesMiddlware')] : []
+    ),
     'as'            => 'laravelblocker::',
 ], function () {
     // Blocker

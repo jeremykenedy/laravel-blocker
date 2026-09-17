@@ -1,0 +1,7 @@
+{
+    "name": "jeremykenedy/laravel-blocker-tools",
+    "description": "Development formatting tools for Laravel Blocker.",
+    "license": "MIT",
+    "require-dev": { "laravel/pint": "^1.27" },
+    "config": { "sort-packages": true }
+}

@@ -21,7 +21,10 @@ class LaravelBlocker
     public function handle($request, Closure $next)
     {
         if (config('laravelblocker.laravelBlockerEnabled')) {
-            LaravelCheckBlockedTrait::checkBlocked();
+            $response = self::checkBlocked();
+            if ($response !== null) {
+                return $response;
+            }
         }
 
         return $next($request);

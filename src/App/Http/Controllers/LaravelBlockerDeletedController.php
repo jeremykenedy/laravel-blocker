@@ -34,13 +34,9 @@ class LaravelBlockerDeletedController extends LaravelBlockerController
      */
     public function index()
     {
-        if (config('laravelblocker.blockerPaginationEnabled')) {
-            $blocked = BlockedItem::onlyTrashed()->paginate(config('laravelblocker.blockerPaginationPerPage'));
-        } else {
-            $blocked = BlockedItem::onlyTrashed()->get();
-        }
+        $blocked = $this->blockedItems(true);
 
-        return view('laravelblocker::laravelblocker.deleted.index', compact('blocked'));
+        return view($this->blockerView('deleted.index'), compact('blocked'));
     }
 
     /**
@@ -55,7 +51,7 @@ class LaravelBlockerDeletedController extends LaravelBlockerController
         $item = self::getDeletedBlockedItem($id);
         $typeDeleted = 'deleted';
 
-        return view('laravelblocker::laravelblocker.show', compact('item', 'typeDeleted'));
+        return view($this->blockerView('show'), compact('item', 'typeDeleted'));
     }
 
     /**
@@ -138,15 +134,10 @@ class LaravelBlockerDeletedController extends LaravelBlockerController
     public function search(SearchBlockerRequest $request)
     {
         $searchTerm = $request->validated()['blocked_search_box'];
-        $results = BlockedItem::onlyTrashed()->where('id', 'like', $searchTerm.'%')->onlyTrashed()
-                        ->orWhere('typeId', 'like', $searchTerm.'%')->onlyTrashed()
-                        ->orWhere('value', 'like', $searchTerm.'%')->onlyTrashed()
-                        ->orWhere('note', 'like', $searchTerm.'%')->onlyTrashed()
-                        ->orWhere('userId', 'like', $searchTerm.'%')->onlyTrashed()
-                        ->get();
+        $results = $this->filterBlockedItems(BlockedItem::onlyTrashed()->with('blockedType'), $searchTerm)->get();
 
         $results->map(function ($item) {
-            $item['type'] = $item->blockedType->slug;
+            $item['type'] = $item->blockedType ? $item->blockedType->slug : '';
 
             return $item;
         });
