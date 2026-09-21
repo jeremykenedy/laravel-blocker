@@ -40,6 +40,6 @@
         <section class="lb-card {{ config('laravelblocker.frontend') === 'bootstrap5' ? 'card' : 'rounded-xl border shadow-sm' }}">
             @yield('blocker-content')
         </section>
-        @include('laravelblocker::modern.scripts')
+        <script src="{{ route('laravelblocker::assets', 'blocker.js') }}" defer></script>
     </div>
 @endsection
