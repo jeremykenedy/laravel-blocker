@@ -46,6 +46,7 @@ class BlockerTest extends TestCase
         $this->postJson('/blocker', ['typeId' => $item->typeId, 'value' => str_repeat('a', 256), 'note' => str_repeat('b', 501)])->assertStatus(422)->assertJsonValidationErrors(['value', 'note']);
         $type = BlockedType::create(['slug' => 'email', 'name' => 'Email']);
         $this->postJson('/blocker', ['typeId' => $type->id, 'value' => 'invalid'])->assertStatus(422)->assertJsonValidationErrors('value');
+        $this->postJson('/blocker', ['typeId' => $type->id, 'value' => ['invalid']])->assertStatus(422)->assertJsonValidationErrors('value');
         $this->post('/blocker', ['typeId' => $type->id, 'value' => 'a@example.org'])->assertRedirect();
         $this->assertSame(2, BlockedItem::count());
     }

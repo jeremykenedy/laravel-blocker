@@ -62,6 +62,10 @@ class UniqueBlockerItemValueEmail implements Rule
      */
     public function checkEmail($email)
     {
+        if (!is_string($email)) {
+            return false;
+        }
+
         $find1 = strpos($email, '@');
         $find2 = strpos($email, '.');
 
