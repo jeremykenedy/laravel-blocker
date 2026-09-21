@@ -26,7 +26,7 @@ Use `--views` to publish missing views. Existing files are preserved. To replace
 php artisan blocker:update --views --force
 ```
 
-Before replacement, the command copies the existing view directory to a sibling named `laravelblocker.backup-<timestamp>-<random suffix>`. Existing presentation profiles are also backed up before rewriting. If a backup fails, replacement stops. `--force` applies only to views and does not overwrite the main configuration, translations, migrations, or seeders. Without `--views`, it does not replace views.
+Before replacement, the command copies the existing view directory to `storage/app/laravelblocker-backups/laravelblocker.backup-<timestamp>-<random suffix>`. Existing presentation profiles are also backed up before rewriting. If a backup fails, replacement stops. `--force` applies only to views and does not overwrite the main configuration, translations, migrations, or seeders. Without `--views`, it does not replace views.
 
 Commands do not migrate, seed, rewrite `.env`, or change application assets. They clear config and view caches. Review the profile and rebuild the application's caches during deployment.
 

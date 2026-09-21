@@ -11,9 +11,10 @@
         </form>
     @endif
 </div>
-<div class="lb-table-wrap" role="region" aria-label="{{ trans('laravelblocker::laravelblocker.ui.active') }}" tabindex="0">
+<div class="lb-table-wrap" role="region" aria-label="{{ trans('laravelblocker::laravelblocker.ui.'.($deleted ? 'deleted' : 'active')) }}" tabindex="0">
     <table class="{{ config('laravelblocker.frontend') === 'bootstrap5' ? 'table align-middle' : 'w-full text-left text-sm' }}">
-        <caption>{{ trans_choice('laravelblocker::laravelblocker.blocked-table.caption', 1, ['blockedcount' => $blocked->count()]) }}</caption>
+        @php($total = config('laravelblocker.blockerPaginationEnabled') ? $blocked->total() : $blocked->count())
+        <caption>{{ trans_choice('laravelblocker::laravelblocker.blocked-table.caption', $total, ['blockedcount' => $total]) }}</caption>
         <thead><tr>
             @foreach(['type', 'value', 'note', 'actions'] as $column)
                 <th scope="col">{{ trans('laravelblocker::laravelblocker.blocked-table.'.$column) }}</th>

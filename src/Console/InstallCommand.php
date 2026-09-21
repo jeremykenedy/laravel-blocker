@@ -16,7 +16,7 @@ class InstallCommand extends Command
 
     protected $description = 'Configure Laravel Blocker without replacing application settings';
 
-    public function handle()
+    public function handle(Filesystem $files)
     {
         $frameworks = ['bootstrap3', 'bootstrap4', 'bootstrap5', 'tailwind'];
         $current = config('laravelblocker.frontend', 'legacy');
@@ -45,7 +45,6 @@ class InstallCommand extends Command
             }
         }
 
-        $files = new Filesystem();
         if (!$files->isDirectory(config_path())) {
             $files->makeDirectory(config_path(), 0755, true);
         }
@@ -79,7 +78,11 @@ class InstallCommand extends Command
 
     private function backup(Filesystem $files, $path)
     {
-        $backup = $path.'.backup-'.date('YmdHis').'-'.bin2hex(random_bytes(4));
+        $directory = storage_path('app/laravelblocker-backups');
+        if (!$files->isDirectory($directory)) {
+            $files->makeDirectory($directory, 0755, true);
+        }
+        $backup = $directory.'/'.basename($path).'.backup-'.date('YmdHis').'-'.bin2hex(random_bytes(4));
         $copied = $files->isDirectory($path) ? $files->copyDirectory($path, $backup) : $files->copy($path, $backup);
         if (!$copied) {
             throw new \RuntimeException('Could not back up '.$path.'. No replacement was written.');

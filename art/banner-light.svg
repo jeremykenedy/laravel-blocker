@@ -1,14 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="200" viewBox="0 0 800 200" role="img" aria-labelledby="title description">
   <title id="title">Laravel Blocker</title>
-  <desc id="desc">Access management for Laravel. Block, review, and restore.</desc>
-  <rect width="1200" height="340" rx="24" fill="#f5f7fb"/>
-  <rect x="1" y="1" width="1198" height="338" rx="23" fill="none" stroke="#d9e0eb"/>
-  <path d="M150 76 223 104V169C223 219 184 252 150 267 116 252 77 219 77 169V104Z" fill="#244fbe"/>
-  <rect x="122" y="153" width="56" height="51" rx="8" fill="#fff"/>
-  <path d="M133 153V139a17 17 0 0 1 34 0v14" fill="none" stroke="#fff" stroke-width="9"/>
-  <circle cx="150" cy="174" r="5" fill="#244fbe"/>
-  <path d="M150 174v12" stroke="#244fbe" stroke-width="5"/>
-  <text x="284" y="113" font-family="Arial, sans-serif" font-size="16" letter-spacing="4" fill="#53627a">ACCESS MANAGEMENT</text>
-  <text x="280" y="185" font-family="Arial, sans-serif" font-size="62" font-weight="700" fill="#17243a">Laravel Blocker</text>
-  <text x="284" y="237" font-family="Arial, sans-serif" font-size="23" fill="#53627a">Block, review, and restore. Built for your application.</text>
+  <desc id="description">Manage blocked IPs, domains, email addresses, and users.</desc>
+  <rect width="800" height="200" rx="16" fill="#fff" stroke="#e5e7eb"/>
+  <g transform="translate(580, 30)">
+    <path d="M70 6 L127 28 V73 Q127 113 70 143 Q13 113 13 73 V28 Z" fill="#6366f1"/>
+    <path d="M70 22 L112 39 V74 Q112 102 70 125 Q28 102 28 74 V39 Z" fill="none" stroke="#c4b5fd" stroke-width="2"/>
+    <rect x="49" y="64" width="42" height="36" rx="6" fill="#fff"/>
+    <path d="M56 64 V53 Q56 39 70 39 Q84 39 84 53 V64" fill="none" stroke="#fff" stroke-width="6"/>
+    <circle cx="70" cy="79" r="4" fill="#6366f1"/>
+    <path d="M70 79 V88" stroke="#6366f1" stroke-width="4"/>
+  </g>
+  <g font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+    <text x="40" y="80" font-size="40" font-weight="700" letter-spacing="-.5" fill="#0f172a">Laravel Blocker</text>
+    <text x="40" y="112" font-size="14" fill="#64748b">Manage blocked IPs, domains, email addresses, and users.</text>
+    <rect x="40" y="133" width="90" height="22" rx="11" fill="#f5f3ff" stroke="#c4b5fd" stroke-width=".8"/><text x="85" y="147.5" fill="#6d28d9" font-size="10" font-weight="500" text-anchor="middle">Soft deletes</text><rect x="138" y="133" width="84" height="22" rx="11" fill="#eff6ff" stroke="#60a5fa" stroke-width=".8"/><text x="180" y="147.5" fill="#1e40af" font-size="10" font-weight="500" text-anchor="middle">Bootstrap</text><rect x="230" y="133" width="78" height="22" rx="11" fill="#f0fdf4" stroke="#4ade80" stroke-width=".8"/><text x="269" y="147.5" fill="#166534" font-size="10" font-weight="500" text-anchor="middle">Tailwind</text><rect x="316" y="133" width="88" height="22" rx="11" fill="#fffbeb" stroke="#fbbf24" stroke-width=".8"/><text x="360" y="147.5" fill="#b45309" font-size="10" font-weight="500" text-anchor="middle">Dark mode</text>
+  </g>
 </svg>

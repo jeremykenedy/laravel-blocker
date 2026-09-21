@@ -10,51 +10,44 @@ trait LaravelCheckBlockedTrait
 {
     use IpAddressDetails;
 
-    /**
-     * Check if on laravel blocer list and respond accordingly.
-     */
     public static function checkBlocked()
     {
         $requestIp = Request::ip();
         $route = Request::route();
-        $blockedItems = BlockedItem::all();
-        $blocked = self::checkedBlockedList($requestIp, false, $blockedItems);
+        $candidates = [$requestIp];
         $type = 'ip';
-
-        if (!$blocked) {
-            $details = static::checkIP($requestIp);
-            foreach (['city', 'state', 'country', 'countryCode', 'continent', 'region'] as $field) {
-                if (!empty($details[$field])) {
-                    $blocked = self::checkedBlockedList($details[$field], $blocked, $blockedItems);
-                }
-            }
-        }
 
         if (Request::method() === 'POST' && $route && $route->uri() === 'register') {
             $email = Request::input('email');
             if (is_string($email)) {
-                $blocked = self::checkedBlockedList(self::getEmailDomain($email), $blocked, $blockedItems);
-                $blocked = self::checkedBlockedList($email, $blocked, $blockedItems);
+                $candidates[] = self::getEmailDomain($email);
+                $candidates[] = $email;
             }
             $type = 'register';
         }
 
         if (\Auth::check()) {
             $email = Request::user()->email;
-            $blocked = self::checkedBlockedList(self::getEmailDomain($email), $blocked, $blockedItems);
-            $blocked = self::checkedBlockedList($email, $blocked, $blockedItems);
+            $candidates[] = self::getEmailDomain($email);
+            $candidates[] = $email;
             $type = 'auth';
+        }
+
+        $blocked = self::hasBlockedValue($candidates);
+        if (!$blocked) {
+            $details = static::checkIP($requestIp);
+            $locations = [];
+            foreach (['city', 'state', 'country', 'countryCode', 'continent', 'region'] as $field) {
+                if (!empty($details[$field])) {
+                    $locations[] = $details[$field];
+                }
+            }
+            $blocked = self::hasBlockedValue($locations);
         }
 
         return self::checkBlockedActions($blocked, $type);
     }
 
-    /**
-     * How to responde to a blocked item.
-     *
-     * @param string $blocked The blocked item
-     * @param string $type    The type of blocked item
-     */
     private static function checkBlockedActions($blocked, $type = null)
     {
         if ($blocked) {
@@ -90,35 +83,29 @@ trait LaravelCheckBlockedTrait
         }
     }
 
-    /**
-     * Gets the email domain.
-     *
-     * @param string $email The email
-     *
-     * @return string The email domain.
-     */
     private static function getEmailDomain($email)
     {
         return is_string($email) && strpos($email, '@') !== false ? substr(strrchr($email, '@'), 1) : '';
     }
 
-    /**
-     * { function_description }.
-     *
-     * @param string $checkAgainst The check against
-     * @param bool   $blocked      The blocked
-     *
-     * @return bool ( description_of_the_return_value )
-     */
-    private static function checkedBlockedList($checkAgainst, $blocked, $blockedItems)
+    private static function hasBlockedValue(array $candidates)
     {
-        foreach ($blockedItems as $blockedItem) {
-            if ($blockedItem->value == $checkAgainst) {
-                $blocked = true;
-                break;
+        if (!$candidates) {
+            return false;
+        }
+        $query = BlockedItem::select('value');
+        $numeric = array_filter($candidates, function ($value) {
+            return !is_string($value) || is_numeric($value);
+        });
+        if (!$numeric) {
+            $query->whereIn('value', $candidates);
+        }
+        foreach ($query->cursor() as $item) {
+            if (in_array($item->value, $candidates)) {
+                return true;
             }
         }
 
-        return $blocked;
+        return false;
     }
 }

@@ -44,6 +44,27 @@ class MiddlewareTest extends TestCase
         $this->get('/protected')->assertStatus(403);
     }
 
+    public function test_unrelated_rules_are_not_loaded_for_string_candidates(): void
+    {
+        $this->block('unrelated.example');
+        $retrieved = 0;
+        BlockedItem::retrieved(function () use (&$retrieved) {
+            $retrieved++;
+        });
+        $this->get('/protected')->assertOk();
+        $this->assertSame(0, $retrieved);
+        $this->block('127.0.0.1');
+        $this->get('/protected')->assertStatus(403);
+        $this->assertSame(1, $retrieved);
+    }
+
+    public function test_numeric_location_values_keep_legacy_comparison_behavior(): void
+    {
+        config(['blocker_test_location' => ['region' => '1']]);
+        $this->block('01');
+        $this->get('/protected')->assertStatus(403);
+    }
+
     public function test_disabled_middleware_bypasses_blocking(): void
     {
         $this->block('127.0.0.1');
@@ -98,6 +119,6 @@ class FakeLocationBlocker extends LaravelBlocker
 {
     public static function checkIP($ip = null, $purpose = 'location', $deep_detect = true)
     {
-        return ['city' => 'Paris', 'state' => 'Ile-de-France', 'country' => 'France', 'countryCode' => 'FR', 'continent' => 'Europe', 'region' => 'IDF'];
+        return config('blocker_test_location', ['city' => 'Paris', 'state' => 'Ile-de-France', 'country' => 'France', 'countryCode' => 'FR', 'continent' => 'Europe', 'region' => 'IDF']);
     }
 }

@@ -1,34 +1,55 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="art/banner-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="art/banner-light.svg">
-  <img alt="Laravel Blocker: access management for Laravel" src="art/banner-light.svg">
-</picture>
+<p align="center">
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="art/banner-dark.svg">
+        <source media="(prefers-color-scheme: light)" srcset="art/banner-light.svg">
+        <img src="art/banner-light.svg" alt="Laravel Blocker" width="800">
+    </picture>
+</p>
 
-# Laravel Blocker
+<p align="center">Block IP addresses, email addresses, domains, users, and locations in Laravel.</p>
 
-[![Tests](https://github.com/jeremykenedy/laravel-blocker/actions/workflows/tests.yml/badge.svg)](https://github.com/jeremykenedy/laravel-blocker/actions/workflows/tests.yml)
-[![Latest Stable Version](https://poser.pugx.org/jeremykenedy/laravel-blocker/v/stable.svg)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
-[![Total Downloads](https://poser.pugx.org/jeremykenedy/laravel-blocker/d/total.svg)](https://packagist.org/packages/jeremykenedy/laravel-blocker)
-[![License](https://poser.pugx.org/jeremykenedy/laravel-blocker/license)](LICENSE)
+<p align="center">
+    <a href="https://packagist.org/packages/jeremykenedy/laravel-blocker"><img src="https://poser.pugx.org/jeremykenedy/laravel-blocker/d/total.svg" alt="Total Downloads"></a>
+    <a href="https://packagist.org/packages/jeremykenedy/laravel-blocker"><img src="https://poser.pugx.org/jeremykenedy/laravel-blocker/v/stable.svg" alt="Latest Stable Version"></a>
+    <a href="https://github.com/jeremykenedy/laravel-blocker/actions/workflows/tests.yml"><img src="https://github.com/jeremykenedy/laravel-blocker/actions/workflows/tests.yml/badge.svg" alt="Tests"></a>
+    <a href="https://github.styleci.io/repos/171390607"><img src="https://github.styleci.io/repos/171390607/shield?branch=master" alt="StyleCI"></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License MIT"></a>
+</p>
 
-Block IP addresses, email addresses, domains, users, cities, states, countries, continents, and regions. Manage entries through a Blade interface with search, soft deletion, restoration, and permanent deletion.
+## Table of Contents
 
-Bootstrap 4 remains the default. Bootstrap 3, Bootstrap 5, and Tailwind CSS are available. Composer updates do not switch frameworks, publish files, change your configuration, or run migrations.
-
+- [Framework Support](#framework-support)
+- [Requirements](#requirements)
 - [Installation](#installation)
-- [Frontend options](#frontend-options)
-- [Middleware and authorization](#middleware-and-authorization)
+- [Quick Start](#quick-start)
+- [Features](#features)
 - [Configuration](#configuration)
-- [Optional packages](#optional-packages)
-- [Updating](docs/upgrading.md)
-- [Testing](docs/testing.md)
-- [Changelog](CHANGELOG.md)
+- [Changing Frameworks](#changing-frameworks)
+- [Artisan Commands](#artisan-commands)
+- [Middleware and Authorization](#middleware-and-authorization)
+- [Optional Packages](#optional-packages)
+- [Updating](#updating)
+- [Testing](#testing)
+- [License](#license)
+
+## Framework Support
+
+The package supplies Blade views. Bootstrap 4 remains the default, and Bootstrap 3 configuration is still honored. Composer updates do not change frameworks, publish files, or run migrations.
+
+| CSS framework | Views | Assets supplied by your layout |
+| --- | --- | --- |
+| Bootstrap 4 (default) | Existing Blade views | Bootstrap 4 and jQuery |
+| Bootstrap 3 | Existing Blade views | Bootstrap 3 and jQuery |
+| Bootstrap 5 | Modern Blade views | Bootstrap 5 CSS |
+| Tailwind CSS | Modern Blade views | Your compiled Tailwind CSS |
+
+Modern views use native forms and JavaScript. The package serves its own CSS and JavaScript through the named `laravelblocker::assets` route; no asset publishing step is required. Theme styles affect only the Blocker interface.
 
 ## Requirements
 
-The package retains its PHP `^7.3|^8.0` requirement and existing runtime dependency ranges. The compatibility suite covers Laravel 5.8 through 13 using the matching PHP and Testbench versions. Historical compatibility does not extend Laravel's own security support period. Laravel 5.7 and earlier applications should keep their existing release, such as `v1.0.6`.
+The package retains PHP `^7.3|^8.0` and its existing runtime dependency ranges. The compatibility suite covers Laravel 5.8 through 13 with matching PHP versions. Compatibility with historical releases does not extend their security support period. Laravel 5.7 and earlier applications should keep their existing release, such as `v1.0.6`.
 
-[spatie/laravel-html](https://github.com/spatie/laravel-html) and [eklundkristoffer/seedster](https://github.com/eklundkristoffer/seedster) remain runtime dependencies for existing forms and seed registration. None of the optional packages below is required.
+[spatie/laravel-html](https://github.com/spatie/laravel-html) and [eklundkristoffer/seedster](https://github.com/eklundkristoffer/seedster) remain dependencies for existing forms and seed registration. The packages listed under [Optional Packages](#optional-packages) are not required.
 
 ## Installation
 
@@ -37,56 +58,41 @@ composer require jeremykenedy/laravel-blocker
 php artisan blocker:install
 ```
 
-The installer asks which CSS framework to use. It writes presentation settings to `config/laravelblocker-ui.php` and publishes the package configuration only when it is missing. Views run directly from the package unless you choose to publish them.
+The installer asks which CSS framework to use and saves presentation settings to `config/laravelblocker-ui.php`. It detects and preserves existing main configuration files and views. Views run from the package unless you publish copies for customization.
 
-For an unattended installation that retains Bootstrap 4:
+For an unattended installation, retain the configured framework or the Bootstrap 4 default:
 
 ```sh
 php artisan blocker:install --no-interaction
 ```
 
-Before migrating, configure your database connection and user model. The defaults remain `mysql` and `App\User` for existing applications. A typical newer application uses:
+Before migrating, set your database connection and user model. The defaults remain `mysql` and `App\User`. A newer application will usually need:
 
 ```dotenv
 LARAVEL_BLOCKER_DATABASE_CONNECTION=mysql
 LARAVEL_BLOCKER_USER_MODEL="App\Models\User"
 ```
 
-The `users` table must exist on the blocker connection before the package migration runs; the package's existing foreign keys reference that table. Migrations load automatically and do not need publishing.
+The `users` table must exist on the blocker connection before the package migration runs. Its existing foreign keys reference that table. Migrations load automatically.
 
 ```sh
 php artisan migrate
 php artisan db:seed --class='jeremykenedy\LaravelBlocker\Database\Seeders\DefaultBlockedTypeTableSeeder'
 ```
 
-Optionally seed the existing sample blocked domains:
+To add the existing sample blocked domains, run the item seeder separately:
 
 ```sh
 php artisan db:seed --class='jeremykenedy\LaravelBlocker\Database\Seeders\DefaultBlockedItemsTableSeeder'
 ```
 
-These include `example.com`, `test.com`, and `mailinator.com`. Do not run the item seeder unless you want those domains blocked. Existing Seedster registration and configuration flags remain available; normal Composer updates never execute seeders.
+These include `example.com`, `test.com`, and `mailinator.com`. Run this seeder only if you want those domains blocked. Existing Seedster registration flags remain available; Composer updates never execute seeders.
 
-## Frontend options
+## Quick Start
 
-| Selection | Views | Assets supplied by your layout |
-| --- | --- | --- |
-| `bootstrap4` (default) | Existing Blade views | Bootstrap 4 and jQuery |
-| `bootstrap3` | Existing Blade views | Bootstrap 3 and jQuery |
-| `bootstrap5` | Modern Blade views | Bootstrap 5 CSS |
-| `tailwind` | Modern Blade views | Your compiled Tailwind CSS |
+Open `/blocker` to manage active entries and `/blocker-deleted` to restore or permanently delete entries. All framework choices use the same routes and forms.
 
-```sh
-php artisan blocker:install --framework=bootstrap5 --theme=system
-php artisan blocker:update --framework=tailwind --theme=dark
-php artisan blocker:update --framework=bootstrap4 --theme=light
-```
-
-Modern views use native forms and JavaScript, including confirmation dialogs for destructive actions. They provide search, pagination, inline validation feedback, and light, dark, and system appearance choices. The appearance selector stores the visitor's choice in local storage and affects only the Blocker interface. If storage is unavailable, the selector still works for the current page.
-
-The legacy views support `--theme=dark` and `--theme=system` through scoped styles. Their existing jQuery, DataTables, tooltip, and CDN switches remain unchanged. DataTables applies only to legacy views; modern views use the configured server pagination.
-
-All views extend `layouts.app` by default and use its `content` section. Customize `laravelBlockerBladeExtended` and the title placement in the package config. For legacy layouts, use distinct CSS and script sections to avoid loading jQuery or scripts twice:
+For the existing Bootstrap 3 or 4 Blade views, use distinct CSS and script sections in your layout:
 
 ```dotenv
 LARAVEL_BLOCKER_BLADE_PLACEMENT_CSS=blocker_css
@@ -96,26 +102,125 @@ LARAVEL_BLOCKER_JQUERY_CDN_ENABLED=false
 
 ```blade
 <head>
-    {{-- Load your application's CSS here. --}}
     @yield('blocker_css')
 </head>
 <body>
     @yield('content')
-    {{-- Load jQuery and Bootstrap before this section for legacy views. --}}
     @yield('blocker_js')
 </body>
 ```
 
-For Tailwind 4, add the package views to your application's CSS sources. Adjust the relative path for your CSS file:
+Load your CSS in the head and load jQuery and Bootstrap before the `blocker_js` section. This avoids loading jQuery twice. The original section names and CDN switches remain supported.
+
+For Bootstrap 5 Blade views:
+
+```sh
+php artisan blocker:update --framework=bootstrap5 --theme=system
+```
+
+Load Bootstrap 5 CSS in `layouts.app` and keep its `@yield('content')` section. The modern views handle their own scripts.
+
+For Tailwind Blade views:
+
+```sh
+php artisan blocker:update --framework=tailwind --theme=system
+```
+
+For Tailwind 4, add these sources to your application's CSS, adjusting paths relative to that file:
 
 ```css
 @source "../../vendor/jeremykenedy/laravel-blocker/src/resources/views/modern";
 @source "../views/vendor/laravelblocker/modern";
 ```
 
-For Tailwind 3, include those paths in `content` in `tailwind.config.js`. The package supplies scoped colors and layout styling; it does not modify the host application's theme or build pipeline.
+For Tailwind 3, include those view paths in `content` in `tailwind.config.js`. Run `npm run build` after changing the application's assets or CSS sources.
 
-## Middleware and authorization
+## Features
+
+- Blocking by IP, email, domain, user email, city, state, country, continent, and region.
+- Creation, editing, search, soft deletion, restoration, and permanent deletion.
+- Optional server pagination and legacy DataTables support.
+- Bootstrap 3/4 compatibility with separate Bootstrap 5 and Tailwind views.
+- Light, dark, and system themes, with a persistent appearance selector in modern views.
+- Configurable authentication, role middleware, database connection, user model, and blocked response.
+- Setup commands that preserve existing files and back up views before explicit replacement.
+
+## Configuration
+
+Existing keys, environment variables, routes, model namespaces, facade binding, and publish tags remain available. See the [complete configuration](src/config/laravelblocker.php).
+
+| Setting | Environment variable | Default |
+| --- | --- | --- |
+| `frontend` | `LARAVEL_BLOCKER_FRONTEND` | `legacy` |
+| `theme` | `LARAVEL_BLOCKER_THEME` | `light` |
+| `blockerBootstapVersion` | `LARAVEL_BLOCKER_BOOTSTRAP_VERSION` | `4` |
+| `laravelBlockerBladeExtended` | `LARAVEL_BLOCKER_BLADE_EXTENDED` | `layouts.app` |
+| `blockerDatabaseConnection` | `LARAVEL_BLOCKER_DATABASE_CONNECTION` | `mysql` |
+| `defaultUserModel` | `LARAVEL_BLOCKER_USER_MODEL` | `App\User` |
+| `blockerPaginationEnabled` | `LARAVEL_BLOCKER_PAGINATION_ENABLED` | `false` |
+| `blockerPaginationPerPage` | `LARAVEL_BLOCKER_PAGINATION_PER_PAGE` | `25` |
+| `geolocationUrl` | `LARAVEL_BLOCKER_GEOLOCATION_URL` | Existing GeoPlugin JSON endpoint |
+| `geolocationTimeout` | `LARAVEL_BLOCKER_GEOLOCATION_TIMEOUT` | `2` seconds |
+
+`frontend` accepts `legacy`, `bootstrap5`, or `tailwind`. Legacy views use the existing `blockerBootstapVersion` key, including its historical spelling. Themes accept `light`, `dark`, or `system`. Modern views save a visitor's appearance choice in local storage; the selector also works when storage is unavailable. Legacy views use the configured theme.
+
+The setup commands save `frontend`, `theme`, and `blockerBootstapVersion` in `config/laravelblocker-ui.php`. That profile takes precedence over the same main config/environment settings. Remove the profile to return to environment-managed presentation settings. Commands clear configuration and compiled-view caches; rebuild your config cache during deployment if needed.
+
+Location lookup retains the existing GeoPlugin URL. GeoPlugin now requires a paid plan, and its [HTTPS endpoint](https://www.geoplugin.com/webservices/ssl) uses an account key. Configure a working JSON URL, including credentials if required. Blocker appends the request IP and expects the existing `geoplugin_*` fields. An unavailable or invalid response supplies no location data; IP and email checks continue.
+
+## Changing Frameworks
+
+Use the update command for interactive framework selection:
+
+```sh
+php artisan blocker:update
+```
+
+For a quick change, pass the selection directly to the same command:
+
+```sh
+php artisan blocker:update --framework=bootstrap5 --theme=system
+php artisan blocker:update --framework=tailwind --theme=dark
+php artisan blocker:update --framework=bootstrap4 --theme=light
+```
+
+| Option | Values | Effect |
+| --- | --- | --- |
+| `--framework=` | `bootstrap3`, `bootstrap4`, `bootstrap5`, `tailwind` | Select the Blade view family and CSS framework |
+| `--theme=` | `light`, `dark`, `system` | Set the default appearance |
+| `--no-interaction` | Flag | Use supplied or existing settings without prompts |
+
+Existing application configuration and view overrides are preserved. Modern views use `laravelblocker::modern`; legacy views retain `laravelblocker::laravelblocker`. Switching back restores use of your published legacy templates. Run `npm run build` after changing the host application's framework assets.
+
+## Artisan Commands
+
+| Command | Description | Options |
+| --- | --- | --- |
+| `blocker:install` | Configure Blocker and publish missing main configuration | `--framework`, `--theme`, `--views`, `--force`, `--ui-kit`, `--no-interaction` |
+| `blocker:update` | Change presentation settings or refresh published views | Same options as install |
+
+| Install/update option | Description |
+| --- | --- |
+| `--framework=` | Bootstrap 3, 4, 5, or Tailwind; values listed above |
+| `--theme=` | Light, dark, or system appearance |
+| `--views` | Publish missing views for customization |
+| `--force` | With `--views`, back up and replace existing published views |
+| `--ui-kit` | Run the installed optional UI Kit installer using the selected CSS framework and Blade |
+| `--no-interaction` | Skip interactive selection |
+
+Backups are written to `storage/app/laravelblocker-backups`, outside Laravel's view discovery paths. Main configuration, translations, migrations, and seeders are not overwritten. Setup commands do not migrate, seed, edit `.env`, or install Composer dependencies.
+
+Existing publish tags still work with `php artisan vendor:publish --tag=...`:
+
+| Tag | Files |
+| --- | --- |
+| `laravelblocker-config` | Main configuration |
+| `laravelblocker-views` | Blade templates |
+| `laravelblocker-lang` | Translations |
+| `laravelblocker-migrations` | Existing database migrations |
+| `laravelblocker-seeders` | Customizable seeders |
+
+## Middleware and Authorization
 
 ```php
 Route::middleware(['web', 'checkblocked'])->group(function () {
@@ -123,7 +228,7 @@ Route::middleware(['web', 'checkblocked'])->group(function () {
 });
 ```
 
-The management routes keep their existing paths and `laravelblocker::` names. Visit `/blocker` for active items and `/blocker-deleted` for deleted items. Authentication is enabled by default. Restrict management to administrators using your application's role middleware:
+Authentication is enabled on management routes by default. Restrict access to administrators with your application's role middleware:
 
 ```dotenv
 LARAVEL_BLOCKER_AUTH_ENABLED=true
@@ -131,52 +236,46 @@ LARAVEL_BLOCKER_ROLES_ENABLED=true
 LARAVEL_BLOCKER_ROLES_MIDDLWARE=role:admin
 ```
 
-The historical spelling `rolesMiddlware` is retained. The package does not choose a roles implementation. Without roles enabled, any authenticated user can manage blocked entries, as in existing releases.
+The historical `rolesMiddlware` spelling is retained. Without role middleware enabled, any authenticated user can manage entries, as in existing releases.
 
-Blocking checks the request IP, available location details, and the authenticated user's email and domain. It also checks email and domain when posting to the `register` route URI. Deleted rules are ignored; restored and newly created rules take effect on subsequent requests, including long-running workers.
+Blocking checks the request IP, available location details, and the authenticated user's email and domain. It also checks email and domain on POST requests to the `register` route URI. Deleted rules are ignored. Changes take effect on subsequent requests, including long-running workers.
 
-Location lookup retains the existing GeoPlugin URL, with a configurable two-second timeout. GeoPlugin now requires a paid plan; its [HTTPS endpoint](https://www.geoplugin.com/webservices/ssl) uses an account key. Set `LARAVEL_BLOCKER_GEOLOCATION_URL` to your working JSON endpoint, including its key if needed, and `LARAVEL_BLOCKER_GEOLOCATION_TIMEOUT` to adjust the timeout. The package appends the request IP to that URL and expects the existing `geoplugin_*` fields. It does not switch providers or purchase service automatically. An unavailable or invalid response supplies no location data, so IP and email checks continue. Configure trusted proxies in your application so Laravel resolves client IP addresses correctly.
+Choose `abort`, `view`, or `redirect` through `blockerDefaultAction` and its related settings. Registration blocks redirect back with an error. Configure trusted proxies in the host application so Laravel resolves client IP addresses correctly.
 
-Choose the blocked response with `blockerDefaultAction`: `abort`, `view`, or `redirect`. Registration blocks redirect back with an error. See the [configuration file](src/config/laravelblocker.php) for the existing response settings.
+## Optional Packages
 
-## Configuration
-
-All existing configuration keys, environment variables, route names, model namespaces, facade binding, and publish tags remain available. The new settings are:
-
-| Setting | Environment variable | Default |
-| --- | --- | --- |
-| `frontend` | `LARAVEL_BLOCKER_FRONTEND` | `legacy` |
-| `theme` | `LARAVEL_BLOCKER_THEME` | `light` |
-
-`frontend` accepts `legacy`, `bootstrap5`, or `tailwind`. The legacy setting continues to use `blockerBootstapVersion`, including its historical spelling, to select Bootstrap 3 or 4.
-
-The setup commands save `frontend`, `theme`, and `blockerBootstapVersion` in `config/laravelblocker-ui.php`. That file takes precedence over the corresponding main config/environment settings. Remove it to return to environment-managed presentation settings. Commands clear configuration and compiled view caches; rebuild your config cache as part of deployment if needed.
-
-Existing publish commands still work:
-
-```sh
-php artisan vendor:publish --tag=laravelblocker-config
-php artisan vendor:publish --tag=laravelblocker-views
-php artisan vendor:publish --tag=laravelblocker-lang
-php artisan vendor:publish --tag=laravelblocker-migrations
-php artisan vendor:publish --tag=laravelblocker-seeders
-```
-
-## Optional packages
-
-[Laravel UI Kit](https://github.com/jeremykenedy/laravel-ui-kit) can be set up explicitly alongside Blocker's Blade views:
+[Laravel UI Kit](https://github.com/jeremykenedy/laravel-ui-kit) can be set up explicitly alongside Blocker:
 
 ```sh
 composer require jeremykenedy/laravel-ui-kit
 php artisan blocker:install --framework=bootstrap5 --ui-kit
 ```
 
-The `--ui-kit` option calls the installed package's `ui-kit:install` command with the selected CSS framework and Blade frontend. It does not run Composer or install dependencies on your behalf. UI Kit's own installation checks still apply. Bootstrap 3 is not supported by UI Kit. Blocker's views work without UI Kit and are not replaced with UI Kit components.
+This calls the installed `ui-kit:install` command with the selected CSS framework and Blade frontend. UI Kit's own installation checks still apply. It supports Bootstrap 4, Bootstrap 5, and Tailwind. Blocker's views work independently and are not replaced with UI Kit components.
 
-[Laravel Toast](https://github.com/jeremykenedy/laravel-toast), [Laravel Darkmode Toggle](https://github.com/jeremykenedy/laravel-darkmode-toggle), [Laravel IP Capture](https://github.com/jeremykenedy/laravel-ip-capture), and [Laravel Seedster](https://github.com/jeremykenedy/laravel-seedster) may be installed and configured independently in the host application. None is installed, enabled, or invoked automatically. The built-in themes and flash messages need no additional package. The optional Laravel Seedster package does not replace the existing `eklundkristoffer/seedster` dependency.
+[Laravel Toast](https://github.com/jeremykenedy/laravel-toast), [Laravel Darkmode Toggle](https://github.com/jeremykenedy/laravel-darkmode-toggle), [Laravel IP Capture](https://github.com/jeremykenedy/laravel-ip-capture), and [Laravel Seedster](https://github.com/jeremykenedy/laravel-seedster) can be installed and configured independently in the host application. None is installed or invoked automatically. Built-in themes and flash messages need no additional package. The optional Laravel Seedster package does not replace `eklundkristoffer/seedster`.
 
-## License and contributors
+## Updating
 
-[MIT](LICENSE), copyright 2020-2026 Jeremy Kenedy.
+```sh
+composer update jeremykenedy/laravel-blocker --with-dependencies
+```
 
-Maintained by [Jeremy Kenedy](https://github.com/jeremykenedy). Thanks to [all contributors](https://github.com/jeremykenedy/laravel-blocker/graphs/contributors).
+Published templates remain under your control. Compare customized copies with the package versions to receive fixes. Read the [upgrade guide](docs/upgrading.md) before replacing views, and see [CHANGELOG.md](CHANGELOG.md) for changes.
+
+## Testing
+
+```sh
+composer install
+composer test
+BLOCKER_PLAIN_CONTROLLER=1 composer test
+composer lint
+composer install --working-dir=tools
+tools/vendor/bin/pint --test
+```
+
+GitHub Actions tests Laravel 5.8 through 13 with matching PHP versions. Browser tests cover Bootstrap 3, 4, 5, and Tailwind. See the [testing guide](docs/testing.md) for browser setup, compatibility coverage, and known limits.
+
+## License
+
+This package is open-sourced software licensed under the [MIT license](LICENSE).

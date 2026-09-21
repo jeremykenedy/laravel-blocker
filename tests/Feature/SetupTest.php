@@ -19,6 +19,7 @@ class SetupTest extends TestCase
         parent::setUp();
         $this->directory = sys_get_temp_dir().'/blocker-'.bin2hex(random_bytes(6));
         $this->app->setBasePath($this->directory);
+        $this->app->useStoragePath($this->directory.'/storage');
         $provider = new LaravelBlockerServiceProvider($this->app);
         $provider->register();
     }
@@ -52,7 +53,7 @@ class SetupTest extends TestCase
         $this->assertSame('bootstrap5', (require config_path('laravelblocker-ui.php'))['frontend']);
         $this->artisan('blocker:update', ['--framework' => 'bootstrap3', '--views' => true, '--force' => true, '--no-interaction' => true])->assertExitCode(0);
         $this->assertNotSame('custom view', file_get_contents($path));
-        $backups = glob(resource_path('views/vendor/laravelblocker.backup-*'));
+        $backups = glob(storage_path('app/laravelblocker-backups/laravelblocker.backup-*'));
         $this->assertCount(1, $backups);
         $this->assertSame('custom view', file_get_contents($backups[0].'/modern/index.blade.php'));
         $this->assertSame('3', (require config_path('laravelblocker-ui.php'))['blockerBootstapVersion']);
@@ -64,6 +65,31 @@ class SetupTest extends TestCase
         $this->artisan('blocker:install', ['--theme' => 'unknown', '--no-interaction' => true])->assertExitCode(1);
         $this->artisan('blocker:install', ['--ui-kit' => true, '--no-interaction' => true])->assertExitCode(1);
         $this->assertFalse(file_exists(config_path('laravelblocker-ui.php')));
+    }
+
+    public function test_optional_ui_kit_receives_selection_and_failure_preserves_settings(): void
+    {
+        $command = new class () extends \Illuminate\Console\Command {
+            protected $signature = 'ui-kit:install {--css=} {--frontend=}';
+
+            public $selection;
+
+            public $result = 0;
+
+            public function handle()
+            {
+                $this->selection = [$this->option('css'), $this->option('frontend')];
+
+                return $this->result;
+            }
+        };
+        $this->app[\Illuminate\Contracts\Console\Kernel::class]->registerCommand($command);
+        $this->artisan('blocker:install', ['--framework' => 'tailwind', '--ui-kit' => true, '--no-interaction' => true])->assertExitCode(0);
+        $this->assertSame(['tailwind', 'blade'], $command->selection);
+        $settings = file_get_contents(config_path('laravelblocker-ui.php'));
+        $command->result = 1;
+        $this->artisan('blocker:update', ['--framework' => 'bootstrap5', '--ui-kit' => true, '--no-interaction' => true])->assertExitCode(1);
+        $this->assertSame($settings, file_get_contents(config_path('laravelblocker-ui.php')));
     }
 
     public function test_seeders_are_registered_autoloadable_and_idempotent(): void

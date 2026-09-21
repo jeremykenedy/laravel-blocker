@@ -4,5 +4,5 @@ namespace App;
 
 class User extends \Illuminate\Foundation\Auth\User
 {
-    protected $guarded = [];
+    protected $fillable = ['name', 'email', 'password'];
 }

@@ -24,6 +24,7 @@
 ### Compatibility
 
 - Retained PHP and runtime dependency ranges, Bootstrap 4 default, Bootstrap 3 option, existing view namespaces, route names, publish tags, and config keys.
+- Modern scripts and styles are served as separate package assets.
 - Existing published views and configuration are not overwritten by Composer updates.
 - No schema changes or automatic seeding.
 - License year updated to 2026.

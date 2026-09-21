@@ -22,9 +22,9 @@ class LaravelBlockerController extends Controller
         if ($deleted) {
             $query->onlyTrashed();
         }
-        if (in_array(config('laravelblocker.frontend'), ['bootstrap5', 'tailwind'], true) && config('laravelblocker.enableSearchBlocked')) {
+        if (in_array(config('laravelblocker.frontend'), ['bootstrap5', 'tailwind'], true)) {
             $input = request()->validate(['q' => 'nullable|string|max:255']);
-            if (isset($input['q']) && $input['q'] !== '') {
+            if (config('laravelblocker.enableSearchBlocked') && isset($input['q']) && $input['q'] !== '') {
                 $this->filterBlockedItems($query, $input['q']);
             }
         }

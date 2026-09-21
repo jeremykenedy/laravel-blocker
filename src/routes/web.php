@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use jeremykenedy\LaravelBlocker\App\Http\Controllers\BlockerAssetController;
 use jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerController;
 use jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerDeletedController;
 
@@ -10,6 +11,10 @@ use jeremykenedy\LaravelBlocker\App\Http\Controllers\LaravelBlockerDeletedContro
 |--------------------------------------------------------------------------
 |
 */
+Route::get('laravel-blocker/assets/{asset}', BlockerAssetController::class)
+    ->where('asset', '(blocker|legacy)\\.css|blocker\\.js')
+    ->name('laravelblocker::assets');
+
 Route::group([
     'middleware'    => array_merge(
         ['web', 'checkblocked'],

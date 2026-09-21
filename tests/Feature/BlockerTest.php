@@ -106,6 +106,28 @@ class BlockerTest extends TestCase
         $this->getJson('/blocker?q[]=invalid')->assertStatus(422);
     }
 
+    public function test_disabled_modern_search_still_validates_query_input(): void
+    {
+        config(['laravelblocker.frontend' => 'bootstrap5', 'laravelblocker.enableSearchBlocked' => false]);
+        foreach (['/blocker', '/blocker-deleted'] as $url) {
+            $this->getJson($url.'?q[]=invalid')->assertStatus(422)->assertJsonValidationErrors('q');
+            $this->getJson($url.'?q='.str_repeat('a', 256))->assertStatus(422);
+        }
+        $this->item('visible.example');
+        $this->get('/blocker?q=unmatched')->assertOk()->assertSee('visible.example');
+    }
+
+    public function test_modern_captions_use_totals_and_deleted_landmark_labels(): void
+    {
+        $first = $this->item('first.example');
+        $second = $this->item('second.example');
+        config(['laravelblocker.frontend' => 'bootstrap5', 'laravelblocker.blockerPaginationEnabled' => true, 'laravelblocker.blockerPaginationPerPage' => 1]);
+        $this->get('/blocker')->assertOk()->assertSee('2 total blocks');
+        $first->delete();
+        $second->delete();
+        $this->get('/blocker-deleted')->assertOk()->assertSee('2 total blocks')->assertSee('aria-label="Deleted items"', false);
+    }
+
     public function test_missing_items_do_not_mutate_existing_records(): void
     {
         $item = $this->item();
