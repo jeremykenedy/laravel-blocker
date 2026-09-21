@@ -3,6 +3,8 @@
 namespace jeremykenedy\LaravelBlocker\Tests\Feature;
 
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
+use jeremykenedy\LaravelBlocker\App\Http\Requests\StoreBlockerRequest;
 use jeremykenedy\LaravelBlocker\App\Models\BlockedItem;
 use jeremykenedy\LaravelBlocker\App\Models\BlockedType;
 use jeremykenedy\LaravelBlocker\LaravelBlockerFacade;
@@ -29,6 +31,24 @@ class CompatibilityTest extends TestCase
         $this->put('/blocker/'.$item->id, $data)->assertRedirect();
         $this->assertTrue(Schema::connection('testing')->hasTable('custom_blocks'));
         $this->assertFalse(Schema::connection('unrelated')->hasTable('custom_blocks'));
+    }
+
+    public function test_user_validation_uses_the_configured_model_connection_table_and_key(): void
+    {
+        config(['database.connections.accounts' => ['driver' => 'sqlite', 'database' => ':memory:', 'prefix' => ''], 'laravelblocker.defaultUserModel' => HostUser::class]);
+        Schema::connection('accounts')->create('members', function ($table) {
+            $table->increments('user_id');
+            $table->string('name');
+            $table->string('email');
+            $table->timestamps();
+        });
+        $user = HostUser::create(['name' => 'Member', 'email' => 'member@example.org']);
+        $type = BlockedType::create(['slug' => 'user', 'name' => 'User']);
+        $data = ['typeId' => $type->id, 'value' => $user->email, 'userId' => $user->getKey()];
+        $request = StoreBlockerRequest::create('/blocker', 'POST', $data);
+        $this->assertTrue(Validator::make($data, $request->rules())->passes());
+        $user->delete();
+        $this->assertTrue(Validator::make($data, $request->rules())->errors()->has('userId'));
     }
 
     public function test_provider_keeps_alias_publish_tags_and_route_names(): void
@@ -63,4 +83,13 @@ class CompatibilityTest extends TestCase
         $this->assertFalse(Schema::hasTable('custom_blocks'));
         $this->assertFalse(Schema::hasTable('custom_block_types'));
     }
+}
+
+class HostUser extends \App\User
+{
+    protected $connection = 'accounts';
+
+    protected $table = 'members';
+
+    protected $primaryKey = 'user_id';
 }

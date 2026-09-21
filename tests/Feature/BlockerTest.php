@@ -129,6 +129,20 @@ class BlockerTest extends TestCase
         $this->get('/blocker-deleted')->assertOk()->assertSee('2 total blocks')->assertSee('aria-label="Deleted items"', false);
     }
 
+    public function test_modern_details_preserve_zero_values(): void
+    {
+        $item = $this->item('0');
+        $item->update(['note' => '0']);
+        foreach (['bootstrap5', 'tailwind'] as $framework) {
+            config(['laravelblocker.frontend' => $framework]);
+            $response = $this->get('/blocker/'.$item->id)->assertOk();
+            $this->assertSame(2, substr_count($response->getContent(), '<dd>0</dd>'));
+        }
+        $item->delete();
+        $response = $this->get('/blocker-deleted/'.$item->id)->assertOk();
+        $this->assertSame(2, substr_count($response->getContent(), '<dd>0</dd>'));
+    }
+
     public function test_missing_items_do_not_mutate_existing_records(): void
     {
         $item = $this->item();

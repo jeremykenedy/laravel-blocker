@@ -36,3 +36,5 @@ The Bootstrap 3 test fixture is intentionally an old release to exercise the sup
 ## Limits
 
 Tests exercise package behavior in representative host applications. They cannot cover every application's published overrides or custom middleware. Middleware tests replace external location responses with deterministic fixtures; live GeoPlugin availability is not a CI requirement. Review your host application in staging before release.
+
+Numeric location candidates retain PHP's historical loose comparisons, including equivalent values such as `01` and `1`. That uncommon path streams the value column from active rules rather than applying database-specific numeric casts. String IP, email, domain, and location candidates use constrained queries.

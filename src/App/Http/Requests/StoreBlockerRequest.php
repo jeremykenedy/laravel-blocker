@@ -33,6 +33,8 @@ class StoreBlockerRequest extends FormRequest
     {
         $item = new BlockedItem();
         $type = new BlockedType();
+        $userModel = config('laravelblocker.defaultUserModel');
+        $user = new $userModel();
         $unique = Rule::unique($item->getConnectionName().'.'.$item->getTable(), 'value');
         if ($this->route('blocker')) {
             $unique->ignore($this->route('blocker'));
@@ -42,7 +44,7 @@ class StoreBlockerRequest extends FormRequest
             'typeId' => ['required', 'integer', Rule::exists($type->getConnectionName().'.'.$type->getTable(), 'id')->whereNull('deleted_at')],
             'value'  => ['required', 'max:255', 'string', $unique, new UniqueBlockerItemValueEmail($this->input('typeId'))],
             'note'   => 'nullable|max:500|string',
-            'userId' => ['nullable', 'integer', Rule::exists($item->getConnectionName().'.users', 'id')],
+            'userId' => ['nullable', 'integer', Rule::exists($user->getConnection()->getName().'.'.$user->getTable(), $user->getKeyName())],
         ];
     }
 

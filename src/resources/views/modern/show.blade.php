@@ -4,7 +4,7 @@
     <div class="lb-body">
         <dl class="lb-details">
             @foreach(['id', 'typeId', 'value', 'note', 'userId', 'created_at', 'updated_at', 'deleted_at'] as $field)
-                <dt>{{ trans('laravelblocker::laravelblocker.ui.'.$field) }}</dt><dd>{{ $item->$field ?: trans('laravelblocker::laravelblocker.none') }}</dd>
+                <dt>{{ trans('laravelblocker::laravelblocker.ui.'.$field) }}</dt><dd>{{ $item->$field !== null && $item->$field !== '' ? $item->$field : trans('laravelblocker::laravelblocker.none') }}</dd>
             @endforeach
         </dl>
         <div class="lb-actions">
