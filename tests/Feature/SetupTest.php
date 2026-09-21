@@ -69,20 +69,7 @@ class SetupTest extends TestCase
 
     public function test_optional_ui_kit_receives_selection_and_failure_preserves_settings(): void
     {
-        $command = new class () extends \Illuminate\Console\Command {
-            protected $signature = 'ui-kit:install {--css=} {--frontend=}';
-
-            public $selection;
-
-            public $result = 0;
-
-            public function handle()
-            {
-                $this->selection = [$this->option('css'), $this->option('frontend')];
-
-                return $this->result;
-            }
-        };
+        $command = new UiKitInstallCommand();
         $this->app[\Illuminate\Contracts\Console\Kernel::class]->registerCommand($command);
         $this->artisan('blocker:install', ['--framework' => 'tailwind', '--ui-kit' => true, '--no-interaction' => true])->assertExitCode(0);
         $this->assertSame(['tailwind', 'blade'], $command->selection);
@@ -109,5 +96,21 @@ class SetupTest extends TestCase
         $this->assertSame(10, BlockedType::count());
         $this->assertSame(5, BlockedItem::withTrashed()->count());
         $this->assertSame(1, BlockedItem::onlyTrashed()->count());
+    }
+}
+
+class UiKitInstallCommand extends \Illuminate\Console\Command
+{
+    protected $signature = 'ui-kit:install {--css=} {--frontend=}';
+
+    public $selection;
+
+    public $result = 0;
+
+    public function handle()
+    {
+        $this->selection = [$this->option('css'), $this->option('frontend')];
+
+        return $this->result;
     }
 }
