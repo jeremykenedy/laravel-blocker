@@ -11,24 +11,73 @@ trait IpAddressDetails
      * @param string $purpose     (optional)
      * @param bool   $deep_detect (optional)
      *
-     * @return string
+     * @return array|string|null
      */
     public static function checkIP($ip = null, $purpose = 'location', $deep_detect = true)
     {
-        $output = null;
-        if (filter_var($ip, FILTER_VALIDATE_IP) === false) {
-            $ip = $_SERVER['REMOTE_ADDR'] ?? null;
-            if ($deep_detect) {
-                if (filter_var(@$_SERVER['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP)) {
-                    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-                }
-                if (filter_var(@$_SERVER['HTTP_CLIENT_IP'], FILTER_VALIDATE_IP)) {
-                    $ip = $_SERVER['HTTP_CLIENT_IP'];
+        $ip = static::detectBlockerIpAddress($ip, $deep_detect);
+        $purpose = str_replace(['name', "\n", "\t", ' ', '-', '_'], '', strtolower(trim($purpose)));
+        if (!filter_var($ip, FILTER_VALIDATE_IP) || !in_array($purpose, ['country', 'countrycode', 'state', 'region', 'city', 'location', 'address'])) {
+            return null;
+        }
+        $ipdat = static::lookupIpAddress($ip);
+        if (!is_object($ipdat) || strlen(trim((string) ($ipdat->geoplugin_countryCode ?? ''))) !== 2) {
+            return null;
+        }
+
+        return static::formatBlockerIpDetails($ipdat, $purpose);
+    }
+
+    private static function detectBlockerIpAddress($ip, $deepDetect)
+    {
+        if (filter_var($ip, FILTER_VALIDATE_IP)) {
+            return $ip;
+        }
+        $ip = $_SERVER['REMOTE_ADDR'] ?? null;
+        if ($deepDetect) {
+            foreach (['HTTP_X_FORWARDED_FOR', 'HTTP_CLIENT_IP'] as $header) {
+                if (filter_var($_SERVER[$header] ?? null, FILTER_VALIDATE_IP)) {
+                    $ip = $_SERVER[$header];
                 }
             }
         }
-        $purpose = str_replace(['name', "\n", "\t", ' ', '-', '_'], '', strtolower(trim($purpose)));
-        $support = ['country', 'countrycode', 'state', 'region', 'city', 'location', 'address'];
+
+        return $ip;
+    }
+
+    private static function formatBlockerIpDetails(object $ipdat, $purpose)
+    {
+        if ($purpose === 'location') {
+            return static::formatBlockerLocation($ipdat);
+        }
+        if ($purpose === 'address') {
+            return static::formatBlockerAddress($ipdat);
+        }
+        $fields = [
+            'city'        => 'geoplugin_city',
+            'state'       => 'geoplugin_regionName',
+            'region'      => 'geoplugin_regionName',
+            'country'     => 'geoplugin_countryName',
+            'countrycode' => 'geoplugin_countryCode',
+        ];
+
+        return $ipdat->{$fields[$purpose]} ?? null;
+    }
+
+    private static function formatBlockerAddress(object $ipdat)
+    {
+        $address = [$ipdat->geoplugin_countryName ?? null];
+        foreach (['geoplugin_regionName', 'geoplugin_city'] as $field) {
+            if (strlen((string) ($ipdat->$field ?? '')) >= 1) {
+                $address[] = $ipdat->$field;
+            }
+        }
+
+        return implode(', ', array_reverse($address));
+    }
+
+    private static function formatBlockerLocation(object $ipdat)
+    {
         $continents = [
             'AF' => 'Africa',
             'AN' => 'Antarctica',
@@ -38,59 +87,28 @@ trait IpAddressDetails
             'NA' => 'North America',
             'SA' => 'South America',
         ];
-        if (filter_var($ip, FILTER_VALIDATE_IP) && in_array($purpose, $support)) {
-            $ipdat = static::lookupIpAddress($ip);
-            if (!is_object($ipdat) || !isset($ipdat->geoplugin_countryCode)) {
-                return null;
-            }
-            if (@strlen(trim((string) $ipdat->geoplugin_countryCode)) == 2) {
-                switch ($purpose) {
-                    case 'location':
-                        $output = [
-                            'city'           => @$ipdat->geoplugin_city,
-                            'state'          => @$ipdat->geoplugin_regionName,
-                            'country'        => @$ipdat->geoplugin_countryName,
-                            'countryCode'    => @$ipdat->geoplugin_countryCode,
-                            'continent'      => @$continents[strtoupper($ipdat->geoplugin_continentCode)],
-                            'continent_code' => @$ipdat->geoplugin_continentCode,
-                            'latitude'       => @$ipdat->geoplugin_latitude,
-                            'longitude'      => @$ipdat->geoplugin_longitude,
-                            'currencyCode'   => @$ipdat->geoplugin_currencyCode,
-                            'areaCode'       => @$ipdat->geoplugin_areaCode,
-                            'dmaCode'        => @$ipdat->geoplugin_dmaCode,
-                            'region'         => @$ipdat->geoplugin_region,
-                        ];
-                        break;
-                    case 'address':
-                        $address = [$ipdat->geoplugin_countryName];
-                        if (@strlen($ipdat->geoplugin_regionName) >= 1) {
-                            $address[] = $ipdat->geoplugin_regionName;
-                        }
-                        if (@strlen($ipdat->geoplugin_city) >= 1) {
-                            $address[] = $ipdat->geoplugin_city;
-                        }
-                        $output = implode(', ', array_reverse($address));
-                        break;
-                    case 'city':
-                        $output = @$ipdat->geoplugin_city;
-                        break;
-                    case 'state':
-                        $output = @$ipdat->geoplugin_regionName;
-                        break;
-                    case 'region':
-                        $output = @$ipdat->geoplugin_regionName;
-                        break;
-                    case 'country':
-                        $output = @$ipdat->geoplugin_countryName;
-                        break;
-                    case 'countrycode':
-                        $output = @$ipdat->geoplugin_countryCode;
-                        break;
-                }
-            }
-        }
 
-        return $output;
+        $fields = [
+            'city'           => 'geoplugin_city',
+            'state'          => 'geoplugin_regionName',
+            'country'        => 'geoplugin_countryName',
+            'countryCode'    => 'geoplugin_countryCode',
+            'continent'      => 'geoplugin_continentCode',
+            'continent_code' => 'geoplugin_continentCode',
+            'latitude'       => 'geoplugin_latitude',
+            'longitude'      => 'geoplugin_longitude',
+            'currencyCode'   => 'geoplugin_currencyCode',
+            'areaCode'       => 'geoplugin_areaCode',
+            'dmaCode'        => 'geoplugin_dmaCode',
+            'region'         => 'geoplugin_region',
+        ];
+        $location = [];
+        foreach ($fields as $key => $field) {
+            $location[$key] = $ipdat->$field ?? null;
+        }
+        $location['continent'] = $continents[strtoupper($ipdat->geoplugin_continentCode ?? '')] ?? null;
+
+        return $location;
     }
 
     protected static function lookupIpAddress($ip)

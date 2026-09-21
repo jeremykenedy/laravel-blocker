@@ -22,16 +22,22 @@ class LaravelBlockerController extends Controller
         if ($deleted) {
             $query->onlyTrashed();
         }
-        if (in_array(config('laravelblocker.frontend'), ['bootstrap5', 'tailwind'], true)) {
-            $input = request()->validate(['q' => 'nullable|string|max:255']);
-            if (config('laravelblocker.enableSearchBlocked') && isset($input['q']) && $input['q'] !== '') {
-                $this->filterBlockedItems($query, $input['q']);
-            }
-        }
+        $this->applyModernSearch($query);
 
         return config('laravelblocker.blockerPaginationEnabled')
             ? $query->paginate(config('laravelblocker.blockerPaginationPerPage'))
             : $query->get();
+    }
+
+    private function applyModernSearch($query)
+    {
+        if (!in_array(config('laravelblocker.frontend'), ['bootstrap5', 'tailwind'], true)) {
+            return;
+        }
+        $input = request()->validate(['q' => 'nullable|string|max:255']);
+        if (config('laravelblocker.enableSearchBlocked') && isset($input['q']) && $input['q'] !== '') {
+            $this->filterBlockedItems($query, $input['q']);
+        }
     }
 
     protected function filterBlockedItems($query, $term)

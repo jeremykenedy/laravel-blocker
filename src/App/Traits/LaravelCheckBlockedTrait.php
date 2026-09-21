@@ -13,11 +13,10 @@ trait LaravelCheckBlockedTrait
     public static function checkBlocked()
     {
         $requestIp = Request::ip();
-        $route = Request::route();
         $candidates = [$requestIp];
         $type = 'ip';
 
-        if (Request::method() === 'POST' && $route && $route->uri() === 'register') {
+        if (self::isRegistrationRequest()) {
             $email = Request::input('email');
             if (is_string($email)) {
                 $candidates[] = self::getEmailDomain($email);
@@ -33,53 +32,61 @@ trait LaravelCheckBlockedTrait
             $type = 'auth';
         }
 
-        $blocked = self::hasBlockedValue($candidates);
-        if (!$blocked) {
-            $details = static::checkIP($requestIp);
-            $locations = [];
-            foreach (['city', 'state', 'country', 'countryCode', 'continent', 'region'] as $field) {
-                if (!empty($details[$field])) {
-                    $locations[] = $details[$field];
-                }
-            }
-            $blocked = self::hasBlockedValue($locations);
-        }
+        $blocked = self::hasBlockedValue($candidates) || self::hasBlockedLocation($requestIp);
 
         return self::checkBlockedActions($blocked, $type);
     }
 
+    private static function isRegistrationRequest()
+    {
+        $route = Request::route();
+
+        return Request::method() === 'POST' && $route && $route->uri() === 'register';
+    }
+
+    private static function hasBlockedLocation($ip)
+    {
+        $details = static::checkIP($ip);
+        $locations = [];
+        foreach (['city', 'state', 'country', 'countryCode', 'continent', 'region'] as $field) {
+            if (!empty($details[$field])) {
+                $locations[] = $details[$field];
+            }
+        }
+
+        return self::hasBlockedValue($locations);
+    }
+
     private static function checkBlockedActions($blocked, $type = null)
     {
-        if ($blocked) {
-            switch ($type) {
-                case 'register':
-                    return Redirect::back()->withError('Not allowed');
-                    break;
+        if (!$blocked) {
+            return;
+        }
+        if ($type === 'register') {
+            return Redirect::back()->withError('Not allowed');
+        }
+        switch (config('laravelblocker.blockerDefaultAction')) {
+            case 'view':
+                abort(response()->view(config('laravelblocker.blockerDefaultActionView')));
+                break;
 
-                case 'auth':
-                case 'ip':
-                default:
-                    switch (config('laravelblocker.blockerDefaultAction')) {
-                        case 'view':
-                            abort(response()->view(config('laravelblocker.blockerDefaultActionView')));
-                            break;
+            case 'redirect':
+                self::redirectBlockedRequest();
+                break;
 
-                        case 'redirect':
-                            $currentRoute = Request::route() ? Request::route()->getName() : null;
-                            $redirectRoute = config('laravelblocker.blockerDefaultActionRedirect');
+            default:
+                abort(config('laravelblocker.blockerDefaultActionAbortType'));
+                break;
+        }
+    }
 
-                            if ($currentRoute != $redirectRoute && Request::url() !== url($redirectRoute)) {
-                                abort(redirect($redirectRoute));
-                            }
-                            break;
+    private static function redirectBlockedRequest()
+    {
+        $currentRoute = Request::route() ? Request::route()->getName() : null;
+        $redirectRoute = config('laravelblocker.blockerDefaultActionRedirect');
 
-                        case 'abort':
-                        default:
-                            abort(config('laravelblocker.blockerDefaultActionAbortType'));
-                            break;
-                    }
-                    break;
-            }
+        if ($currentRoute != $redirectRoute && Request::url() !== url($redirectRoute)) {
+            abort(Redirect::to($redirectRoute));
         }
     }
 
@@ -90,14 +97,14 @@ trait LaravelCheckBlockedTrait
 
     private static function hasBlockedValue(array $candidates)
     {
-        if (!$candidates) {
+        if (empty($candidates)) {
             return false;
         }
         $query = BlockedItem::select('value');
         $numeric = array_filter($candidates, function ($value) {
             return !is_string($value) || is_numeric($value);
         });
-        if (!$numeric) {
+        if (empty($numeric)) {
             $query->whereIn('value', $candidates);
         }
         foreach ($query->cursor() as $item) {

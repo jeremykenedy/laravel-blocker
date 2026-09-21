@@ -36,6 +36,45 @@ class IpAddressDetailsTest extends TestCase
         config(['laravelblocker.geolocationUrl' => 'file:///etc/passwd']);
         $this->assertNull(RealIpDetails::checkIP('203.0.113.1'));
     }
+
+    public function test_ip_detection_preserves_header_precedence_and_explicit_addresses(): void
+    {
+        $server = $_SERVER;
+        FakeIpDetails::$response = (object) ['geoplugin_countryCode' => 'FR'];
+        $_SERVER['REMOTE_ADDR'] = '203.0.113.1';
+        $_SERVER['HTTP_X_FORWARDED_FOR'] = '203.0.113.2';
+        $_SERVER['HTTP_CLIENT_IP'] = '203.0.113.3';
+
+        try {
+            FakeIpDetails::checkIP(null);
+            $this->assertSame('203.0.113.3', FakeIpDetails::$ip);
+            FakeIpDetails::checkIP(null, 'location', false);
+            $this->assertSame('203.0.113.1', FakeIpDetails::$ip);
+            FakeIpDetails::checkIP('2001:db8::1');
+            $this->assertSame('2001:db8::1', FakeIpDetails::$ip);
+            $_SERVER['HTTP_CLIENT_IP'] = 'invalid';
+            FakeIpDetails::checkIP(null);
+            $this->assertSame('203.0.113.2', FakeIpDetails::$ip);
+            $_SERVER['HTTP_X_FORWARDED_FOR'] = '203.0.113.2, 203.0.113.4';
+            FakeIpDetails::checkIP(null);
+            $this->assertSame('203.0.113.1', FakeIpDetails::$ip);
+            unset($_SERVER['REMOTE_ADDR']);
+            $this->assertNull(FakeIpDetails::checkIP(null));
+        } finally {
+            $_SERVER = $server;
+        }
+    }
+
+    public function test_partial_location_responses_keep_missing_fields_and_zero_values(): void
+    {
+        FakeIpDetails::$response = (object) ['geoplugin_countryCode' => 'FR', 'geoplugin_countryName' => 'France', 'geoplugin_city' => '0'];
+        $location = FakeIpDetails::checkIP('203.0.113.1');
+        $this->assertSame(['city', 'state', 'country', 'countryCode', 'continent', 'continent_code', 'latitude', 'longitude', 'currencyCode', 'areaCode', 'dmaCode', 'region'], array_keys($location));
+        $this->assertNull($location['continent']);
+        $this->assertNull($location['state']);
+        $this->assertSame('0', $location['city']);
+        $this->assertSame('0, France', FakeIpDetails::checkIP('203.0.113.1', 'address'));
+    }
 }
 
 class FakeIpDetails
@@ -44,8 +83,12 @@ class FakeIpDetails
 
     public static $response;
 
+    public static $ip;
+
     protected static function lookupIpAddress($ip)
     {
+        static::$ip = $ip;
+
         return static::$response;
     }
 }
