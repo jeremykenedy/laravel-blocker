@@ -12,6 +12,10 @@ updates:
     directory: /tests/browser
     schedule:
       interval: weekly
+    ignore:
+      # Bootstrap 3 and 4 require jQuery below version 4.
+      - dependency-name: jquery
+        versions: [">=4.0.0"]
   - package-ecosystem: github-actions
     directory: /
     schedule:

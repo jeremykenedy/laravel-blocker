@@ -52,13 +52,22 @@ for (const framework of ['bootstrap5', 'tailwind']) {
 }
 
 for (const framework of ['bootstrap3', 'bootstrap4']) {
-    test(`${framework}: legacy views and search remain usable`, async ({ page, context }) => {
+    test(`${framework}: legacy views, search, and confirmation modals remain usable`, async ({ page, context }) => {
+        const errors = [];
+        page.on('pageerror', error => errors.push(error.message));
         await context.addCookies([{ name: 'blocker_framework', value: framework, url: 'http://127.0.0.1:19746' }]);
         await page.goto('/blocker');
         await expect(page.locator(framework === 'bootstrap3' ? '.panel' : '.card').first()).toBeVisible();
         await page.locator('#blocked_search_box').fill('test.com');
         await page.getByRole('button', { name: 'Submit Blocked Search' }).click();
         await expect(page.locator('#search_results')).toContainText('test.com');
+        await page.locator('#search_results [data-target="#confirmDelete"]').first().click();
+        const modal = page.getByRole('dialog', { name: 'Delete Blocked Item', exact: true });
+        await expect(modal).toBeVisible();
+        await modal.getByRole('button', { name: 'Cancel', exact: true }).click();
+        await expect(modal).toBeHidden();
+        await expect(page.locator('#search_results')).toContainText('test.com');
         await page.screenshot({ path: `test-results/${framework}.png`, fullPage: true });
+        expect(errors).toEqual([]);
     });
 }
