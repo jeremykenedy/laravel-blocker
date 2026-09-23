@@ -30,6 +30,7 @@ class LaravelBlockerServiceProvider extends ServiceProvider
         $router->middlewareGroup('checkblocked', [LaravelBlocker::class]);
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
         $this->loadTranslationsFrom(__DIR__.'/resources/lang/', $this->_packageTag);
+        $this->loadSeedsFrom();
     }
 
     /**
@@ -39,13 +40,21 @@ class LaravelBlockerServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->packageRegistration();
-        $this->loadRoutesFrom(__DIR__.'/routes/web.php');
-        $this->loadViewsFrom(__DIR__.'/resources/views/', $this->_packageTag);
         $this->mergeConfigFrom(__DIR__.'/config/'.$this->_packageTag.'.php', $this->_packageTag);
+        $settings = $this->app['config']->get('laravelblocker-ui', []);
+        foreach (['frontend', 'blockerBootstapVersion', 'theme'] as $key) {
+            if (array_key_exists($key, $settings)) {
+                $this->app['config']->set('laravelblocker.'.$key, $settings[$key]);
+            }
+        }
+        $this->packageRegistration();
+        $this->loadViewsFrom(__DIR__.'/resources/views/', $this->_packageTag);
+
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
-        $this->loadSeedsFrom();
         $this->publishFiles();
+        if ($this->app->runningInConsole()) {
+            $this->commands([Console\InstallCommand::class, Console\UpdateCommand::class]);
+        }
     }
 
     /**
@@ -55,7 +64,6 @@ class LaravelBlockerServiceProvider extends ServiceProvider
      */
     private function packageRegistration(): void
     {
-        $this->app->make(LaravelBlockerController::class);
         $this->app->singleton(LaravelBlockerController::class, function () {
             return new App\Http\Controllers\LaravelBlockerController();
         });
@@ -69,6 +77,10 @@ class LaravelBlockerServiceProvider extends ServiceProvider
      */
     private function loadSeedsFrom(): void
     {
+        if (!$this->app->bound('seed.handler')) {
+            return;
+        }
+
         if (config('laravelblocker.seedDefaultBlockedTypes')) {
             $this->app['seed.handler']->register(
                 DefaultBlockedTypeTableSeeder::class

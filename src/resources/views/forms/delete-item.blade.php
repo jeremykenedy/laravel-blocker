@@ -5,7 +5,7 @@
         ->open() }}
     @csrf
     @method('DELETE')
-    <button class="btn btn-danger btn-sm" type="button" style="width: 100%;" data-toggle="modal" data-target="#confirmDelete" data-title="Delete Blocked Item" data-message="{!! trans('laravelblocker::laravelblocker.modals.delete_blocked_message', ['blocked' => $item->value]) !!}">
+    <button class="btn btn-danger btn-sm" type="button" style="width: 100%;" data-toggle="modal" data-target="#confirmDelete" data-title="Delete Blocked Item" data-message="{{ trans('laravelblocker::laravelblocker.modals.delete_blocked_message', ['blocked' => $item->value]) }}">
         {!! trans('laravelblocker::laravelblocker.buttons.delete-larger') !!}
     </button>
 {{ html()->form()->close() }}

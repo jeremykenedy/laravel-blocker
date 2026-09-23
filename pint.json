@@ -1,0 +1,6 @@
+{
+    "preset": "psr12",
+    "paths": ["src", "tests", "tools/lint.php"],
+    "exclude": ["tests/browser/node_modules"],
+    "rules": { "concat_space": {"spacing": "none"} }
+}

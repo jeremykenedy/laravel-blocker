@@ -98,12 +98,12 @@ class BlockedItem extends Model
     }
 
     /**
-     * The one-to-one relationship between pages and tags.
+     * The type associated with the blocked item.
      *
-     * @return hasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function blockedType()
     {
-        return $this->belongsTo(BlockedType::class, 'typeId');
+        return $this->belongsTo(BlockedType::class, 'typeId')->withTrashed();
     }
 }

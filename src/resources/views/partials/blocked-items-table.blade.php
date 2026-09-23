@@ -41,20 +41,20 @@
                 @foreach($blocked as $blockedItem)
                     <tr>
                         <td>
-                            {!! $blockedItem->id !!}
+                            {{ $blockedItem->id }}
                         </td>
                         <td>
-                            {!! $blockedItem->blockedType->slug !!}
+                            {{ $blockedItem->blockedType->slug }}
                         </td>
                         <td>
-                            {!! $blockedItem->value !!}
+                            {{ $blockedItem->value }}
                         </td>
                         <td class="hidden-xs">
-                            {!! $blockedItem->note !!}
+                            {{ $blockedItem->note }}
                         </td>
                         <td class="hidden-xs hidden-sm">
                             @if ($blockedItem->userId)
-                                {!! $blockedItem->userId !!}
+                                {{ $blockedItem->userId }}
                             @else
                                 <span class="disabled">
                                     {!! trans('laravelblocker::laravelblocker.none') !!}
@@ -62,14 +62,14 @@
                             @endif
                         </td>
                         <td class="hidden-xs hidden-sm hidden-md">
-                            {!! $blockedItem->created_at->format('m/d/Y H:ia') !!}
+                            {{ $blockedItem->created_at->format('m/d/Y H:ia') }}
                         </td>
                         <td class="hidden-xs hidden-sm hidden-md">
-                            {!! $blockedItem->updated_at->format('m/d/Y H:ia') !!}
+                            {{ $blockedItem->updated_at->format('m/d/Y H:ia') }}
                         </td>
                         @if($tabletype == 'deleted')
                             <td class="hidden-xs hidden-sm">
-                                {!! $blockedItem->deleted_at->format('m/d/Y H:ia') !!}
+                                {{ $blockedItem->deleted_at->format('m/d/Y H:ia') }}
                             </td>
                         @endif
                         @if($tabletype == 'normal')

@@ -29,36 +29,37 @@ class UniqueBlockerItemValueEmail implements Rule
      */
     public function passes($attribute, $value)
     {
-        if ($this->typeId) {
-            $type = BlockedType::find($this->typeId);
-
-            if ($type->slug == 'email' || $type->slug == 'user') {
-                $check = $this->checkEmail($value);
-
-                if ($check) {
-                    return $value;
-                }
-
-                return false;
-            }
+        if (!is_scalar($this->typeId) && $this->typeId !== null) {
+            return false;
+        }
+        if (!$this->typeId) {
+            return true;
+        }
+        $type = BlockedType::find($this->typeId);
+        if (!$type) {
+            return false;
         }
 
-        return true;
+        return !in_array($type->getAttribute('slug'), ['email', 'user']) || $this->checkEmail($value);
     }
 
     /**
      * Check if value is proper formed email.
      *
-     * @param string $email The email
+     * @param mixed $email The email
      *
      * @return bool
      */
     public function checkEmail($email)
     {
+        if (!is_string($email)) {
+            return false;
+        }
+
         $find1 = strpos($email, '@');
         $find2 = strpos($email, '.');
 
-        return $find1 !== false && $find2 !== false && $find2 > $find1 ? true : false;
+        return $find1 !== false && $find2 !== false && $find2 > $find1;
     }
 
     /**

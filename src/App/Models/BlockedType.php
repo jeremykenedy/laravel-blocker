@@ -98,6 +98,6 @@ class BlockedType extends Model
      */
     public function blockedItems()
     {
-        return $this->hasMany(BlockedItem::class);
+        return $this->hasMany(BlockedItem::class, 'typeId');
     }
 }
