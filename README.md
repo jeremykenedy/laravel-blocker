@@ -23,6 +23,7 @@
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Features](#features)
+- [Screenshots](#screenshots)
 - [Configuration](#configuration)
 - [Changing Frameworks](#changing-frameworks)
 - [Artisan Commands](#artisan-commands)
@@ -144,6 +145,22 @@ For Tailwind 3, include those view paths in `content` in `tailwind.config.js`. R
 - Light, dark, and system themes, with a persistent appearance selector in modern views.
 - Configurable authentication, role middleware, database connection, user model, and blocked response.
 - Setup commands that preserve existing files and back up views before explicit replacement.
+
+## Screenshots
+
+The original Bootstrap interface is shown below, including search, forms, deletion, and restoration. Bootstrap 4 remains the default. Bootstrap 5 and Tailwind use the separate modern views described above.
+
+![Laravel Blocker Dashboard](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker0.jpg)
+![Laravel Blocker Search](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker1.jpg)
+![Laravel Blocker Create](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker2.jpg)
+![Laravel Blocker View](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker3.jpg)
+![Laravel Blocker Edit](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker4.jpg)
+![Laravel Blocker Delete Modal](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker5.jpg)
+![Laravel Blocker Deleted Dashboard](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker6.jpg)
+![Laravel Blocker Destroy Modal](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker7.jpg)
+![Laravel Blocker Flash Message](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker8.jpg)
+![Laravel Blocker Restore Modal](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker9.jpg)
+![Laravel Blocker Restore Flash Message](https://s3-us-west-2.amazonaws.com/github-project-images/laravel-blocker/blocker10.jpg)
 
 ## Configuration
 
