@@ -9,9 +9,6 @@
 <p align="center">Block IP addresses, email addresses, domains, users, and locations in Laravel.</p>
 
 <p align="center">
-    
-    
-    
     <a href="https://packagist.org/packages/jeremykenedy/laravel-blocker"><img src="https://poser.pugx.org/jeremykenedy/laravel-blocker/d/total.svg" alt="Total Downloads"></a>
     <a href="https://packagist.org/packages/jeremykenedy/laravel-blocker"><img src="https://poser.pugx.org/jeremykenedy/laravel-blocker/v/stable.svg" alt="Latest Stable Version"></a>
     <a href="https://github.com/jeremykenedy/laravel-blocker/actions/workflows/tests.yml"><img src="https://github.com/jeremykenedy/laravel-blocker/actions/workflows/tests.yml/badge.svg" alt="Tests"></a>
