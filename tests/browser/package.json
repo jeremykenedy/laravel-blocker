@@ -6,7 +6,7 @@
     "test": "playwright test"
   },
   "devDependencies": {
-    "@playwright/test": "^1.58.2",
+    "@playwright/test": "^1.64.0",
     "@axe-core/playwright": "^4.11.0",
     "@tailwindcss/cli": "^4.2.0",
     "tailwindcss": "^4.2.0",
